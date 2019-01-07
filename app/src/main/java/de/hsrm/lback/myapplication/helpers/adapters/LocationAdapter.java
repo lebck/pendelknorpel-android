@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.views.adapters;
+package de.hsrm.lback.myapplication.helpers.adapters;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -45,8 +45,8 @@ public class LocationAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LocationViewModel viewModel = new LocationViewModel();
+        viewModel.init(locations.get(position));
         convertView = new LocationView(activity, viewModel);
-        viewModel.init(locations.get(position), (LocationView) convertView);
 
         return convertView;
     }

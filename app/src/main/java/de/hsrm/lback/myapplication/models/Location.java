@@ -1,15 +1,18 @@
 package de.hsrm.lback.myapplication.models;
 
+import android.arch.lifecycle.MutableLiveData;
+
 public class Location {
-    private String name;
+    private MutableLiveData<String> name;
     private int position;
 
     public Location(String name, int position) {
-        this.name = name;
+        this.name = new MutableLiveData<>();
+        this.name.setValue(name);
         this.position = position;
     }
 
-    public String getName() {
+    public MutableLiveData<String> getName() {
         return name;
     }
 
@@ -18,6 +21,6 @@ public class Location {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.setValue(name);
     }
 }

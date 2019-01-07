@@ -6,15 +6,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
-import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
-import de.hsrm.lback.myapplication.views.adapters.LocationAdapter;
-import de.hsrm.lback.myapplication.views.views.LocationView;
+import de.hsrm.lback.myapplication.helpers.adapters.LocationAdapter;
 
 public class LocationOverview extends AppCompatActivity {
     private GridView locationsGrid;

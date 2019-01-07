@@ -7,13 +7,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-public class DragShadowBuilder extends View.DragShadowBuilder {
+public class LocationDragShadowBuilder extends View.DragShadowBuilder {
 
     // The drag shadow image, defined as a drawable thing
     private static Drawable shadow;
 
     // Defines the constructor for myDragShadowBuilder
-    public DragShadowBuilder(View v) {
+    public LocationDragShadowBuilder(View v) {
 
         // Stores the View parameter passed to myDragShadowBuilder.
         super(v);
