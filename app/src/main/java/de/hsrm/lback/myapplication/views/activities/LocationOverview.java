@@ -3,12 +3,9 @@ package de.hsrm.lback.myapplication.views.activities;
 import android.arch.lifecycle.LiveData;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +46,7 @@ public class LocationOverview extends AppCompatActivity {
         LiveData<List<Location>> locationData = locationRepository.getAllLocations();
         this.locations = new ArrayList<>();
 
-        this.gridArrayAdapter = new LocationAdapter(this, locations);
+        this.gridArrayAdapter = new LocationAdapter(this, locations, locationRepository);
         this.locationsGrid.setAdapter(gridArrayAdapter);
 
         // set Locations on change

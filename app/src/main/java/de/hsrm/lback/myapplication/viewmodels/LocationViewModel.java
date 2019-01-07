@@ -8,6 +8,8 @@ import android.view.DragEvent;
 import android.view.View;
 
 import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
+import de.hsrm.lback.myapplication.persistence.LocationDao;
 import de.hsrm.lback.myapplication.views.views.LocationView;
 
 /**
@@ -16,9 +18,11 @@ import de.hsrm.lback.myapplication.views.views.LocationView;
 public class LocationViewModel extends ViewModel implements View.OnDragListener{
 
     private Location location;
+    private LocationRepository locationRepository;
 
-    public LocationViewModel() {
+    public LocationViewModel(LocationRepository locationRepository) {
         super();
+        this.locationRepository = locationRepository;
     }
 
     public void init(Location location) {
@@ -32,6 +36,7 @@ public class LocationViewModel extends ViewModel implements View.OnDragListener{
 
     public void setName(String name) {
         this.location.setName(name);
+        locationRepository.update(location);
     }
 
     /**

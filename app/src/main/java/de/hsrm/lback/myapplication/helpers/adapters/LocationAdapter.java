@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 import de.hsrm.lback.myapplication.views.views.LocationView;
 
@@ -15,14 +16,13 @@ public class LocationAdapter extends BaseAdapter {
 
     private AppCompatActivity activity;
     private List<Location> locations;
+    private LocationRepository locationRepository;
 
-    public LocationAdapter(AppCompatActivity activity, List<Location> locations) {
+    public LocationAdapter(AppCompatActivity activity, List<Location> locations, LocationRepository locationRepository) {
         super();
         this.activity = activity;
-
         this.locations = locations;
-
-
+        this.locationRepository = locationRepository;
     }
 
 
@@ -44,7 +44,7 @@ public class LocationAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LocationViewModel viewModel = new LocationViewModel();
+        LocationViewModel viewModel = new LocationViewModel(locationRepository);
         viewModel.init(locations.get(position));
         convertView = new LocationView(activity, viewModel);
 

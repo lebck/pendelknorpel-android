@@ -15,12 +15,18 @@ import de.hsrm.lback.myapplication.persistence.LocationDao;
 
 /** Used to retrieve Location objects */
 public class LocationRepository {
-    private static class InsertAsyncTask extends AsyncTask<Location, Void, Void> {
+    private abstract static class LocationAsyncTask extends AsyncTask<Location, Void, Void> {
 
-        private LocationDao locationDao;
+        protected LocationDao locationDao;
 
-        InsertAsyncTask(LocationDao dao) {
+        public LocationAsyncTask(LocationDao dao) {
             locationDao = dao;
+        }
+    }
+
+    private static class InsertAsyncTask extends LocationAsyncTask {
+        public InsertAsyncTask(LocationDao dao) {
+            super(dao);
         }
 
         @Override
@@ -29,6 +35,20 @@ public class LocationRepository {
             return null;
         }
     }
+
+    private static class UpdateAsyncTask extends LocationAsyncTask {
+
+        UpdateAsyncTask(LocationDao dao) {
+            super(dao);
+        }
+
+        @Override
+        protected Void doInBackground(final Location... params) {
+            locationDao.update(params[0]);
+            return null;
+        }
+    }
+
     private LocationDao locationDao;
     private LiveData<List<Location>> allLocations;
 
@@ -46,6 +66,10 @@ public class LocationRepository {
 
     public void insert(Location location) {
         new InsertAsyncTask(locationDao).execute(location);
+    }
+
+    public void update(Location location) {
+        new UpdateAsyncTask(locationDao).execute(location);
     }
 
 }
