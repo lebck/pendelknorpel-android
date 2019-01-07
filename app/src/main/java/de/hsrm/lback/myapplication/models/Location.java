@@ -2,6 +2,9 @@ package de.hsrm.lback.myapplication.models;
 
 import android.arch.lifecycle.MutableLiveData;
 
+/**
+ * Representation of a Location with coordinate
+ */
 public class Location {
     private MutableLiveData<String> name;
     private int position;
@@ -20,7 +23,12 @@ public class Location {
         return position;
     }
 
-    public void setName(String name) {
-        this.name.setValue(name);
+    public boolean setName(String name) {
+        if (name != null && !name.equals("")) {
+            this.name.setValue(name);
+            return true;
+        } else {
+          return false;
+        }
     }
 }

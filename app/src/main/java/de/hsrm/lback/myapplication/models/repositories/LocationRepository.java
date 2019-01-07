@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Location;
-
+/** Used to retrieve Location objects */
 public class LocationRepository {
     public static List<Location> getLocations() {
         return new ArrayList<>(

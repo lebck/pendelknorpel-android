@@ -20,6 +20,11 @@ import de.hsrm.lback.myapplication.helpers.LocationDragShadowBuilder;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 
+
+/**
+ * Represents a single location
+ *
+ */
 public class LocationView extends android.support.v7.widget.AppCompatTextView {
 
     private Paint textPaint;
@@ -37,6 +42,7 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
 
         this.setTag("location_view");
 
+        // start drag and drop instantly when view is touched
         this.setOnTouchListener((v, e) -> {
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -59,8 +65,10 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
             }
         });
 
+        // set viewmodel to process the drop
         this.setOnDragListener(model);
 
+        // set binding to name
         model.getName().observe(activity, this::onNameChanged);
 
     }
@@ -79,6 +87,9 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
         return super.performClick();
     }
 
+    /**
+     * show snackbar with target and source location
+     */
     public void showDropSnackBar(Location src, Location target) {
         Snackbar snackbar = Snackbar.make(
                 this,
@@ -93,6 +104,9 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
         return model;
     }
 
+    /**
+     * show dialog to change the name of a location
+     */
     public void showChangeName() {
         LayoutInflater inflater = activity.getLayoutInflater();
         View box = inflater.inflate(R.layout.change_name_box, null);
@@ -101,6 +115,7 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
                 new AlertDialog.Builder(activity)
                     .setView(box)
                     .setPositiveButton("Ok", (dialog, which) -> {
+                        // change name of location
                         String newName = ((EditText)box.findViewById(R.id.name)).getText().toString();
                         this.model.setName(newName);
                     })

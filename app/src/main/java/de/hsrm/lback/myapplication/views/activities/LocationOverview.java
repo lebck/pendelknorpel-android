@@ -13,6 +13,12 @@ import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationAdapter;
 
+/**
+ * Main actvity of the app.
+ *
+ * Displays a list of Locations and provides inputs to add
+ * new Locations
+ */
 public class LocationOverview extends AppCompatActivity {
     private GridView locationsGrid;
     private LocationAdapter gridArrayAdapter;
