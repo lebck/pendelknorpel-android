@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,21 +38,23 @@ public class LocationOverview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_overview);
 
-        this.locationRepository = new LocationRepository(this);
-
-        LiveData<List<Location>> locationData = locationRepository.getAllLocations();
-        this.locations = new ArrayList<>();
-
-
+        // get views
         this.locationsGrid = findViewById(R.id.locations_grid);
         this.addLocationButton = findViewById(R.id.add_location);
         this.locationName = findViewById(R.id.location_text);
 
+        this.locationRepository = new LocationRepository(this);
+
+        // fetch location data and prepare list
+        LiveData<List<Location>> locationData = locationRepository.getAllLocations();
+        this.locations = new ArrayList<>();
+
         this.gridArrayAdapter = new LocationAdapter(this, locations);
         this.locationsGrid.setAdapter(gridArrayAdapter);
 
+        // set Locations on change
         locationData.observe(this, locationsList -> {
-            Log.d("", locationsList.toString());
+            // TODO make this less ugly:
             this.locations.clear();
             this.locations.addAll(locationsList);
             this.gridArrayAdapter.notifyDataSetChanged();
