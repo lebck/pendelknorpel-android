@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.views.views;
+package de.hsrm.lback.myapplication.helpers;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

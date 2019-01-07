@@ -1,18 +1,22 @@
 package de.hsrm.lback.myapplication.views.views;
 
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.ClipData;
 import android.content.ClipDescription;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import de.hsrm.lback.myapplication.R;
+import de.hsrm.lback.myapplication.helpers.LocationDragShadowBuilder;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 
@@ -20,11 +24,13 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
 
     private Paint textPaint;
     private LocationViewModel model;
+    private Activity activity;
 
     public LocationView(AppCompatActivity activity, LocationViewModel model) {
         super(activity);
         this.model = model;
         this.textPaint = new Paint();
+        this.activity = activity;
 
         setTextSize(20f);
         setPadding(20, 20, 20, 20);
@@ -85,5 +91,21 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
 
     public LocationViewModel getModel() {
         return model;
+    }
+
+    public void showChangeName() {
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View box = inflater.inflate(R.layout.change_name_box, null);
+
+        AlertDialog changeNameDialog =
+                new AlertDialog.Builder(activity)
+                    .setView(box)
+                    .setPositiveButton("Ok", (dialog, which) -> {
+                        String newName = ((EditText)box.findViewById(R.id.name)).getText().toString();
+                        this.model.setName(newName);
+                    })
+                    .create();
+        changeNameDialog.show();
+
     }
 }
