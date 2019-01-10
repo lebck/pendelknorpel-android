@@ -31,29 +31,31 @@ public class Location {
     @ColumnInfo(name = "logo")
     private MutableLiveData<String> logo;
 
-    public Location(MutableLiveData<String> name, int position, @Nullable MutableLiveData<String> logo) {
-        this(position, null);
-
+    /** constructor used by rooms */
+    public Location(MutableLiveData<String> name, int position, MutableLiveData<String> logo) {
+        this.position = position;
         this.logo = logo;
         this.name = name;
     }
 
-    public Location(String name, int position, @Nullable String logoName) {
-        this(position, logoName);
+    public Location(String name, int position, String logoName) {
+        this.position = position;
+
+        this.logo = new MutableLiveData<>();
+        this.logo.setValue(logoName);
 
         this.name = new MutableLiveData<>();
-        this.name.postValue(name);
-
+        this.name.setValue(name);
     }
 
-    private Location(int position, @Nullable String logoName) {
+    public Location(String name, int position) {
         this.position = position;
-        this.logo = new MutableLiveData<>();
 
-        if (logoName == null)
-            this.logo.postValue(DEFAULT_LOGO_NAME);
-        else
-            this.logo.postValue(logoName);
+        this.logo = new MutableLiveData<>();
+        this.logo.setValue(DEFAULT_LOGO_NAME);
+
+        this.name = new MutableLiveData<>();
+        this.name.setValue(name);
     }
 
     public MutableLiveData<String> getName() {

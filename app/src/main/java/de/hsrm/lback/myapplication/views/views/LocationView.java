@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.LocationDragShadowBuilder;
+import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
@@ -89,6 +90,16 @@ public class LocationView extends LinearLayout {
         // set binding to name
         viewModel.getLocation().getName().observe(activity, this::onNameChanged);
 
+        // set binding to logo
+        viewModel.getLocation().getLogo().observe(activity, this::onLogoChanged);
+
+
+    }
+
+    private void onLogoChanged(String s) {
+
+        int resId = ResourcesHelper.getResId(s, R.drawable.class);
+        if (resId > 0) this.locationLogoView.setImageResource(resId);
 
     }
 

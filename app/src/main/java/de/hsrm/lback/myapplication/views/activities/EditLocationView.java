@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import de.hsrm.lback.myapplication.R;
+import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
@@ -32,6 +34,7 @@ public class EditLocationView extends AppCompatActivity {
         this.locationLogo = findViewById(R.id.location_logo);
 
 
+
         // retrieve location
         int locationUid = getIntent().getIntExtra(LocationRepository.LOCATION_UID, -1);
 
@@ -43,13 +46,24 @@ public class EditLocationView extends AppCompatActivity {
 
         this.locationLiveData.observe(this, this::onLocationChange);
 
+        this.locationLogo.setOnClickListener(this::onLogoClick);
+
+    }
+
+    private void onLogoChange(String s) {
+        int resId = ResourcesHelper.getResId(s, R.drawable.class);
+        if (resId > 0)
+            this.locationLogo.setImageResource(resId);
     }
 
     private void onLocationChange(Location location) {
         if (location != null) {
             this.locationText.setText(location.getName().getValue());
 
-            if (this.viewModel.getLocation() == null) this.viewModel.init(location);
+            if (this.viewModel.getLocation() == null) {
+                this.viewModel.init(location);
+                this.viewModel.getLocation().getLogo().observe(this, this::onLogoChange);
+            }
         }
     }
 
@@ -82,5 +96,11 @@ public class EditLocationView extends AppCompatActivity {
 
         return false;
 
+    }
+
+    /** Process click on logo */
+    public void onLogoClick(View v) {
+        // TODO make real imagechooser to choose from list of icons
+        this.viewModel.getLocation().getLogo().setValue("ic_done_black_24dp");
     }
 }
