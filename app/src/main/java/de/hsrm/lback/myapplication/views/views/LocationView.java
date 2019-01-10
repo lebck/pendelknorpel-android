@@ -3,22 +3,18 @@ package de.hsrm.lback.myapplication.views.views;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipDescription;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.LocationDragShadowBuilder;
 import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
+import de.hsrm.lback.myapplication.views.activities.EditLocationView;
 
 
 /**
@@ -28,12 +24,12 @@ import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 public class LocationView extends android.support.v7.widget.AppCompatTextView {
 
     private Paint textPaint;
-    private LocationViewModel model;
+    private LocationViewModel viewModel;
     private Activity activity;
 
-    public LocationView(AppCompatActivity activity, LocationViewModel model) {
+    public LocationView(AppCompatActivity activity, LocationViewModel viewModel) {
         super(activity);
-        this.model = model;
+        this.viewModel = viewModel;
         this.textPaint = new Paint();
         this.activity = activity;
 
@@ -66,10 +62,10 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
         });
 
         // set viewmodel to process the drop
-        this.setOnDragListener(model);
+        this.setOnDragListener(viewModel);
 
         // set binding to name
-        model.getName().observe(activity, this::onNameChanged);
+        viewModel.getLocation().getName().observe(activity, this::onNameChanged);
 
     }
 
@@ -100,27 +96,18 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
         snackbar.show();
     }
 
-    public LocationViewModel getModel() {
-        return model;
+    public LocationViewModel getViewModel() {
+        return viewModel;
     }
 
     /**
-     * show dialog to change the name of a location
+     * open view to edit the location
      */
-    public void showChangeName() {
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View box = inflater.inflate(R.layout.change_name_box, null);
+    public void openEditView() {
+        Intent intent = new Intent(activity, EditLocationView.class);
 
-        AlertDialog changeNameDialog =
-                new AlertDialog.Builder(activity)
-                    .setView(box)
-                    .setPositiveButton("Ok", (dialog, which) -> {
-                        // change name of location
-                        String newName = ((EditText)box.findViewById(R.id.name)).getText().toString();
-                        this.model.setName(newName);
-                    })
-                    .create();
-        changeNameDialog.show();
+        intent.putExtra(LocationRepository.LOCATION_UID, this.viewModel.getLocation().getUid());
 
+        activity.startActivity(intent);
     }
 }

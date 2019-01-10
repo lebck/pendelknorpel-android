@@ -1,15 +1,11 @@
 package de.hsrm.lback.myapplication.viewmodels;
 
-import android.app.AlertDialog;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.DialogInterface;
 import android.view.DragEvent;
 import android.view.View;
 
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
-import de.hsrm.lback.myapplication.persistence.LocationDao;
 import de.hsrm.lback.myapplication.views.views.LocationView;
 
 /**
@@ -30,15 +26,6 @@ public class LocationViewModel extends ViewModel implements View.OnDragListener{
 
     }
 
-    public LiveData<String> getName() {
-        return location.getName();
-    }
-
-    public void setName(String name) {
-        this.location.setName(name);
-        locationRepository.update(location);
-    }
-
     /**
      * executes when a LocationView is dropped on another (or the same) LocationView
      */
@@ -52,10 +39,13 @@ public class LocationViewModel extends ViewModel implements View.OnDragListener{
             LocationView src = (LocationView) event.getLocalState();
 
             if (target == src) {   // if view is dropped on itself
-                ((LocationView)v).showChangeName();
+
+                ((LocationView)v).openEditView();
+
+
             } else { // if view is dropped on other LocationView
-                Location srcLocation = src.getModel().location;
-                Location targetLocation = target.getModel().location;
+                Location srcLocation = src.getViewModel().location;
+                Location targetLocation = target.getViewModel().location;
 
                 ((LocationView)v).showDropSnackBar(srcLocation, targetLocation);
 
@@ -64,4 +54,13 @@ public class LocationViewModel extends ViewModel implements View.OnDragListener{
 
         return true;  // consume event
     }
+
+    public void update() {
+        locationRepository.update(this.location);
+    }
+
+    public Location getLocation() {
+        return this.location;
+    }
+
 }

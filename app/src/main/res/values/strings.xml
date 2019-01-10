@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">PendelKnorpel</string>
     <string name="namen_ndern">Namen ändern:</string>
+    <string name="location_name">Name der Haltestelle</string>
+    <string name="submit">Submit</string>
 </resources>

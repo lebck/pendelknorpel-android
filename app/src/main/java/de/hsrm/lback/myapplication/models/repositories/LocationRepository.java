@@ -10,45 +10,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.models.repositories.tasks.InsertAsyncTask;
+import de.hsrm.lback.myapplication.models.repositories.tasks.UpdateAsyncTask;
 import de.hsrm.lback.myapplication.persistence.AppDatabase;
 import de.hsrm.lback.myapplication.persistence.LocationDao;
 
 /** Used to retrieve Location objects */
 public class LocationRepository {
-    private abstract static class LocationAsyncTask extends AsyncTask<Location, Void, Void> {
-
-        protected LocationDao locationDao;
-
-        public LocationAsyncTask(LocationDao dao) {
-            locationDao = dao;
-        }
-    }
-
-    private static class InsertAsyncTask extends LocationAsyncTask {
-        public InsertAsyncTask(LocationDao dao) {
-            super(dao);
-        }
-
-        @Override
-        protected Void doInBackground(final Location... params) {
-            locationDao.insert(params[0]);
-            return null;
-        }
-    }
-
-    private static class UpdateAsyncTask extends LocationAsyncTask {
-
-        UpdateAsyncTask(LocationDao dao) {
-            super(dao);
-        }
-
-        @Override
-        protected Void doInBackground(final Location... params) {
-            locationDao.update(params[0]);
-            return null;
-        }
-    }
-
+    public static final String LOCATION_UID = "location_uid";
     private LocationDao locationDao;
     private LiveData<List<Location>> allLocations;
 
@@ -70,6 +39,10 @@ public class LocationRepository {
 
     public void update(Location location) {
         new UpdateAsyncTask(locationDao).execute(location);
+    }
+
+    public LiveData<Location> get(int uid) {
+        return locationDao.get(uid);
     }
 
 }

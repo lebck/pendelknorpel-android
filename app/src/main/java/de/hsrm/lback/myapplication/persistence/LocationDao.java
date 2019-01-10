@@ -20,4 +20,7 @@ public interface LocationDao {
 
     @Update
     void update(Location location);
+
+    @Query("SELECT * from location WHERE uid=:uid")
+    LiveData<Location> get(int uid);
 }
