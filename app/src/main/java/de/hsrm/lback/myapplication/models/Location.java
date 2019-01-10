@@ -4,18 +4,21 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 
-import de.hsrm.lback.myapplication.persistence.NameConverter;
+import org.jetbrains.annotations.Nullable;
+
+import de.hsrm.lback.myapplication.persistence.StringLiveDataConverter;
 
 
 /**
- * Representation of a Location with coordinate
+ * Representation of a Location with coordinate and logo
  */
 @Entity
-@TypeConverters({NameConverter.class})
+@TypeConverters({StringLiveDataConverter.class})
 public class Location {
+    private static final String DEFAULT_LOGO_NAME = "ic_android_black_24dp";
+
     @PrimaryKey(autoGenerate = true)
     private int uid;
 
@@ -25,21 +28,32 @@ public class Location {
     @ColumnInfo(name = "position")
     private int position;
 
-    public Location(MutableLiveData<String> name, int position) {
-        this(position);
+    @ColumnInfo(name = "logo")
+    private MutableLiveData<String> logo;
 
+    public Location(MutableLiveData<String> name, int position, @Nullable MutableLiveData<String> logo) {
+        this(position, null);
+
+        this.logo = logo;
         this.name = name;
     }
 
-    public Location(String name, int position) {
-        this(position);
+    public Location(String name, int position, @Nullable String logoName) {
+        this(position, logoName);
 
         this.name = new MutableLiveData<>();
-        this.name.setValue(name);
+        this.name.postValue(name);
+
     }
 
-    private Location(int position) {
+    private Location(int position, @Nullable String logoName) {
         this.position = position;
+        this.logo = new MutableLiveData<>();
+
+        if (logoName == null)
+            this.logo.postValue(DEFAULT_LOGO_NAME);
+        else
+            this.logo.postValue(logoName);
     }
 
     public MutableLiveData<String> getName() {
@@ -65,5 +79,9 @@ public class Location {
 
     public void setUid(int uid) {
         this.uid = uid;
+    }
+
+    public MutableLiveData<String> getLogo() {
+        return logo;
     }
 }

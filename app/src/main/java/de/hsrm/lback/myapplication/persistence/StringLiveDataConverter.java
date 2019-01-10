@@ -3,7 +3,7 @@ package de.hsrm.lback.myapplication.persistence;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.TypeConverter;
 
-public class NameConverter {
+public class StringLiveDataConverter {
     @TypeConverter
     public static MutableLiveData<String> fromString(String s) {
         MutableLiveData<String> m = new MutableLiveData<>();

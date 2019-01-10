@@ -59,7 +59,7 @@ public class LocationOverview extends AppCompatActivity {
 
         this.addLocationButton.setOnClickListener(e ->
             this.locationRepository.insert(
-                    new Location(locationName.getText().toString(), 0)
+                    new Location(locationName.getText().toString(), 0, null)
             )
         );
 
