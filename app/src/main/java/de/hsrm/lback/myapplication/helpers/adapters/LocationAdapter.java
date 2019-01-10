@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
+import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
@@ -46,7 +47,9 @@ public class LocationAdapter extends BaseAdapter {
 
         LocationViewModel viewModel = new LocationViewModel(locationRepository);
         viewModel.init(locations.get(position));
-        convertView = new LocationView(activity, viewModel);
+        convertView = activity.getLayoutInflater().inflate(R.layout.location_layout, null);
+
+        ((LocationView)convertView).init(activity, viewModel);
 
         return convertView;
     }

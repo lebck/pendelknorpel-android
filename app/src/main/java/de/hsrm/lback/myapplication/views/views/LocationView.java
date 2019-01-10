@@ -3,13 +3,20 @@ package de.hsrm.lback.myapplication.views.views;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.LocationDragShadowBuilder;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
@@ -21,20 +28,35 @@ import de.hsrm.lback.myapplication.views.activities.EditLocationView;
  * Represents a single location
  *
  */
-public class LocationView extends android.support.v7.widget.AppCompatTextView {
+public class LocationView extends LinearLayout {
 
     private Paint textPaint;
     private LocationViewModel viewModel;
-    private Activity activity;
+    private AppCompatActivity activity;
+    private TextView locationNameView;
+    private ImageView locationLogoView;
 
-    public LocationView(AppCompatActivity activity, LocationViewModel viewModel) {
-        super(activity);
-        this.viewModel = viewModel;
-        this.textPaint = new Paint();
+    public LocationView(Context context) {
+        super(context);
+    }
+
+    public LocationView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public LocationView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public LocationView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    public void init(AppCompatActivity activity, LocationViewModel viewModel) {
         this.activity = activity;
-
-        setTextSize(20f);
-        setPadding(20, 20, 20, 20);
+        this.viewModel = viewModel;
+        this.locationNameView = findViewById(R.id.location_name);
+        this.locationLogoView = findViewById(R.id.location_logo);
 
         this.setTag("location_view");
 
@@ -67,15 +89,11 @@ public class LocationView extends android.support.v7.widget.AppCompatTextView {
         // set binding to name
         viewModel.getLocation().getName().observe(activity, this::onNameChanged);
 
+
     }
 
     private void onNameChanged(String name) {
-        this.setText(name);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        this.locationNameView.setText(name);
     }
 
     @Override

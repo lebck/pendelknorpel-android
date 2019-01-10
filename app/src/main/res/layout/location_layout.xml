@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <de.hsrm.lback.myapplication.views.views.LocationView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:layout_width="100dp"
+    android:layout_margin="30dp"
     android:id="@+id/location_view"
-     />
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@id/location_logo"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_android_black_24dp"/>
+
+    <TextView
+        android:id="@id/location_name"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:textAlignment="center"
+        android:text="Haltestelle"/>
+
+</de.hsrm.lback.myapplication.views.views.LocationView>

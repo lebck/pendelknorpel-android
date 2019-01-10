@@ -4,8 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -30,7 +28,7 @@ public class EditLocationView extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.edit_toolbar);
         setSupportActionBar(toolbar);
 
-        this.locationText = findViewById(R.id.location_text);
+        this.locationText = findViewById(R.id.location_name);
         this.locationLogo = findViewById(R.id.location_logo);
 
 

@@ -38,7 +38,7 @@ public class LocationOverview extends AppCompatActivity {
         // get views
         this.locationsGrid = findViewById(R.id.locations_grid);
         this.addLocationButton = findViewById(R.id.add_location);
-        this.locationName = findViewById(R.id.location_text);
+        this.locationName = findViewById(R.id.location_name);
 
         this.locationRepository = new LocationRepository(this);
 
