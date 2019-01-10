@@ -56,7 +56,10 @@ public class LocationViewModel extends ViewModel implements View.OnDragListener{
     }
 
     public void update() {
-        locationRepository.update(this.location);
+        if (this.location.getUid() == 0)
+            locationRepository.insert(this.location);
+        else
+            locationRepository.update(this.location);
     }
 
     public Location getLocation() {

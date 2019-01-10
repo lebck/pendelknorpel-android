@@ -17,7 +17,7 @@ import de.hsrm.lback.myapplication.persistence.StringLiveDataConverter;
 @Entity
 @TypeConverters({StringLiveDataConverter.class})
 public class Location {
-    private static final String DEFAULT_LOGO_NAME = "ic_android_black_24dp";
+    private static final String DEFAULT_LOGO_NAME = "ic_add_black_24dp";
 
     @PrimaryKey(autoGenerate = true)
     private int uid;

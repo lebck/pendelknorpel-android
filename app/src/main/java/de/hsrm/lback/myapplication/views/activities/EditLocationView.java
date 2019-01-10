@@ -1,6 +1,7 @@
 package de.hsrm.lback.myapplication.views.activities;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -34,7 +35,6 @@ public class EditLocationView extends AppCompatActivity {
         this.locationLogo = findViewById(R.id.location_logo);
 
 
-
         // retrieve location
         int locationUid = getIntent().getIntExtra(LocationRepository.LOCATION_UID, -1);
 
@@ -42,7 +42,13 @@ public class EditLocationView extends AppCompatActivity {
 
         this.viewModel = new LocationViewModel(locationRepository);
 
-        this.locationLiveData = locationRepository.get(locationUid);
+        if (locationUid != 0)
+            this.locationLiveData = locationRepository.get(locationUid);
+        else {
+            this.locationLiveData = new MutableLiveData<>();
+            ((MutableLiveData<Location>)this.locationLiveData)
+                    .setValue(new Location("", 0));
+        }
 
         this.locationLiveData.observe(this, this::onLocationChange);
 

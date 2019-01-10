@@ -24,8 +24,6 @@ import de.hsrm.lback.myapplication.helpers.adapters.LocationAdapter;
 public class LocationOverview extends AppCompatActivity {
     private GridView locationsGrid;
     private LocationAdapter gridArrayAdapter;
-    private Button addLocationButton;
-    private EditText locationName;
     private List<Location> locations;
 
     private LocationRepository locationRepository;
@@ -37,8 +35,6 @@ public class LocationOverview extends AppCompatActivity {
 
         // get views
         this.locationsGrid = findViewById(R.id.locations_grid);
-        this.addLocationButton = findViewById(R.id.add_location);
-        this.locationName = findViewById(R.id.location_name);
 
         this.locationRepository = new LocationRepository(this);
 
@@ -50,18 +46,23 @@ public class LocationOverview extends AppCompatActivity {
         this.locationsGrid.setAdapter(gridArrayAdapter);
 
         // set Locations on change
-        locationData.observe(this, locationsList -> {
-            // TODO make this less ugly:
-            this.locations.clear();
-            this.locations.addAll(locationsList);
-            this.gridArrayAdapter.notifyDataSetChanged();
-        });
+        locationData.observe(this, this::onLocationsChange);
 
-        this.addLocationButton.setOnClickListener(e ->
-            this.locationRepository.insert(
-                    new Location(locationName.getText().toString(), 0)
-            )
-        );
+    }
+
+    private void onLocationsChange(List<Location> locations) {
+
+
+        // fill up locationslist with empty locations until there are 9
+        int len = locations.size();
+        for (int i = 0; i < 9 - len; i++) {
+            locations.add(new Location("", 0));
+        }
+
+        // TODO make this less ugly:
+        this.locations.clear();
+        this.locations.addAll(locations);
+        this.gridArrayAdapter.notifyDataSetChanged();
 
     }
 }
