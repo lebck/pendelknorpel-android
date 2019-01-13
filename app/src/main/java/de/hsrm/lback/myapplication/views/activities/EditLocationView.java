@@ -36,7 +36,7 @@ public class EditLocationView extends AppCompatActivity {
 
 
         // retrieve location
-        int locationUid = getIntent().getIntExtra(LocationRepository.LOCATION_UID, -1);
+        int locationUid = getIntent().getIntExtra(Location.LOCATION_UID, -1);
 
         LocationRepository locationRepository = new LocationRepository(this);
 

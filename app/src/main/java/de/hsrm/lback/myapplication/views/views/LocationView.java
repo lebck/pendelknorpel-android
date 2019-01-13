@@ -135,7 +135,7 @@ public class LocationView extends LinearLayout {
     public void openEditView() {
         Intent intent = new Intent(activity, EditLocationView.class);
 
-        intent.putExtra(LocationRepository.LOCATION_UID, this.viewModel.getLocation().getUid());
+        intent.putExtra(Location.LOCATION_UID, this.viewModel.getLocation().getUid());
 
         activity.startActivity(intent);
     }

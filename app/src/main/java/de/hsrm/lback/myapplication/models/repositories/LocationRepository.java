@@ -17,7 +17,6 @@ import de.hsrm.lback.myapplication.persistence.LocationDao;
 
 /** Used to retrieve Location objects */
 public class LocationRepository {
-    public static final String LOCATION_UID = "location_uid";
     private LocationDao locationDao;
     private LiveData<List<Location>> allLocations;
 
