@@ -11,7 +11,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.view.DragEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,7 +31,7 @@ import de.hsrm.lback.myapplication.views.activities.EditLocationView;
  * Represents a single location
  *
  */
-public class LocationView extends LinearLayout {
+public class LocationView extends LinearLayout implements View.OnDragListener {
 
     private Paint textPaint;
     private LocationViewModel viewModel;
@@ -85,7 +87,7 @@ public class LocationView extends LinearLayout {
         });
 
         // set viewmodel to process the drop
-        this.setOnDragListener(viewModel);
+        this.setOnDragListener(this);
 
         // set binding to name
         viewModel.getLocation().getName().observe(activity, this::onNameChanged);
@@ -139,4 +141,34 @@ public class LocationView extends LinearLayout {
 
         activity.startActivity(intent);
     }
+
+    /**
+     * executes when a LocationView is dropped on another (or the same) LocationView
+     */
+    @Override
+    public boolean onDrag(View v, DragEvent event) {
+
+
+        if (event.getAction() == DragEvent.ACTION_DROP) {  // when view is dropped
+
+            LocationView target = (LocationView) v;
+            LocationView src = (LocationView) event.getLocalState();
+
+            if (target == src) {   // if view is dropped on itself
+
+                ((LocationView)v).openEditView();
+
+
+            } else { // if view is dropped on other LocationView
+                Location srcLocation = src.getViewModel().getLocation();
+                Location targetLocation = target.getViewModel().getLocation();
+
+                ((LocationView)v).showDropSnackBar(srcLocation, targetLocation);
+
+            }
+        }
+
+        return true;  // consume event
+    }
+
 }

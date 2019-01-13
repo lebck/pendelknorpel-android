@@ -1,5 +1,6 @@
 package de.hsrm.lback.myapplication.helpers.adapters;
 
+import android.app.Application;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,14 @@ public class LocationAdapter extends BaseAdapter {
     private AppCompatActivity activity;
     private List<Location> locations;
     private LocationRepository locationRepository;
+    private Application application;
 
-    public LocationAdapter(AppCompatActivity activity, List<Location> locations, LocationRepository locationRepository) {
+    public LocationAdapter(AppCompatActivity activity, List<Location> locations, LocationRepository locationRepository, Application application) {
         super();
         this.activity = activity;
         this.locations = locations;
         this.locationRepository = locationRepository;
+        this.application = application;
     }
 
 
@@ -45,7 +48,7 @@ public class LocationAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LocationViewModel viewModel = new LocationViewModel(locationRepository);
+        LocationViewModel viewModel = new LocationViewModel(application);
         viewModel.init(locations.get(position));
         convertView = activity.getLayoutInflater().inflate(R.layout.location_layout, null);
 

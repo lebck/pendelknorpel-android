@@ -18,6 +18,8 @@ import de.hsrm.lback.myapplication.persistence.StringLiveDataConverter;
 @TypeConverters({StringLiveDataConverter.class})
 public class Location {
     public static final String LOCATION_UID = "location_uid";
+    public static final String START_LOCATION = "start_location";
+    public static final String DESTINATION_LOCATION = "destination_location";
     private static final String DEFAULT_LOGO_NAME = "ic_add_black_24dp";
 
     @PrimaryKey(autoGenerate = true)

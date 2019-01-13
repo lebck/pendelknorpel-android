@@ -40,7 +40,7 @@ public class EditLocationView extends AppCompatActivity {
 
         LocationRepository locationRepository = new LocationRepository(this);
 
-        this.viewModel = new LocationViewModel(locationRepository);
+        this.viewModel = new LocationViewModel(getApplication());
 
         if (locationUid != 0)
             this.locationLiveData = locationRepository.get(locationUid);
