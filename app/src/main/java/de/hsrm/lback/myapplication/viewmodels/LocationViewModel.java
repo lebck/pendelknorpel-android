@@ -1,6 +1,7 @@
 package de.hsrm.lback.myapplication.viewmodels;
 
 import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.ViewModel;
 import android.view.DragEvent;
 import android.view.View;
@@ -12,13 +13,13 @@ import de.hsrm.lback.myapplication.views.views.LocationView;
 /**
  * VM of a location
  */
-public class LocationViewModel extends ViewModel {
+public class LocationViewModel extends AndroidViewModel {
 
     private Location location;
     private LocationRepository locationRepository;
 
     public LocationViewModel(Application application) {
-        super();
+        super(application);
         this.locationRepository = new LocationRepository(application);
     }
 

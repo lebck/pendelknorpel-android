@@ -1,16 +1,15 @@
 package de.hsrm.lback.myapplication.views.views;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,9 +21,9 @@ import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.LocationDragShadowBuilder;
 import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 import de.hsrm.lback.myapplication.views.activities.EditLocationView;
+import de.hsrm.lback.myapplication.views.activities.JourneyOverview;
 
 
 /**
@@ -127,21 +126,6 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
         snackbar.show();
     }
 
-    public LocationViewModel getViewModel() {
-        return viewModel;
-    }
-
-    /**
-     * open view to edit the location
-     */
-    public void openEditView() {
-        Intent intent = new Intent(activity, EditLocationView.class);
-
-        intent.putExtra(Location.LOCATION_UID, this.viewModel.getLocation().getUid());
-
-        activity.startActivity(intent);
-    }
-
     /**
      * executes when a LocationView is dropped on another (or the same) LocationView
      */
@@ -163,12 +147,39 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
                 Location srcLocation = src.getViewModel().getLocation();
                 Location targetLocation = target.getViewModel().getLocation();
 
-                ((LocationView)v).showDropSnackBar(srcLocation, targetLocation);
+                ((LocationView)v).openJourneyOverview(srcLocation, targetLocation);
 
             }
         }
 
         return true;  // consume event
     }
+
+    /**
+     * open view to edit the location
+     */
+    public void openEditView() {
+        Intent intent = new Intent(activity, EditLocationView.class);
+
+        intent.putExtra(Location.LOCATION_UID, this.viewModel.getLocation().getUid());
+
+        activity.startActivity(intent);
+    }
+
+    private void openJourneyOverview(Location srcLocation, Location targetLocation) {
+        // TODO open EditLocationView for locations that have id 0
+        if (srcLocation.getUid() != 0 && targetLocation.getUid() != 0) { // both locations are already set
+            Intent intent = new Intent(getContext(), JourneyOverview.class);
+            intent.putExtra(Location.SRC_LOCATION, srcLocation.getUid());
+            intent.putExtra(Location.DESTINATION_LOCATION, targetLocation.getUid());
+            activity.startActivity(intent);
+        }
+        Log.d("journey", String.format("%s %s", srcLocation.toString(), targetLocation.toString()));
+    }
+
+    public LocationViewModel getViewModel() {
+        return viewModel;
+    }
+
 
 }

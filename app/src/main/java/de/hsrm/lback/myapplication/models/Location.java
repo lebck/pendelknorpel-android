@@ -6,9 +6,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import org.jetbrains.annotations.Nullable;
-
-import de.hsrm.lback.myapplication.persistence.StringLiveDataConverter;
+import de.hsrm.lback.myapplication.persistence.converters.StringLiveDataConverter;
 
 
 /**
@@ -18,7 +16,7 @@ import de.hsrm.lback.myapplication.persistence.StringLiveDataConverter;
 @TypeConverters({StringLiveDataConverter.class})
 public class Location {
     public static final String LOCATION_UID = "location_uid";
-    public static final String START_LOCATION = "start_location";
+    public static final String SRC_LOCATION = "start_location";
     public static final String DESTINATION_LOCATION = "destination_location";
     private static final String DEFAULT_LOGO_NAME = "ic_add_black_24dp";
 
@@ -88,5 +86,10 @@ public class Location {
 
     public MutableLiveData<String> getLogo() {
         return logo;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Location{ %s, %s, %s }", name.getValue(), position, uid);
     }
 }

@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.persistence;
+package de.hsrm.lback.myapplication.persistence.converters;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.TypeConverter;

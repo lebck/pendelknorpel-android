@@ -40,7 +40,7 @@ public class LocationOverview extends AppCompatActivity {
         LiveData<List<Location>> locationData = locationRepository.getAllLocations();
         this.locations = new ArrayList<>();
 
-        this.gridArrayAdapter = new LocationAdapter(this, locations, locationRepository, application);
+        this.gridArrayAdapter = new LocationAdapter(this, locations, locationRepository, getApplication());
         this.locationsGrid.setAdapter(gridArrayAdapter);
 
         // set Locations on change
