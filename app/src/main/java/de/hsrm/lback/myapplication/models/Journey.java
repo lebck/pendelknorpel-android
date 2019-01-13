@@ -1,5 +1,6 @@
 package de.hsrm.lback.myapplication.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Journey {
@@ -24,5 +25,14 @@ public class Journey {
 
     public List<Connection> getConnections() {
         return connections;
+    }
+
+    public String getVehicleString() {
+        List <String> vehicles = new ArrayList<>();
+        for(Connection c : connections) {
+            vehicles.add(c.getVehicle().toString());
+        }
+
+        return String.join(", ", vehicles);
     }
 }

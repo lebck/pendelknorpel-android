@@ -1,8 +1,10 @@
 package de.hsrm.lback.myapplication.models;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Connection {
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String lineId;
