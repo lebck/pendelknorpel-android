@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +21,17 @@ import de.hsrm.lback.myapplication.viewmodels.JourneyViewModel;
 public class JourneyOverview extends AppCompatActivity {
     private RecyclerView journeyListView;
     private JourneyAdapter adapter;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey_overview);
+        progressBar = findViewById(R.id.progress_bar);
 
         initJourneyListView();
 
-
         JourneyViewModel viewModel = ViewModelProviders.of(this).get(JourneyViewModel.class);
-
 
         // get src and target location
         int srcId = getIntent().getIntExtra(Location.SRC_LOCATION, 0);
@@ -57,7 +59,7 @@ public class JourneyOverview extends AppCompatActivity {
 
 
     private void onJourneysChange(List<Journey> journeys) {
-        Log.d("journeys", journeys.toString());
         adapter.setJourneys(journeys);
+        progressBar.setVisibility(View.GONE);
     }
 }
