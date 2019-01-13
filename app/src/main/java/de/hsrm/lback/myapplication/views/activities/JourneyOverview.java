@@ -43,6 +43,11 @@ public class JourneyOverview extends AppCompatActivity {
         viewModel.getTargetData().observe(this, viewModel::onTargetChange);
 
         viewModel.getJourneys().observe(this, this::onJourneysChange);
+
+    }
+
+    private void onJourneyClick(View view) {
+        Log.d("journeys", view.toString());
     }
 
     private void initJourneyListView() {
@@ -52,7 +57,7 @@ public class JourneyOverview extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         journeyListView.setLayoutManager(layoutManager);
 
-        adapter = new JourneyAdapter(new ArrayList<>());
+        adapter = new JourneyAdapter(new ArrayList<>(), this::onJourneyClick);
 
         journeyListView.setAdapter(adapter);
     }
