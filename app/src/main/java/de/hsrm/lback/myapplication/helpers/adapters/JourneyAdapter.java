@@ -16,7 +16,7 @@ import de.hsrm.lback.myapplication.models.Journey;
 
 public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHolder> {
     private List<Journey> journeys;
-    private View.OnClickListener listener;
+    private JourneyClickListener listener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout itemView;
@@ -26,7 +26,11 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
         }
     }
 
-    public JourneyAdapter(List<Journey> journeys, View.OnClickListener listener) {
+    public interface JourneyClickListener {
+        void onClick(Journey journey);
+    }
+
+    public JourneyAdapter(List<Journey> journeys, JourneyClickListener listener) {
         this.journeys = journeys;
         this.listener = listener;
     }
@@ -51,7 +55,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
         TextView changes = layout.findViewById(R.id.changes);
         TextView vehicle = layout.findViewById(R.id.vehicle);
 
-        layout.setOnClickListener(listener);
+        layout.setOnClickListener(v -> this.listener.onClick(j));
 
         List<Connection> connections = j.getConnections();
 

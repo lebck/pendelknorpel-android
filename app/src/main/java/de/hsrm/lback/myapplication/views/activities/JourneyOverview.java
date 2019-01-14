@@ -1,11 +1,12 @@
 package de.hsrm.lback.myapplication.views.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -46,10 +47,6 @@ public class JourneyOverview extends AppCompatActivity {
 
     }
 
-    private void onJourneyClick(View view) {
-        Log.d("journeys", view.toString());
-    }
-
     private void initJourneyListView() {
         journeyListView = findViewById(R.id.journeys_list_view);
         journeyListView.setHasFixedSize(true);
@@ -62,6 +59,17 @@ public class JourneyOverview extends AppCompatActivity {
         journeyListView.setAdapter(adapter);
     }
 
+    /** open specific view for journey */
+    private void onJourneyClick(Journey journey) {
+        // create intent
+        Intent intent = new Intent(this, JourneyView.class);
+
+        // add serialized journey to intent
+        intent.putExtra("j", journey);
+
+        // start activity
+        startActivity(intent);
+    }
 
     private void onJourneysChange(List<Journey> journeys) {
         adapter.setJourneys(journeys);

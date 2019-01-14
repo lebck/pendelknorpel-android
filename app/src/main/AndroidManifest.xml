@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.activities.EditLocationView" />
-        <activity android:name=".views.activities.JourneyOverview"></activity>
+        <activity android:name=".views.activities.JourneyOverview" />
+        <activity android:name=".views.activities.JourneyView"></activity>
     </application>
 
 </manifest>

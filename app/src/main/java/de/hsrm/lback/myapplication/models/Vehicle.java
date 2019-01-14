@@ -1,5 +1,7 @@
 package de.hsrm.lback.myapplication.models;
 
-public enum Vehicle {
-    BUS, TRAIN
+public class Vehicle {
+    public static final String BUS = "BUS";
+    public static final String TRAIN = "TRAIN";
+
 }
