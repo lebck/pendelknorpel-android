@@ -35,6 +35,8 @@ public class FetchJourneysTask extends AsyncTask<Location, Void, List<Journey>> 
 
             List <Connection> connections = Collections.singletonList(
                     new Connection(
+                            src,
+                            target,
                             LocalDateTime.now().plusHours(i),
                             LocalDateTime.now().plusHours(1 + i),
                             Integer.toString(r.nextInt(10)),

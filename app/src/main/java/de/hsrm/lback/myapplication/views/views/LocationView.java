@@ -60,7 +60,7 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
         this.locationNameView = findViewById(R.id.location_name);
         this.locationLogoView = findViewById(R.id.location_logo);
 
-        this.setTag("location_view");
+        this.setTag("connection_view");
 
         // start drag and drop instantly when view is touched
         this.setOnTouchListener((v, e) -> {

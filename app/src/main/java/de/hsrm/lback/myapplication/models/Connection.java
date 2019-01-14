@@ -12,12 +12,16 @@ public class Connection implements Parcelable {
     private LocalDateTime endTime;
     private String lineId;
     private String vehicle;
+    private Location startLocation;
+    private Location endLocation;
 
-    public Connection(LocalDateTime startTime, LocalDateTime endTime, String lineId, String vehicle) {
+    public Connection(Location startLocation, Location endLocation, LocalDateTime startTime, LocalDateTime endTime, String lineId, String vehicle) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.lineId = lineId;
         this.vehicle = vehicle;
+        this.startLocation = startLocation;
+        this.endLocation = endLocation;
     }
 
     @Override
@@ -31,6 +35,8 @@ public class Connection implements Parcelable {
         dest.writeSerializable(endTime);
         dest.writeString(lineId);
         dest.writeString(vehicle);
+        dest.writeParcelable(startLocation, flags);
+        dest.writeParcelable(endLocation, flags);
     }
 
     protected Connection(Parcel in) {
@@ -38,6 +44,8 @@ public class Connection implements Parcelable {
         endTime = (LocalDateTime) in.readSerializable();
         lineId = in.readString();
         vehicle = in.readString();
+        startLocation = in.readParcelable(Location.class.getClassLoader());
+        endLocation = in.readParcelable(Location.class.getClassLoader());
     }
 
     public static final Creator<Connection> CREATOR = new Creator<Connection>() {
@@ -60,6 +68,15 @@ public class Connection implements Parcelable {
         return endTime;
     }
 
+    public String getStartTimeString() {
+        return startTime.format(FORMATTER);
+    }
+
+    public String getEndTimeString() {
+        return endTime.format(FORMATTER);
+    }
+
+
     public String getLineId() {
         return lineId;
     }
@@ -68,4 +85,11 @@ public class Connection implements Parcelable {
         return vehicle;
     }
 
+    public Location getStartLocation() {
+        return startLocation;
+    }
+
+    public Location getEndLocation() {
+        return endLocation;
+    }
 }

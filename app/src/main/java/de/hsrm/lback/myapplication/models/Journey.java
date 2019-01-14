@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Journey implements Parcelable {
+    public static final String JOURNEY_ID = "journey";
     private Location srcLocation;
     private Location targetLocation;
     private List<Connection> connections;

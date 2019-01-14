@@ -2,9 +2,12 @@ package de.hsrm.lback.myapplication.views.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Adapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import de.hsrm.lback.myapplication.R;
+import de.hsrm.lback.myapplication.helpers.adapters.ConnectionsAdapter;
 import de.hsrm.lback.myapplication.models.Journey;
 
 public class JourneyView extends AppCompatActivity {
@@ -14,8 +17,14 @@ public class JourneyView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey_view);
 
-        Journey j = getIntent().getParcelableExtra("j");
+        Journey j = getIntent().getParcelableExtra(Journey.JOURNEY_ID);
 
-        Log.d("", j.toString());
+        ListView connectionList = findViewById(R.id.connection_list);
+
+        BaseAdapter adapter = new ConnectionsAdapter(j.getConnections());
+
+        connectionList.setAdapter(adapter);
     }
+
+
 }

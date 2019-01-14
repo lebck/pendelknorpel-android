@@ -65,7 +65,7 @@ public class JourneyOverview extends AppCompatActivity {
         Intent intent = new Intent(this, JourneyView.class);
 
         // add serialized journey to intent
-        intent.putExtra("j", journey);
+        intent.putExtra(Journey.JOURNEY_ID, journey);
 
         // start activity
         startActivity(intent);
