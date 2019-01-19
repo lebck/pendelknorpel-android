@@ -3,16 +3,13 @@ package de.hsrm.lback.myapplication.models.repositories.tasks;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-import de.hsrm.lback.myapplication.models.Connection;
+import de.hsrm.lback.myapplication.network.ApiConnector;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.Vehicle;
 
 public class FetchJourneysTask extends AsyncTask<Location, Void, List<Journey>> {
     private MutableLiveData<List<Journey>> journeysData;
@@ -26,32 +23,25 @@ public class FetchJourneysTask extends AsyncTask<Location, Void, List<Journey>> 
         Location src = locations[0];
         Location target = locations[1];
 
-        // TODO make network request to DB API
-        int m = 100;
-        List<Journey> journeys = new ArrayList<>();
-        Random r = new Random();
+        // TODO remove hardcoded location id
+        src.setApiId(8000250);      // wiesbaden hbf
+        target.setApiId(8000774);   // baden baden
 
-        for (int i = 0; i < m; i++) {
+        ApiConnector connector = new ApiConnector();
 
-            List <Connection> connections = Collections.singletonList(
-                    new Connection(
-                            src,
-                            target,
-                            LocalDateTime.now().plusHours(i),
-                            LocalDateTime.now().plusHours(1 + i),
-                            Integer.toString(r.nextInt(10)),
-                            Vehicle.BUS)
-            );
-            journeys.add(new Journey(src, target, connections));
-        }
+        List <Journey> journeys = null;
 
         try {
-            Thread.sleep(2000); // fake network throttle
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            // TODO remove hardcoded datetime
+            journeys = connector.getDepartures(src, target, LocalDateTime.now());
 
-        this.journeysData.postValue(journeys);
+            journeysData.postValue(journeys);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            cancel(true);
+        }
 
         return journeys;
     }

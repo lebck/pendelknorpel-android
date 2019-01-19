@@ -34,6 +34,9 @@ public class Location implements Parcelable {
     @ColumnInfo(name = "logo")
     private MutableLiveData<String> logo;
 
+    @ColumnInfo(name = "apiId")
+    private int apiId;
+
     /** constructor used by rooms */
     public Location(MutableLiveData<String> name, int position, MutableLiveData<String> logo) {
         this.position = position;
@@ -49,10 +52,10 @@ public class Location implements Parcelable {
         this.position = position;
 
         this.logo = new MutableLiveData<>();
-        this.logo.setValue(DEFAULT_LOGO_NAME);
+        this.logo.postValue(DEFAULT_LOGO_NAME);
 
         this.name = new MutableLiveData<>();
-        this.name.setValue(name);
+        this.name.postValue(name);
     }
 
     private void init(String name, int position, String logoName) {
@@ -63,35 +66,6 @@ public class Location implements Parcelable {
 
         this.name = new MutableLiveData<>();
         this.name.setValue(name);
-    }
-
-    public MutableLiveData<String> getName() {
-        return name;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public boolean setName(String name) {
-        if (name != null && !name.equals("")) {
-            this.name.setValue(name);
-            return true;
-        } else {
-          return false;
-        }
-    }
-
-    public int getUid() {
-        return uid;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
-
-    public MutableLiveData<String> getLogo() {
-        return logo;
     }
 
     @Override
@@ -136,4 +110,41 @@ public class Location implements Parcelable {
         }
     };
 
+
+    public MutableLiveData<String> getName() {
+        return name;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public boolean setName(String name) {
+        if (name != null && !name.equals("")) {
+            this.name.setValue(name);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public MutableLiveData<String> getLogo() {
+        return logo;
+    }
+
+    public int getApiId() {
+        return apiId;
+    }
+
+    public void setApiId(int apiId) {
+        this.apiId = apiId;
+    }
 }

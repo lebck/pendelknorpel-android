@@ -7,6 +7,11 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+
+import de.hsrm.lback.myapplication.network.ApiConnector;
+import de.hsrm.lback.myapplication.models.Location;
+
 import static org.junit.Assert.*;
 
 /**
@@ -23,4 +28,17 @@ public class ExampleInstrumentedTest {
 
         assertEquals("de.hsrm.lback.myapplication", appContext.getPackageName());
     }
+
+    @Test
+    public void testApiConnector() throws IOException {
+        Location wiesbaden = new Location("Wiesbaden hbf", 0);
+        Location wien = new Location("Wien hbf", 0);
+
+        wiesbaden.setApiId(8000250);
+        wien.setApiId(8103000);
+
+        new ApiConnector().getDepartures(wiesbaden, wien);
+
+    }
+
 }
