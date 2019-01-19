@@ -29,16 +29,4 @@ public class ExampleInstrumentedTest {
         assertEquals("de.hsrm.lback.myapplication", appContext.getPackageName());
     }
 
-    @Test
-    public void testApiConnector() throws IOException {
-        Location wiesbaden = new Location("Wiesbaden hbf", 0);
-        Location wien = new Location("Wien hbf", 0);
-
-        wiesbaden.setApiId(8000250);
-        wien.setApiId(8103000);
-
-        new ApiConnector().getDepartures(wiesbaden, wien);
-
-    }
-
 }
