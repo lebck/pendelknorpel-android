@@ -20,7 +20,7 @@ public class Location implements Parcelable {
     public static final String LOCATION_UID = "location_uid";
     public static final String SRC_LOCATION = "start_location";
     public static final String DESTINATION_LOCATION = "destination_location";
-    private static final String DEFAULT_LOGO_NAME = "ic_add_black_24dp";
+    private static final String DEFAULT_LOGO_NAME = "plus";
 
     @PrimaryKey(autoGenerate = true)
     private int uid;

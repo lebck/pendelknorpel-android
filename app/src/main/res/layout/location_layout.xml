@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <de.hsrm.lback.myapplication.views.views.LocationView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="100dp"
-    android:layout_width="100dp"
-    android:layout_margin="30dp"
     android:id="@+id/location_view"
     android:orientation="vertical"
-    android:gravity="center">
+    android:layout_height="100dp"
+    android:layout_width="100dp"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_margin="30dp"
+    style="@style/location">
 
     <ImageView
+        android:layout_marginTop="10dp"
         android:id="@id/location_logo"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/check"
         />
 
     <TextView
         android:id="@+id/location_name"
-        android:layout_width="100dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="70dp"
+        android:maxHeight="20dp"
         android:textAlignment="center"
-        android:text="Haltestelle"/>
+        android:text="Hallo"
+        style="@style/text"
+        android:layout_marginBottom="10dp"/>
+
 
 </de.hsrm.lback.myapplication.views.views.LocationView>

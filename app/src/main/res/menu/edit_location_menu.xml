@@ -6,6 +6,6 @@
     <item
         android:title="@string/submit"
         android:id="@+id/submit"
-        android:icon="@drawable/ic_done_black_24dp"
+        android:icon="@drawable/check"
         app:showAsAction="always"/>
 </menu>

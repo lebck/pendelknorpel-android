@@ -46,7 +46,6 @@ public class LocationOverview extends AppCompatActivity {
         // set Locations on change
         locationData.observe(this, this::onLocationsChange);
 
-        // TODO only test
 
     }
 

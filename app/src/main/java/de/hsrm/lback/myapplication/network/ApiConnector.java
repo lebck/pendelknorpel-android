@@ -28,12 +28,19 @@ public class ApiConnector {
     private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public List<Journey> getDepartures(Location from, Location to, LocalDateTime time) throws IOException {
-        int fromId = from.getApiId();
         int toId = to.getApiId();
+        int fromId = from.getApiId();
 
-        StringBuilder result = new StringBuilder();
+        // List<Journey> journeys = JSONParser.parse(result)
+
+        return getTestData(from, to);
+
+
+    }
+
+    private String getDepartures(int fromId, LocalDateTime time) throws IOException {
         URL url = new URL(
-                  DOMAIN +
+                DOMAIN +
                         BASE_URL +
                         DEPARTUES_URL +
                         "/" +
@@ -41,6 +48,17 @@ public class ApiConnector {
                         "?date=" +
                         time.format(FORMAT)
         );
+
+        return get(url);
+
+    }
+
+    private String getArrivals(int toId, LocalDateTime time) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    private String get(URL url) throws IOException {
+        StringBuilder result = new StringBuilder();
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -52,10 +70,7 @@ public class ApiConnector {
         }
         rd.close();
 
-        Log.d("api", result.toString());
-
-        return getTestData(from, to);
-
+        return result.toString();
 
     }
 

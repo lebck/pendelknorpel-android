@@ -5,12 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.activities.LocationOverview"
-    android:layout_margin="5dp">
+    style="@style/activity"
+    >
 
     <GridView
         android:id="@+id/locations_grid"
-        android:layout_width="match_parent"
-        android:layout_height="410dp"
-        android:numColumns="3" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:horizontalSpacing="30dp"
+        android:verticalSpacing="30dp"
+        android:stretchMode="spacingWidth"
+        android:columnWidth="100dp"
+        android:layout_margin="30dp"
+        />
 
 </RelativeLayout>

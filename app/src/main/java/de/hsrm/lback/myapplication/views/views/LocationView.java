@@ -106,6 +106,10 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
 
     private void onNameChanged(String name) {
         this.locationNameView.setText(name);
+
+        // make textview invisible if no name is set
+        if (name.trim().equals(""))
+            this.locationNameView.setVisibility(GONE);
     }
 
     @Override

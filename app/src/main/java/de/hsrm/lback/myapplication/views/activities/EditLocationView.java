@@ -107,6 +107,6 @@ public class EditLocationView extends AppCompatActivity {
     /** Process click on logo */
     public void onLogoClick(View v) {
         // TODO make real imagechooser to choose from list of icons
-        this.viewModel.getLocation().getLogo().setValue("ic_done_black_24dp");
+        this.viewModel.getLocation().getLogo().setValue("check");
     }
 }
