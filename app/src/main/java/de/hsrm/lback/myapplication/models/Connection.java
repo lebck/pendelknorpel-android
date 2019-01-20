@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Connection implements Parcelable {
+public class Connection {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -24,41 +24,7 @@ public class Connection implements Parcelable {
         this.endLocation = endLocation;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeSerializable(startTime);
-        dest.writeSerializable(endTime);
-        dest.writeString(lineId);
-        dest.writeString(vehicle);
-        dest.writeParcelable(startLocation, flags);
-        dest.writeParcelable(endLocation, flags);
-    }
-
-    protected Connection(Parcel in) {
-        startTime = (LocalDateTime) in.readSerializable();
-        endTime = (LocalDateTime) in.readSerializable();
-        lineId = in.readString();
-        vehicle = in.readString();
-        startLocation = in.readParcelable(Location.class.getClassLoader());
-        endLocation = in.readParcelable(Location.class.getClassLoader());
-    }
-
-    public static final Creator<Connection> CREATOR = new Creator<Connection>() {
-        @Override
-        public Connection createFromParcel(Parcel in) {
-            return new Connection(in);
-        }
-
-        @Override
-        public Connection[] newArray(int size) {
-            return new Connection[size];
-        }
-    };
+    public Connection() {}
 
     public LocalDateTime getStartTime() {
         return startTime;
@@ -76,7 +42,6 @@ public class Connection implements Parcelable {
         return endTime.format(FORMATTER);
     }
 
-
     public String getLineId() {
         return lineId;
     }
@@ -91,5 +56,29 @@ public class Connection implements Parcelable {
 
     public Location getEndLocation() {
         return endLocation;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setLineId(String lineId) {
+        this.lineId = lineId;
+    }
+
+    public void setVehicle(String vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public void setStartLocation(Location startLocation) {
+        this.startLocation = startLocation;
+    }
+
+    public void setEndLocation(Location endLocation) {
+        this.endLocation = endLocation;
     }
 }

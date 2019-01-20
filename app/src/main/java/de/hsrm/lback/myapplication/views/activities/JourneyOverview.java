@@ -1,7 +1,9 @@
 package de.hsrm.lback.myapplication.views.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,10 +68,19 @@ public class JourneyOverview extends AppCompatActivity {
         // create intent
         Intent intent = new Intent(this, JourneyView.class);
 
-        // add serialized journey to intent
-        intent.putExtra(Journey.JOURNEY_ID, journey);
 
-        // start activity
+        // get shared preferences for current journey
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(getString(R.string.current_journey), Context.MODE_PRIVATE);
+
+        // write serialized journey to preferences as current journey
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(Journey.JOURNEY_ID, new Gson().toJson(journey));
+
+        editor.apply();
+
+        // start journeyView activity
         startActivity(intent);
     }
 

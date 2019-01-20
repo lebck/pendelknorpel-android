@@ -16,7 +16,7 @@ import de.hsrm.lback.myapplication.persistence.converters.StringLiveDataConverte
  */
 @Entity
 @TypeConverters({StringLiveDataConverter.class})
-public class Location implements Parcelable {
+public class Location {
     public static final String LOCATION_UID = "location_uid";
     public static final String SRC_LOCATION = "start_location";
     public static final String DESTINATION_LOCATION = "destination_location";
@@ -43,6 +43,8 @@ public class Location implements Parcelable {
         this.logo = logo;
         this.name = name;
     }
+
+    public Location() {}
 
     public Location(String name, int position, String logoName) {
         init(name, position, logoName);
@@ -72,44 +74,6 @@ public class Location implements Parcelable {
     public String toString() {
         return String.format("Location{ %s, %s, %s }", name.getValue(), position, uid);
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(uid);
-        dest.writeInt(position);
-        dest.writeString(name.getValue());
-        dest.writeString(logo.getValue());
-
-    }
-
-    protected Location(Parcel in) {
-        int uid = in.readInt();
-        int position = in.readInt();
-        String name = in.readString();
-        String logo = in.readString();
-
-        init(name, position, logo);
-
-        this.uid = uid;
-    }
-
-    public static final Creator<Location> CREATOR = new Creator<Location>() {
-        @Override
-        public Location createFromParcel(Parcel in) {
-            return new Location(in);
-        }
-
-        @Override
-        public Location[] newArray(int size) {
-            return new Location[size];
-        }
-    };
-
 
     public MutableLiveData<String> getName() {
         return name;
@@ -146,5 +110,17 @@ public class Location implements Parcelable {
 
     public void setApiId(int apiId) {
         this.apiId = apiId;
+    }
+
+    public void setName(MutableLiveData<String> name) {
+        this.name = name;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public void setLogo(MutableLiveData<String> logo) {
+        this.logo = logo;
     }
 }

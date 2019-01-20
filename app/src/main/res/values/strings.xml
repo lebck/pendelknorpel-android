@@ -6,4 +6,8 @@
     <string name="location_name_str">Location Name</string>
     <string name="add">Add</string>
     <string name="all_connections">Alle Verbindungen:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="current_journey">current_journey</string>
 </resources>

@@ -16,14 +16,6 @@ public class JourneyView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey_view);
-
-        Journey j = getIntent().getParcelableExtra(Journey.JOURNEY_ID);
-
-        ListView connectionList = findViewById(R.id.connection_list);
-
-        BaseAdapter adapter = new ConnectionsAdapter(j.getConnections());
-
-        connectionList.setAdapter(adapter);
     }
 
 
