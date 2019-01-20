@@ -51,13 +51,14 @@ public class JourneyViewSmall extends Fragment {
 
         // get current journey
         Journey j = JourneyRepository.getCurrentJourney(getContext());
+        if (j != null) {
+            // display journey
+            TextView journeyDisplay = view.findViewById(R.id.journey_text);
 
-        // display journey
-        TextView journeyDisplay = view.findViewById(R.id.journey_text);
+            journeyDisplay.setText(j.getDetailString());
 
-        journeyDisplay.setText(j.getDetailString());
-
-        view.setOnClickListener(this::onClick);
+            view.setOnClickListener(this::onClick);
+        }
 
     }
 

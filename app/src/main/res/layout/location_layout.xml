@@ -26,7 +26,6 @@
         android:maxHeight="20dp"
         android:textAlignment="center"
         android:text="Hallo"
-        style="@style/text"
         android:layout_marginBottom="10dp"/>
 
 

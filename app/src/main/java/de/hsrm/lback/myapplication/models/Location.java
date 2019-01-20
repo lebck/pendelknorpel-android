@@ -3,10 +3,13 @@ package de.hsrm.lback.myapplication.models;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.google.gson.annotations.Expose;
 
 import de.hsrm.lback.myapplication.persistence.converters.StringLiveDataConverter;
 
@@ -26,12 +29,14 @@ public class Location {
     private int uid;
 
     @ColumnInfo(name = "name")
+    @Expose(serialize = false)
     private MutableLiveData<String> name;
 
     @ColumnInfo(name = "position")
     private int position;
 
     @ColumnInfo(name = "logo")
+    @Expose(serialize = false)
     private MutableLiveData<String> logo;
 
     @ColumnInfo(name = "apiId")
@@ -44,6 +49,7 @@ public class Location {
         this.name = name;
     }
 
+    @Ignore
     public Location() {}
 
     public Location(String name, int position, String logoName) {
@@ -120,7 +126,5 @@ public class Location {
         this.position = position;
     }
 
-    public void setLogo(MutableLiveData<String> logo) {
-        this.logo = logo;
-    }
+
 }

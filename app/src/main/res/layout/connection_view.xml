@@ -3,21 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    style="ConnectionView">
 
     <TextView
         android:id="@+id/start_location_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Start"/>
 
     <TextView
         android:id="@+id/vehicle_id"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="BUS 7"/>
 
     <TextView
         android:id="@+id/end_location_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Ende"/>
 
 </LinearLayout>

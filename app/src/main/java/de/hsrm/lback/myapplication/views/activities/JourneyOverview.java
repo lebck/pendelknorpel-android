@@ -21,6 +21,7 @@ import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.adapters.JourneyAdapter;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 import de.hsrm.lback.myapplication.viewmodels.JourneyViewModel;
 
 public class JourneyOverview extends AppCompatActivity {
@@ -69,17 +70,7 @@ public class JourneyOverview extends AppCompatActivity {
         Intent intent = new Intent(this, JourneyView.class);
 
 
-        // get shared preferences for current journey
-        SharedPreferences sharedPreferences =
-                getSharedPreferences(getString(R.string.current_journey), Context.MODE_PRIVATE);
-
-        // write serialized journey to preferences as current journey
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(Journey.JOURNEY_ID, new Gson().toJson(journey));
-
-        editor.apply();
-
+        JourneyRepository.setCurrentJourney(getApplicationContext(), journey);
         // start journeyView activity
         startActivity(intent);
     }
