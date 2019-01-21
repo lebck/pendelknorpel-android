@@ -58,8 +58,8 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
         List<Connection> connections = j.getConnections();
 
-        startTime.setText(connections.get(0).getStartTime().format(Connection.FORMATTER));
-        endTime.setText(connections.get(connections.size() - 1).getEndTime().format(Connection.FORMATTER));
+        startTime.setText(connections.get(0).getStartTimeObject().format(Connection.FORMATTER));
+        endTime.setText(connections.get(connections.size() - 1).getEndTimeObject().format(Connection.FORMATTER));
         changes.setText(String.format("U: %s", connections.size()));
         vehicle.setText(j.getVehicleString());
     }

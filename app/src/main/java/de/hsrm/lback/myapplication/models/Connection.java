@@ -3,11 +3,15 @@ package de.hsrm.lback.myapplication.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Connection {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+    public static final DateTimeFormatter JSON_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String lineId;
@@ -26,18 +30,29 @@ public class Connection {
 
     public Connection() {}
 
-    public LocalDateTime getStartTime() {
+    @JsonIgnore
+    public LocalDateTime getStartTimeObject() {
         return startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    @JsonIgnore
+    public LocalDateTime getEndTimeObject() {
         return endTime;
     }
 
+    public String getStartTime() {
+        return startTime.toString();
+    }
+
+    public String getEndTime() {
+        return endTime.toString();
+    }
+    @JsonIgnore
     public String getStartTimeString() {
         return startTime.format(FORMATTER);
     }
 
+    @JsonIgnore
     public String getEndTimeString() {
         return endTime.format(FORMATTER);
     }
@@ -58,12 +73,12 @@ public class Connection {
         return endLocation;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setStartTime(String startTime) {
+        this.startTime = LocalDateTime.parse(startTime);
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setEndTime(String endTime) {
+        this.endTime = LocalDateTime.parse(endTime);
     }
 
     public void setLineId(String lineId) {
@@ -81,4 +96,6 @@ public class Connection {
     public void setEndLocation(Location endLocation) {
         this.endLocation = endLocation;
     }
+
+
 }

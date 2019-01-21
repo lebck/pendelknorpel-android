@@ -29,59 +29,42 @@ public class Location {
     private int uid;
 
     @ColumnInfo(name = "name")
-    @Expose(serialize = false)
-    private MutableLiveData<String> name;
+    private String name;
 
     @ColumnInfo(name = "position")
     private int position;
 
     @ColumnInfo(name = "logo")
-    @Expose(serialize = false)
-    private MutableLiveData<String> logo;
+    private String logo;
 
     @ColumnInfo(name = "apiId")
     private int apiId;
 
     /** constructor used by rooms */
-    public Location(MutableLiveData<String> name, int position, MutableLiveData<String> logo) {
+    public Location(String name, int position, String logo) {
         this.position = position;
         this.logo = logo;
         this.name = name;
     }
 
-    @Ignore
+    @Ignore // ignored by rooms
     public Location() {}
 
-    public Location(String name, int position, String logoName) {
-        init(name, position, logoName);
-    }
-
+    @Ignore // ignored by rooms
     public Location(String name, int position) {
         this.position = position;
 
-        this.logo = new MutableLiveData<>();
-        this.logo.postValue(DEFAULT_LOGO_NAME);
+        this.logo = DEFAULT_LOGO_NAME;
 
-        this.name = new MutableLiveData<>();
-        this.name.postValue(name);
-    }
-
-    private void init(String name, int position, String logoName) {
-        this.position = position;
-
-        this.logo = new MutableLiveData<>();
-        this.logo.setValue(logoName);
-
-        this.name = new MutableLiveData<>();
-        this.name.setValue(name);
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return String.format("Location{ %s, %s, %s }", name.getValue(), position, uid);
+        return String.format("Location{ %s, %s, %s }", name, position, uid);
     }
 
-    public MutableLiveData<String> getName() {
+    public String getName() {
         return name;
     }
 
@@ -89,13 +72,9 @@ public class Location {
         return position;
     }
 
-    public boolean setName(String name) {
-        if (name != null && !name.equals("")) {
-            this.name.setValue(name);
-            return true;
-        } else {
-            return false;
-        }
+    public void setName(String name) {
+
+        this.name = name.trim();
     }
 
     public int getUid() {
@@ -106,7 +85,7 @@ public class Location {
         this.uid = uid;
     }
 
-    public MutableLiveData<String> getLogo() {
+    public String getLogo() {
         return logo;
     }
 
@@ -116,10 +95,6 @@ public class Location {
 
     public void setApiId(int apiId) {
         this.apiId = apiId;
-    }
-
-    public void setName(MutableLiveData<String> name) {
-        this.name = name;
     }
 
     public void setPosition(int position) {

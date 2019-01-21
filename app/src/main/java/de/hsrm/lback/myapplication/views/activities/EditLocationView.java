@@ -31,7 +31,7 @@ public class EditLocationView extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.edit_toolbar);
         setSupportActionBar(toolbar);
 
-        this.locationText = findViewById(R.id.location_name);
+        this.locationText = findViewById(R.id.edit_location_name);
         this.locationLogo = findViewById(R.id.location_logo);
 
 
@@ -64,11 +64,11 @@ public class EditLocationView extends AppCompatActivity {
 
     private void onLocationChange(Location location) {
         if (location != null) {
-            this.locationText.setText(location.getName().getValue());
+            this.locationText.setText(location.getName());
 
             if (this.viewModel.getLocation() == null) {
                 this.viewModel.init(location);
-                this.viewModel.getLocation().getLogo().observe(this, this::onLogoChange);
+                // TODO this.viewModel.getLocation().getLogo().observe(this, this::onLogoChange);
             }
         }
     }
@@ -107,6 +107,6 @@ public class EditLocationView extends AppCompatActivity {
     /** Process click on logo */
     public void onLogoClick(View v) {
         // TODO make real imagechooser to choose from list of icons
-        this.viewModel.getLocation().getLogo().setValue("check");
+        this.viewModel.getLocation().setName("check");
     }
 }

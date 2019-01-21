@@ -1,15 +1,12 @@
 package de.hsrm.lback.myapplication.helpers.adapters;
 
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Connection;
@@ -47,17 +44,13 @@ public class ConnectionsAdapter extends BaseAdapter {
         TextView startLocationName = convertView.findViewById(R.id.start_location_name);
         TextView endLocationName = convertView.findViewById(R.id.end_location_name);
         TextView lineName = convertView.findViewById(R.id.vehicle_id);
+        TextView startTime = convertView.findViewById(R.id.start_time);
+        TextView endTime = convertView.findViewById(R.id.end_time);
 
-        startLocationName.setText(String.format(
-                "%s\t%s",
-                connection.getStartTimeString(),
-                connection.getStartLocation().getName().getValue()
-        ));
-        endLocationName.setText(
-                String.format("%s\t%s",
-                        connection.getEndTimeString(),
-                        connection.getEndLocation().getName().getValue()
-        ));
+        startLocationName.setText(connection.getStartLocation().getName());
+        endLocationName.setText(connection.getEndLocation().getName());
+        startTime.setText(connection.getStartTimeString());
+        endTime.setText(connection.getEndTimeString());
 
         lineName.setText(String.format("%s %s",
                 connection.getVehicle(), connection.getLineId()

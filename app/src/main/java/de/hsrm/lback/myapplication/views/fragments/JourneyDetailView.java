@@ -13,12 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.adapters.ConnectionsAdapter;
 import de.hsrm.lback.myapplication.models.Journey;
+import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 
 /**
  */
@@ -55,7 +57,13 @@ public class JourneyDetailView extends Fragment {
 
         String json = preferences.getString(Journey.JOURNEY_ID, "");
 
-        Journey j = new Gson().fromJson(json, Journey.class);
+        Journey j = JourneyRepository.getCurrentJourney(getContext());
+
+        // set headline
+        TextView journeyHeadline = view.findViewById(R.id.connection_headline);
+        journeyHeadline.setText(String.format(
+                "VERBINDUNG\n%s", j.getDetailString()
+        ));
 
         // display journey
         ListView connectionList = view.findViewById(R.id.connection_list);

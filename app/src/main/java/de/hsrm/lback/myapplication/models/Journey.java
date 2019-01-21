@@ -1,12 +1,8 @@
 package de.hsrm.lback.myapplication.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.google.gson.annotations.Expose;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Journey {
@@ -48,6 +44,7 @@ public class Journey {
         this.connections = connections;
     }
 
+    @JsonIgnore
     public String getVehicleString() {
         List <String> vehicles = new ArrayList<>();
         for(Connection c : connections) {
@@ -62,10 +59,11 @@ public class Journey {
         return String.format("Journey(%s, %s, %s)", srcLocation.toString(), targetLocation.toString(), connections.toString());
     }
 
+    @JsonIgnore
     public String getDetailString() {
         return String.format("%s -> %s",
-                srcLocation.getName().getValue(),
-                targetLocation.getName().getValue()
+                srcLocation.getName(),
+                targetLocation.getName()
         );
     }
 }

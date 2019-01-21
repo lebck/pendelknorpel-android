@@ -4,6 +4,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -11,6 +13,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -35,7 +38,12 @@ public class JourneyRepository {
 
         String json = preferences.getString(Journey.JOURNEY_ID, "");
 
-        return new Gson().fromJson(json, Journey.class);
+        try {
+            return new ObjectMapper().readValue(json, Journey.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 
@@ -47,20 +55,11 @@ public class JourneyRepository {
         // write serialized journey to preferences as current journey
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        GsonBuilder gson = new GsonBuilder();
-        gson.registerTypeAdapter(MutableLiveData.class, new JsonDeserializer<MutableLiveData<String>>() {
-            @Override
-            public MutableLiveData<String> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                MutableLiveData<String> data = new MutableLiveData<>();
-
-                data.postValue(json.getAsString());
-
-                return data;
-            }
-        });
-
-
-        editor.putString(Journey.JOURNEY_ID, new Gson().toJson(journey));
+        try {
+            editor.putString(Journey.JOURNEY_ID, new ObjectMapper().writeValueAsString(journey));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         editor.apply();
 

@@ -88,11 +88,10 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
         // set viewmodel to process the drop
         this.setOnDragListener(this);
 
-        // set binding to name
-        viewModel.getLocation().getName().observe(activity, this::onNameChanged);
+        // set logo and name
+        this.onNameChanged(viewModel.getLocation().getName());
 
-        // set binding to logo
-        viewModel.getLocation().getLogo().observe(activity, this::onLogoChanged);
+        this.onLogoChanged(viewModel.getLocation().getLogo());
 
 
     }
@@ -123,7 +122,7 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
     public void showDropSnackBar(Location src, Location target) {
         Snackbar snackbar = Snackbar.make(
                 this,
-                String.format("Journey from %s to %s", src.getName().getValue(), target.getName().getValue()),
+                String.format("Journey from %s to %s", src.getName(), target.getName()),
                 Snackbar.LENGTH_SHORT
         );
 
