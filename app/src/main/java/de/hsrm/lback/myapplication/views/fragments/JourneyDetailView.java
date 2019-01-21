@@ -2,6 +2,8 @@ package de.hsrm.lback.myapplication.views.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,7 +23,7 @@ import de.hsrm.lback.myapplication.models.Journey;
 /**
  */
 public class JourneyDetailView extends Fragment {
-
+    private Bitmap background;
 
     public JourneyDetailView() {
         // Required empty public constructor
@@ -34,7 +36,7 @@ public class JourneyDetailView extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_journey_detail_view, container, false);
@@ -44,6 +46,9 @@ public class JourneyDetailView extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (background != null)
+            view.setBackground(new BitmapDrawable(getResources(), background));
 
         // get journey from sharedPreferences
         SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.current_journey), Context.MODE_PRIVATE);
@@ -59,5 +64,9 @@ public class JourneyDetailView extends Fragment {
 
         connectionList.setAdapter(adapter);
 
+    }
+
+    public void setBackground(Bitmap bitmap) {
+        this.background = bitmap;
     }
 }

@@ -23,10 +23,8 @@
 
     </style>
 
-    <style name="Base">
-    </style>
-
-    <style name="ConnectionView">
+    <style name="Overlay">
+        <item name="android:background">@color/colorPrimaryDarkTransparent</item>
     </style>
 
 </resources>

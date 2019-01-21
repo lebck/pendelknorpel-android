@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".views.activities.LocationOverview"
+    android:background="@color/colorPrimaryDark"
+    android:id="@+id/location_overview_root"
     >
+
 
     <fragment
         android:id="@+id/fragment_journey_detail"
@@ -23,7 +26,9 @@
         android:verticalSpacing="30dp"
         android:stretchMode="spacingWidth"
         android:columnWidth="100dp"
-        android:layout_margin="30dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="80dp"
         />
 
-</LinearLayout>
+
+</RelativeLayout>

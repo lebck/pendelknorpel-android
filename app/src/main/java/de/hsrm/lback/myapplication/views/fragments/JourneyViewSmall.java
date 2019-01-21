@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import de.hsrm.lback.myapplication.R;
+import de.hsrm.lback.myapplication.helpers.RSBlurProcessor;
 import de.hsrm.lback.myapplication.helpers.adapters.ConnectionsAdapter;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
@@ -63,8 +65,21 @@ public class JourneyViewSmall extends Fragment {
     }
 
     private void onClick(View view) {
-        Intent intent = new Intent(getContext(), JourneyView.class);
+        // Intent intent = new Intent(getContext(), JourneyView.class);
 
-        getActivity().startActivity(intent);
+        // getActivity().startActivity(intent);
+
+        JourneyDetailView journeyDetailView = new JourneyDetailView();
+
+        journeyDetailView.setBackground(
+                RSBlurProcessor.getBlurryBackground(getActivity().findViewById(R.id.location_overview_root))
+        );
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.location_overview_root, journeyDetailView)
+                .addToBackStack(null);
+
+        transaction.commit();
     }
 }
