@@ -83,6 +83,7 @@ public class JourneyViewSmall extends Fragment {
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.location_overview_root, journeyDetailView)
                 .addToBackStack(null);
 
