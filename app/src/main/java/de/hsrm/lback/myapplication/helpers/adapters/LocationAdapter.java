@@ -12,16 +12,17 @@ import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
+import de.hsrm.lback.myapplication.views.activities.LocationOverview;
 import de.hsrm.lback.myapplication.views.views.LocationView;
 
 public class LocationAdapter extends BaseAdapter {
 
-    private AppCompatActivity activity;
+    private LocationOverview activity;
     private List<Location> locations;
     private LocationRepository locationRepository;
     private Application application;
 
-    public LocationAdapter(AppCompatActivity activity, List<Location> locations, LocationRepository locationRepository, Application application) {
+    public LocationAdapter(LocationOverview activity, List<Location> locations, LocationRepository locationRepository, Application application) {
         super();
         this.activity = activity;
         this.locations = locations;

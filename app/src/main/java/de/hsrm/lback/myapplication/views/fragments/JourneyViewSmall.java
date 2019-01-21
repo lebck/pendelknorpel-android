@@ -1,8 +1,5 @@
 package de.hsrm.lback.myapplication.views.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,18 +8,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import de.hsrm.lback.myapplication.R;
-import de.hsrm.lback.myapplication.helpers.RSBlurProcessor;
-import de.hsrm.lback.myapplication.helpers.adapters.ConnectionsAdapter;
+import de.hsrm.lback.myapplication.helpers.BackgroundManager;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
-import de.hsrm.lback.myapplication.views.activities.JourneyView;
 
 /**
  */
@@ -52,14 +43,29 @@ public class JourneyViewSmall extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // get current journey
-        Journey j = JourneyRepository.getCurrentJourney(getContext());
-        if (j != null) {
+        onJourneyChange();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onJourneyChange();
+    }
+
+    private void onJourneyChange() {
+        Journey j = null;
+
+        if (getContext() != null)
+            j = JourneyRepository.getCurrentJourney(getContext());
+
+        if (j != null && getView() != null) {
             // display journey
-            TextView journeyDisplay = view.findViewById(R.id.journey_text);
+            TextView journeyDisplay = getView().findViewById(R.id.journey_text);
 
             journeyDisplay.setText(j.getDetailString());
 
-            view.setOnClickListener(this::onClick);
+            getView().setOnClickListener(this::onClick);
         }
 
     }
@@ -72,7 +78,7 @@ public class JourneyViewSmall extends Fragment {
         JourneyDetailView journeyDetailView = new JourneyDetailView();
 
         journeyDetailView.setBackground(
-                RSBlurProcessor.getBlurryBackground(getActivity().findViewById(R.id.location_overview_root))
+                BackgroundManager.getBlurryBackground(getActivity().findViewById(R.id.location_overview_root))
         );
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager()

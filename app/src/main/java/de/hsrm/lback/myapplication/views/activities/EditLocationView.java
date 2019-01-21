@@ -12,10 +12,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import de.hsrm.lback.myapplication.R;
+import de.hsrm.lback.myapplication.helpers.BackgroundManager;
 import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
+
+import static de.hsrm.lback.myapplication.helpers.BackgroundManager.BACKGROUND;
 
 public class EditLocationView extends AppCompatActivity {
 
@@ -33,7 +36,6 @@ public class EditLocationView extends AppCompatActivity {
 
         this.locationText = findViewById(R.id.edit_location_name);
         this.locationLogo = findViewById(R.id.location_logo);
-
 
         // retrieve location
         int locationUid = getIntent().getIntExtra(Location.LOCATION_UID, -1);
@@ -68,7 +70,7 @@ public class EditLocationView extends AppCompatActivity {
 
             if (this.viewModel.getLocation() == null) {
                 this.viewModel.init(location);
-                // TODO this.viewModel.getLocation().getLogo().observe(this, this::onLogoChange);
+                this.onLogoChange(this.viewModel.getLocation().getLogo());
             }
         }
     }
@@ -107,6 +109,7 @@ public class EditLocationView extends AppCompatActivity {
     /** Process click on logo */
     public void onLogoClick(View v) {
         // TODO make real imagechooser to choose from list of icons
-        this.viewModel.getLocation().setName("check");
+        this.viewModel.getLocation().setLogo("check");
+        this.onLogoChange(viewModel.getLocation().getLogo());
     }
 }

@@ -1,9 +1,7 @@
 package de.hsrm.lback.myapplication.helpers;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -12,20 +10,17 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.renderscript.Type;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 
-import java.lang.reflect.InvocationTargetException;
-
-public class RSBlurProcessor {
+public class BackgroundManager {
+    public static final String BACKGROUND = "background";
 
     private RenderScript rs;
 
     private static final boolean IS_BLUR_SUPPORTED = Build.VERSION.SDK_INT >= 17;
     private static final int MAX_RADIUS = 25;
 
-    private RSBlurProcessor(RenderScript rs) {
+    private BackgroundManager(RenderScript rs) {
         this.rs = rs;
     }
 
@@ -101,7 +96,7 @@ public class RSBlurProcessor {
     public static Bitmap getBlurryBackground(View view) {
         Bitmap viewBitmap = getBitmapFromView(view);
 
-        RSBlurProcessor processor = new RSBlurProcessor(RenderScript.create(view.getContext()));
+        BackgroundManager processor = new BackgroundManager(RenderScript.create(view.getContext()));
 
         return processor.blur(viewBitmap, 25, 3);
     }

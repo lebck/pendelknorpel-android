@@ -102,4 +102,7 @@ public class Location {
     }
 
 
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 }
