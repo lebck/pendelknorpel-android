@@ -33,4 +33,13 @@
         android:hint="@string/location_name"
         android:textAlignment="center"/>
 
+    <EditText
+        style="@style/Text"
+        android:id="@+id/edit_location_id"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID"
+        android:textAlignment="center"/>
+
 </LinearLayout>

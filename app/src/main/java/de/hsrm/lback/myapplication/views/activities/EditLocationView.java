@@ -24,6 +24,7 @@ public class EditLocationView extends AppCompatActivity {
 
     private ImageView locationLogo;
     private EditText locationText;
+    private EditText locationId;
     private LocationViewModel viewModel;
     private LiveData<Location> locationLiveData;
 
@@ -36,6 +37,8 @@ public class EditLocationView extends AppCompatActivity {
 
         this.locationText = findViewById(R.id.edit_location_name);
         this.locationLogo = findViewById(R.id.location_logo);
+        this.locationId = findViewById(R.id.edit_location_id);
+
 
         // retrieve location
         int locationUid = getIntent().getIntExtra(Location.LOCATION_UID, -1);
@@ -56,6 +59,8 @@ public class EditLocationView extends AppCompatActivity {
 
         this.locationLogo.setOnClickListener(this::onLogoClick);
 
+
+
     }
 
     private void onLogoChange(String s) {
@@ -67,7 +72,7 @@ public class EditLocationView extends AppCompatActivity {
     private void onLocationChange(Location location) {
         if (location != null) {
             this.locationText.setText(location.getName());
-
+            this.locationId.setText(location.getApiId());
             if (this.viewModel.getLocation() == null) {
                 this.viewModel.init(location);
                 this.onLogoChange(this.viewModel.getLocation().getLogo());
@@ -78,6 +83,7 @@ public class EditLocationView extends AppCompatActivity {
     private void onSubmit() {
         // save data to location object
         this.viewModel.getLocation().setName(this.locationText.getText().toString());
+        this.viewModel.getLocation().setApiId(this.locationId.getText().toString());
 
         // save location
         this.viewModel.update();

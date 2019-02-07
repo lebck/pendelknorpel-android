@@ -38,12 +38,14 @@ public class JourneyRepository {
 
         String json = preferences.getString(Journey.JOURNEY_ID, "");
 
-        try {
-            return new ObjectMapper().readValue(json, Journey.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+        if (!json.equals("")) {
+            try {
+                return new ObjectMapper().readValue(json, Journey.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        return null;
 
     }
 

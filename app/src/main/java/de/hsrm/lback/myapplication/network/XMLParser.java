@@ -8,6 +8,8 @@ import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +26,7 @@ public class XMLParser {
     private static final String LOCATION_TAG_NAME = "StopLocation";
     private static final String JOURNEY_TAG_NAME = "Trip";
     private static final String LEG_TAG_NAME = "Leg";
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private DocumentBuilder builder;
 
@@ -79,6 +82,14 @@ public class XMLParser {
         Element originElement = (Element) leg.getElementsByTagName("Origin").item(0);
         Element destinationElement = (Element) leg.getElementsByTagName("Destination").item(0);
         String vehicleString = leg.getAttribute("name");
+        String startDate = originElement.getAttribute("date");
+        String startTime = originElement.getAttribute("time");
+        String endDate = destinationElement.getAttribute("date");
+        String endTime = destinationElement.getAttribute("time");
+
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " " + startTime, FORMAT);
+
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " " + endTime, FORMAT);
 
         Location from = getLocationByLocationElement(originElement);
         Location to = getLocationByLocationElement(destinationElement);
@@ -87,8 +98,10 @@ public class XMLParser {
 
         connection.setStartLocation(from);
         connection.setEndLocation(to);
-
+        connection.setStartTimeObject(startDateTime);
+        connection.setEndTimeObject(endDateTime);
         connection.setLineId(vehicleString);
+        connection.setVehicle("BUS");
 
         return connection;
     }
@@ -118,6 +131,7 @@ public class XMLParser {
         Journey journey = new Journey();
 
         journey.setConnections(getConnectionsByTripElement(element));
+
 
         return journey;
     }

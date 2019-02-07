@@ -106,4 +106,12 @@ public class Connection {
                 ", endLocation=" + endLocation +
                 '}';
     }
+
+    public void setStartTimeObject(LocalDateTime startTimeObject) {
+        this.startTime = startTimeObject;
+    }
+
+    public void setEndTimeObject(LocalDateTime endDateTime) {
+        this.endTime = endDateTime;
+    }
 }

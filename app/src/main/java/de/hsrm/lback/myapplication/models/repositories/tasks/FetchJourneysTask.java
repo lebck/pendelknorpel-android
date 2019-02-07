@@ -23,10 +23,6 @@ public class FetchJourneysTask extends AsyncTask<Location, Void, List<Journey>> 
         Location src = locations[0];
         Location target = locations[1];
 
-        // TODO remove hardcoded location id
-        src.setApiId("");      // wiesbaden hbf
-        target.setApiId("");   // baden baden
-
         ApiConnector connector = new ApiConnector();
 
         List <Journey> journeys = null;
