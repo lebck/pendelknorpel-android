@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center"
-    style="ConnectionView">
+    style="ConnectionView"
+    >
 
     <RelativeLayout
         android:layout_width="60dp"

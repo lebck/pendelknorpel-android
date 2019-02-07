@@ -12,10 +12,8 @@ public class Journey {
     private List<Connection> connections;
 
 
-    public Journey(Location srcLocation, Location targetLocation, List<Connection> connections) {
-        this.srcLocation = srcLocation;
-        this.targetLocation = targetLocation;
-        this.connections = connections;
+    public Journey(List<Connection> connections) {
+        setConnections(connections);
     }
 
     public Journey(){}
@@ -42,6 +40,9 @@ public class Journey {
 
     public void setConnections(List<Connection> connections) {
         this.connections = connections;
+
+        this.srcLocation = connections.get(0).getStartLocation();
+        this.targetLocation = connections.get(connections.size() - 1).getEndLocation();
     }
 
     @JsonIgnore

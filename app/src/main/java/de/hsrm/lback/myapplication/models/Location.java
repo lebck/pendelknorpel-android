@@ -38,7 +38,7 @@ public class Location {
     private String logo;
 
     @ColumnInfo(name = "apiId")
-    private int apiId;
+    private String apiId;
 
     /** constructor used by rooms */
     public Location(String name, int position, String logo) {
@@ -61,7 +61,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return String.format("Location{ %s, %s, %s }", name, position, uid);
+        return String.format("Location{ %s, %s, %s, %s }", name, position, uid, apiId);
     }
 
     public String getName() {
@@ -89,11 +89,11 @@ public class Location {
         return logo;
     }
 
-    public int getApiId() {
+    public String getApiId() {
         return apiId;
     }
 
-    public void setApiId(int apiId) {
+    public void setApiId(String apiId) {
         this.apiId = apiId;
     }
 

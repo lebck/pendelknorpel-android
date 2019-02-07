@@ -7,8 +7,8 @@
     tools:context=".views.fragments.JourneyDetailView"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <ListView
-            android:id="@+id/connection_list"
+        <fragment
+            class="de.hsrm.lback.myapplication.views.fragments.JourneyDetailView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 </LinearLayout>

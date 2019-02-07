@@ -97,5 +97,13 @@ public class Connection {
         this.endLocation = endLocation;
     }
 
-
+    @Override
+    public String toString() {
+        return "Connection{" +
+                "lineId='" + lineId + '\'' +
+                ", vehicle='" + vehicle + '\'' +
+                ", startLocation=" + startLocation +
+                ", endLocation=" + endLocation +
+                '}';
+    }
 }

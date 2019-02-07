@@ -24,24 +24,18 @@ public class FetchJourneysTask extends AsyncTask<Location, Void, List<Journey>> 
         Location target = locations[1];
 
         // TODO remove hardcoded location id
-        src.setApiId(8000250);      // wiesbaden hbf
-        target.setApiId(8000774);   // baden baden
+        src.setApiId("");      // wiesbaden hbf
+        target.setApiId("");   // baden baden
 
         ApiConnector connector = new ApiConnector();
 
         List <Journey> journeys = null;
 
-        try {
-            // TODO remove hardcoded datetime
-            journeys = connector.getDepartures(src, target, LocalDateTime.now());
+        // TODO remove hardcoded datetime
+        journeys = connector.getDepartures(src, target, LocalDateTime.now());
 
-            journeysData.postValue(journeys);
+        journeysData.postValue(journeys);
 
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            cancel(true);
-        }
 
         return journeys;
     }
