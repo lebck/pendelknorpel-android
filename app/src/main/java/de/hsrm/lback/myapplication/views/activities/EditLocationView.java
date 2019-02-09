@@ -3,6 +3,8 @@ package de.hsrm.lback.myapplication.views.activities;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +23,13 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
+import de.hsrm.lback.myapplication.helpers.BackgroundManager;
 import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationSearchAdapter;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
+import de.hsrm.lback.myapplication.views.fragments.ChooseLogoFragment;
 
 public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
@@ -39,6 +43,8 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
     private MutableLiveData<List<Location>> locationResults;
     private LocationRepository locationRepository;
     private LocationSearchAdapter searchResultsAdapter;
+
+    private ChooseLogoFragment chooseLogoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
         this.locationResults.setValue(Collections.emptyList());
         this.locationRepository = new LocationRepository(this);
         this.viewModel = new LocationViewModel(getApplication());
+        this.chooseLogoFragment = ChooseLogoFragment.getInstance(this::onLogoChosen, this::createBackground);
 
         this.searchResultsAdapter = new LocationSearchAdapter(
                 this,
@@ -82,7 +89,12 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
         this.locationText.addTextChangedListener(this);
         this.locationResults.observe(this, this::onSearchResultsChange);
 
+        this.onLocationChange();
 
+    }
+
+    private Bitmap createBackground() {
+        return BackgroundManager.getBlurryBackground(this.findViewById(R.id.edit_location));
     }
 
     private void onSearchResultClick(View view) {
@@ -116,10 +128,28 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
             this.locationLogo.setImageResource(resId);
     }
 
+
+    private void onLogoChosen(String s) {
+        // remove fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .remove(chooseLogoFragment)
+                .commit();
+
+        // update logo
+        viewModel.getLocation().setLogo(s);
+        onLocationChange();
+    }
+
+    private void onLocationChange() {
+        this.onLocationChange(this.viewModel.getLocation());
+    }
+
     private void onLocationChange(Location location) {
         if (location != null) {
             this.locationText.setText(location.getName());
             this.displayName.setText(location.getDisplayName());
+            this.onLogoChange(location.getLogo());
             if (this.viewModel.getLocation() == null) {
                 this.viewModel.init(location);
                 this.onLogoChange(this.viewModel.getLocation().getLogo());
@@ -160,10 +190,13 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
     /** Process click on logo */
     public void onLogoClick(View v) {
-        // TODO make real imagechooser to choose from list of icons
-        this.viewModel.getLocation().setLogo("check");
-        this.onLogoChange(viewModel.getLocation().getLogo());
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+                .add(R.id.edit_location, chooseLogoFragment)
+                .addToBackStack(null);
+
+        transaction.commit();
     }
+
 
     /** display locations based on search term */
     private void previewLocations(String searchTerm) {
