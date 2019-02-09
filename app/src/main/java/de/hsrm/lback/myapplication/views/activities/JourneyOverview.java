@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -79,4 +80,5 @@ public class JourneyOverview extends AppCompatActivity {
         adapter.setJourneys(journeys);
         progressBar.setVisibility(View.GONE);
     }
+
 }

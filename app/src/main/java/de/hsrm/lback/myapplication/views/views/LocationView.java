@@ -24,6 +24,7 @@ import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 import de.hsrm.lback.myapplication.views.activities.EditLocationView;
 import de.hsrm.lback.myapplication.views.activities.JourneyOverview;
+import de.hsrm.lback.myapplication.views.activities.LocationOverview;
 
 
 /**
@@ -34,7 +35,7 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
 
     private Paint textPaint;
     private LocationViewModel viewModel;
-    private AppCompatActivity activity;
+    private LocationOverview activity;
     private TextView locationNameView;
     private ImageView locationLogoView;
 
@@ -54,7 +55,7 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void init(AppCompatActivity activity, LocationViewModel viewModel) {
+    public void init(LocationOverview activity, LocationViewModel viewModel) {
         this.activity = activity;
         this.viewModel = viewModel;
         this.locationNameView = findViewById(R.id.location_name);
@@ -87,14 +88,17 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
 
         // set viewmodel to process the drop
         this.setOnDragListener(this);
-        Location location = viewModel.getLocation();
-        // set logo and name
-        if (location.getDisplayName() == null || location.getDisplayName().equals(""))
-            this.onNameChanged(location.getName());
-        else
-            this.onNameChanged(viewModel.getLocation().getDisplayName());
 
-        this.onLogoChanged(viewModel.getLocation().getLogo());
+        if (viewModel.getLocation() != null) {
+            Location location = viewModel.getLocation();
+            // set logo and name
+            if (location.getDisplayName() == null || location.getDisplayName().equals(""))
+                this.onNameChanged(location.getName());
+            else
+                this.onNameChanged(viewModel.getLocation().getDisplayName());
+
+            this.onLogoChanged(viewModel.getLocation().getLogo());
+        }
 
 
     }
@@ -146,14 +150,14 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
 
             if (target == src) {   // if view is dropped on itself
 
-                ((LocationView)v).openEditView();
+                activity.openEditView(target.getViewModel().getLocation().getUid());
 
 
             } else { // if view is dropped on other LocationView
                 Location srcLocation = src.getViewModel().getLocation();
                 Location targetLocation = target.getViewModel().getLocation();
 
-                ((LocationView)v).openJourneyOverview(srcLocation, targetLocation);
+                activity.openJourneyOverview(srcLocation, targetLocation);
 
             }
         }
@@ -161,27 +165,7 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
         return true;  // consume event
     }
 
-    /**
-     * open view to edit the location
-     */
-    public void openEditView() {
-        Intent intent = new Intent(activity, EditLocationView.class);
 
-        intent.putExtra(Location.LOCATION_UID, this.viewModel.getLocation().getUid());
-
-        activity.startActivity(intent);
-    }
-
-    private void openJourneyOverview(Location srcLocation, Location targetLocation) {
-        // TODO open EditLocationView for locations that have id 0
-        if (srcLocation.getUid() != 0 && targetLocation.getUid() != 0) { // both locations are already set
-            Intent intent = new Intent(getContext(), JourneyOverview.class);
-            intent.putExtra(Location.SRC_LOCATION, srcLocation.getUid());
-            intent.putExtra(Location.DESTINATION_LOCATION, targetLocation.getUid());
-            activity.startActivity(intent);
-        }
-        Log.d("journey", String.format("%s %s", srcLocation.toString(), targetLocation.toString()));
-    }
 
     public LocationViewModel getViewModel() {
         return viewModel;

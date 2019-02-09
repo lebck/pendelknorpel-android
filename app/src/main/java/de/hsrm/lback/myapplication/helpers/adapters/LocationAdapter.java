@@ -18,14 +18,14 @@ import de.hsrm.lback.myapplication.views.views.LocationView;
 
 public class LocationAdapter extends BaseAdapter {
 
-    private AppCompatActivity activity;
+    private LocationOverview activity;
     private List<Location> locations;
     private LocationRepository locationRepository;
     private Application application;
     private int layoutId;
 
     public LocationAdapter(
-            AppCompatActivity activity,
+            LocationOverview activity,
             List<Location> locations,
             LocationRepository locationRepository,
             Application application,
