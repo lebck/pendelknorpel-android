@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -16,26 +17,20 @@ import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 import de.hsrm.lback.myapplication.views.activities.LocationOverview;
 import de.hsrm.lback.myapplication.views.views.LocationView;
 
-public class LocationAdapter extends BaseAdapter {
+public class LocationSearchAdapter extends BaseAdapter {
 
     private AppCompatActivity activity;
     private List<Location> locations;
-    private LocationRepository locationRepository;
-    private Application application;
-    private int layoutId;
+    private View.OnClickListener listener;
 
-    public LocationAdapter(
+    public LocationSearchAdapter(
             AppCompatActivity activity,
             List<Location> locations,
-            LocationRepository locationRepository,
-            Application application,
-            int layoutId) {
+            View.OnClickListener listener) {
         super();
-        this.activity = activity;
         this.locations = locations;
-        this.locationRepository = locationRepository;
-        this.application = application;
-        this.layoutId = layoutId;
+        this.listener = listener;
+        this.activity = activity;
     }
 
 
@@ -57,13 +52,14 @@ public class LocationAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LocationViewModel viewModel = new LocationViewModel(application);
-        viewModel.init(locations.get(position));
-        convertView = activity.getLayoutInflater().inflate(layoutId, null);
+        Location location = locations.get(position);
+        convertView = activity.getLayoutInflater().inflate(R.layout.location_list_layout, null);
 
-        if (convertView instanceof LocationView)
-            ((LocationView)convertView).init(activity, viewModel);
+        ((TextView)convertView).setText(location.getName());
 
+        convertView.setTag(location.getApiId());
+
+        convertView.setOnClickListener(listener);
 
         return convertView;
     }

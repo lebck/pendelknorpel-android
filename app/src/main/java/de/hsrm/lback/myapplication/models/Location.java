@@ -40,11 +40,15 @@ public class Location {
     @ColumnInfo(name = "apiId")
     private String apiId;
 
+    @ColumnInfo(name = "displayName")
+    private String displayName;
+
     /** constructor used by rooms */
-    public Location(String name, int position, String logo) {
+    public Location(String name, int position, String logo, String displayName) {
         this.position = position;
         this.logo = logo;
         this.name = name;
+        this.displayName = displayName;
     }
 
     @Ignore // ignored by rooms
@@ -104,5 +108,13 @@ public class Location {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

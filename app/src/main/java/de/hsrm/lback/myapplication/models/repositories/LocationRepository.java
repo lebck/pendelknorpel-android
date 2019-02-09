@@ -1,17 +1,20 @@
 package de.hsrm.lback.myapplication.models.repositories;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.tasks.InsertAsyncTask;
 import de.hsrm.lback.myapplication.models.repositories.tasks.UpdateAsyncTask;
+import de.hsrm.lback.myapplication.network.SearchLocationsTask;
 import de.hsrm.lback.myapplication.persistence.AppDatabase;
 import de.hsrm.lback.myapplication.persistence.LocationDao;
 
@@ -42,6 +45,13 @@ public class LocationRepository {
 
     public LiveData<Location> get(int uid) {
         return locationDao.get(uid);
+    }
+
+    public void search(String searchTerm, MutableLiveData<List<Location>> targetList) {
+        if (searchTerm.length() > 3)
+            new SearchLocationsTask(targetList).execute(searchTerm);
+        else
+            targetList.setValue(Collections.emptyList());
     }
 
 }

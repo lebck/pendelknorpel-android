@@ -2,31 +2,43 @@ package de.hsrm.lback.myapplication.views.activities;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.Collections;
+import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
-import de.hsrm.lback.myapplication.helpers.BackgroundManager;
 import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
+import de.hsrm.lback.myapplication.helpers.adapters.LocationSearchAdapter;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 
-import static de.hsrm.lback.myapplication.helpers.BackgroundManager.BACKGROUND;
-
-public class EditLocationView extends AppCompatActivity {
+public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
     private ImageView locationLogo;
     private EditText locationText;
-    private EditText locationId;
+    private EditText displayName;
+    private ListView searchResults;
+
     private LocationViewModel viewModel;
     private LiveData<Location> locationLiveData;
+    private MutableLiveData<List<Location>> locationResults;
+    private LocationRepository locationRepository;
+    private LocationSearchAdapter searchResultsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +49,25 @@ public class EditLocationView extends AppCompatActivity {
 
         this.locationText = findViewById(R.id.edit_location_name);
         this.locationLogo = findViewById(R.id.location_logo);
-        this.locationId = findViewById(R.id.edit_location_id);
+        this.displayName = findViewById(R.id.edit_location_display_name);
+        this.searchResults = findViewById(R.id.search_results);
+
+        this.locationResults = new MutableLiveData<>();
+        this.locationResults.setValue(Collections.emptyList());
+        this.locationRepository = new LocationRepository(this);
+        this.viewModel = new LocationViewModel(getApplication());
+
+        this.searchResultsAdapter = new LocationSearchAdapter(
+                this,
+                locationResults.getValue(),
+                this::onSearchResultClick
+        );
+
+        this.searchResults.setAdapter(searchResultsAdapter);
 
 
         // retrieve location
         int locationUid = getIntent().getIntExtra(Location.LOCATION_UID, -1);
-
-        LocationRepository locationRepository = new LocationRepository(this);
-
-        this.viewModel = new LocationViewModel(getApplication());
 
         if (locationUid != 0)
             this.locationLiveData = locationRepository.get(locationUid);
@@ -56,11 +78,36 @@ public class EditLocationView extends AppCompatActivity {
         }
 
         this.locationLiveData.observe(this, this::onLocationChange);
-
         this.locationLogo.setOnClickListener(this::onLogoClick);
+        this.locationText.addTextChangedListener(this);
+        this.locationResults.observe(this, this::onSearchResultsChange);
 
 
+    }
 
+    private void onSearchResultClick(View view) {
+
+        String name = ((TextView) view).getText().toString();
+        String apiId = (String) view.getTag();
+
+        this.viewModel.getLocation().setName(name);
+        this.viewModel.getLocation().setApiId(apiId);
+
+        this.locationText.setText(name);
+        this.displayName.setText(viewModel.getLocation().getDisplayName());
+        this.locationResults.setValue(Collections.emptyList());
+
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+
+        this.locationText.clearFocus();
+    }
+
+    private void onSearchResultsChange(List<Location> locations) {
+        if (this.locationText.hasFocus()) {
+            searchResultsAdapter.setLocations(locations);
+            searchResultsAdapter.notifyDataSetChanged();
+        }
     }
 
     private void onLogoChange(String s) {
@@ -72,7 +119,7 @@ public class EditLocationView extends AppCompatActivity {
     private void onLocationChange(Location location) {
         if (location != null) {
             this.locationText.setText(location.getName());
-            this.locationId.setText(location.getApiId());
+            this.displayName.setText(location.getDisplayName());
             if (this.viewModel.getLocation() == null) {
                 this.viewModel.init(location);
                 this.onLogoChange(this.viewModel.getLocation().getLogo());
@@ -83,8 +130,7 @@ public class EditLocationView extends AppCompatActivity {
     private void onSubmit() {
         // save data to location object
         this.viewModel.getLocation().setName(this.locationText.getText().toString());
-        this.viewModel.getLocation().setApiId(this.locationId.getText().toString());
-
+        this.viewModel.getLocation().setDisplayName(this.displayName.getText().toString());
         // save location
         this.viewModel.update();
 
@@ -117,5 +163,28 @@ public class EditLocationView extends AppCompatActivity {
         // TODO make real imagechooser to choose from list of icons
         this.viewModel.getLocation().setLogo("check");
         this.onLogoChange(viewModel.getLocation().getLogo());
+    }
+
+    /** display locations based on search term */
+    private void previewLocations(String searchTerm) {
+        this.locationRepository.search(searchTerm, this.locationResults);
+    }
+
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        String searchTerm = s.toString();
+
+        this.previewLocations(searchTerm);
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (s.toString().equals("")) this.locationResults.setValue(Collections.emptyList());
     }
 }

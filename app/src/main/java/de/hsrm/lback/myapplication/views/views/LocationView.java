@@ -87,9 +87,12 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
 
         // set viewmodel to process the drop
         this.setOnDragListener(this);
-
+        Location location = viewModel.getLocation();
         // set logo and name
-        this.onNameChanged(viewModel.getLocation().getName());
+        if (location.getDisplayName() == null || location.getDisplayName().equals(""))
+            this.onNameChanged(location.getName());
+        else
+            this.onNameChanged(viewModel.getLocation().getDisplayName());
 
         this.onLogoChanged(viewModel.getLocation().getLogo());
 

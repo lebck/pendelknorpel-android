@@ -22,7 +22,8 @@
         android:id="@+id/location_logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_android_black_24dp"/>
+        android:src="@drawable/ic_android_black_24dp"
+        />
 
     <EditText
         style="@style/Text"
@@ -33,9 +34,15 @@
         android:hint="@string/location_name"
         android:textAlignment="center"/>
 
+    <ListView
+        android:id="@+id/search_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dividerHeight="5dp"/>
+
     <EditText
         style="@style/Text"
-        android:id="@+id/edit_location_id"
+        android:id="@+id/edit_location_display_name"
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

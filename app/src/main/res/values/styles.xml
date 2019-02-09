@@ -31,4 +31,9 @@
         <item name="android:background">@color/colorPrimaryDarkTransparent</item>
     </style>
 
+    <style name="TextStrong">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontWeight">200</item>
+    </style>
+
 </resources>

@@ -6,21 +6,14 @@ import android.content.SharedPreferences;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.tasks.FetchJourneysTask;
+import de.hsrm.lback.myapplication.network.FetchJourneysTask;
 
 public class JourneyRepository {
     public static void getAllJourneys (Location src, Location target, MutableLiveData<List<Journey>> journeys) {
