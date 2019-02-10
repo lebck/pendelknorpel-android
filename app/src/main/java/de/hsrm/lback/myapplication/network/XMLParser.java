@@ -22,6 +22,9 @@ import de.hsrm.lback.myapplication.models.Connection;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.Location;
 
+/**
+ * Parse xml by rmv api
+ */
 public class XMLParser {
     private static final String LOCATION_TAG_NAME = "StopLocation";
     private static final String JOURNEY_TAG_NAME = "Trip";
@@ -42,6 +45,9 @@ public class XMLParser {
 
     }
 
+    /**
+     * return all elements matching tagName from given xml string
+     */
     private NodeList getElements(String xml, String tagName) throws IOException, SAXException {
         Document doc = builder.parse(new ByteArrayInputStream(xml.getBytes()));
 
@@ -51,6 +57,9 @@ public class XMLParser {
 
     }
 
+    /**
+     * Parse Element and return Location
+     */
     private Location getLocationByLocationElement(Element element) {
 
         String name = element.getAttribute("name");
@@ -66,6 +75,11 @@ public class XMLParser {
 
     }
 
+    /**
+     * Parse NodeList of StopLocation Elements
+     * @param stopLocationNodeList
+     * @return
+     */
     private List<Location> getLocationsByStopLocationNodeList(NodeList stopLocationNodeList) {
 
         List<Location> locations = new ArrayList<>();
@@ -78,7 +92,11 @@ public class XMLParser {
 
     }
 
+    /**
+     * Parse Leg XML Element and return connection
+     */
     private Connection getConnectionByLegElement(Element leg) {
+        // Eéxtract values from given element
         Element originElement = (Element) leg.getElementsByTagName("Origin").item(0);
         Element destinationElement = (Element) leg.getElementsByTagName("Destination").item(0);
         String vehicleString = leg.getAttribute("name");
@@ -94,6 +112,7 @@ public class XMLParser {
         Location from = getLocationByLocationElement(originElement);
         Location to = getLocationByLocationElement(destinationElement);
 
+        // insert values in new connection
         Connection connection = new Connection();
 
         connection.setStartLocation(from);
@@ -106,6 +125,9 @@ public class XMLParser {
         return connection;
     }
 
+    /**
+     * Parse Trip XML Element to list of connections
+     */
     private List<Connection> getConnectionsByTripElement(Element tripElement) {
         List<Connection> connections = new ArrayList<>();
 
@@ -124,6 +146,9 @@ public class XMLParser {
 
     }
 
+    /**
+     * Parse single Trip Element and return a journey
+     */
     private Journey getJourneyByTripElement(Node item) {
         Element element = (Element) item;
 
@@ -136,6 +161,9 @@ public class XMLParser {
         return journey;
     }
 
+    /**
+     * Parse list of Trip XML Elements and return a list of journeys
+     */
     private List<Journey> getJourneysByTripNodeList(NodeList trips) {
         List<Journey> journeys = new ArrayList<>();
         for (int i = 0; i < trips.getLength(); i++) {
@@ -145,8 +173,9 @@ public class XMLParser {
         return journeys;
     }
 
-
-
+    /**
+     * Parse XML returned by a request to the search api
+     */
     public List<Location> parseLocationSearchXml(String xml) {
         try {
             NodeList nodes = getElements(xml, LOCATION_TAG_NAME);
@@ -161,6 +190,9 @@ public class XMLParser {
 
     }
 
+    /**
+     * Parse XML returned by a request to the search api
+     */
     public List<Journey> parseTripSearchXml(String xml) {
         try {
             NodeList trips = getElements(xml, JOURNEY_TAG_NAME);

@@ -19,6 +19,9 @@ import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.Vehicle;
 
+/**
+ * Controls connection to apis (currently only RMV API)
+ */
 public class ApiConnector {
     private static final String API_KEY = "824c7332-4e5c-4f3e-84f7-5f925c2e3dd7";
     private static final String BASE_URL = "/hapi";
@@ -37,6 +40,9 @@ public class ApiConnector {
         parser = new XMLParser();
     }
 
+    /**
+     * return List of journeys that match the start and end location and the time
+     */
     public List<Journey> getDepartures(Location from, Location to, LocalDateTime time) {
         String fromId = from.getApiId();
         String toId = to.getApiId();
@@ -59,11 +65,9 @@ public class ApiConnector {
 
     }
 
-
-    private String getArrivals(int toId, LocalDateTime time) {
-        throw new UnsupportedOperationException("Not implemented");
-    }
-
+    /**
+     * return list of locations matching given search term
+     */
     public List<Location> getLocationsBySearchTerm(String searchTerm) {
         String xml = "";
         try {
@@ -76,6 +80,9 @@ public class ApiConnector {
         return parser.parseLocationSearchXml(xml);
     }
 
+    /**
+     * return answer of GET request to given url as string
+     */
     private String get(URL url) throws IOException {
         StringBuilder result = new StringBuilder();
 
@@ -91,35 +98,4 @@ public class ApiConnector {
         return result.toString();
 
     }
-
-    private List<Journey> getTestData(Location src, Location target) {
-        // TODO make network request to DB API
-        int m = 100;
-        List<Journey> journeys = new ArrayList<>();
-        Random r = new Random();
-
-        for (int i = 0; i < m; i++) {
-
-            List <Connection> connections = Arrays.asList(
-                    new Connection(
-                            src,
-                            new Location("zwischenstopp", 0),
-                            LocalDateTime.now().plusHours(i),
-                            LocalDateTime.now().plusHours(1 + i),
-                            Integer.toString(r.nextInt(10)),
-                            Vehicle.BUS),
-                    new Connection(
-                            new Location("zwischenstopp", 0),
-                            target,
-                            LocalDateTime.now().plusHours(1 + i),
-                            LocalDateTime.now().plusHours(2 + i),
-                            Integer.toString(r.nextInt(10)),
-                            Vehicle.BUS)
-            );
-            journeys.add(new Journey(connections));
-        }
-
-        return journeys;
-    }
-
 }

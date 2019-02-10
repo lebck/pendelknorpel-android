@@ -20,7 +20,9 @@ import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
 import de.hsrm.lback.myapplication.helpers.adapters.IconAdapter;
 
 
-
+/**
+ * provides a list of logos for the user to choose from
+ */
 public class ChooseLogoFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private OnFragmentBackgroundCallbackListener backgroundCallBack;

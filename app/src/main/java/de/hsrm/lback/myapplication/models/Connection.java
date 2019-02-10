@@ -9,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * a single connection between two locations connected by one bus/train line
+ */
 public class Connection {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     public static final DateTimeFormatter JSON_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

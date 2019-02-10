@@ -25,6 +25,9 @@ import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 import de.hsrm.lback.myapplication.viewmodels.JourneyViewModel;
 
+/**
+ * Display a list of journeys from a location to another location
+ */
 public class JourneyOverview extends AppCompatActivity {
     private RecyclerView journeyListView;
     private JourneyAdapter adapter;
@@ -53,6 +56,9 @@ public class JourneyOverview extends AppCompatActivity {
 
     }
 
+    /**
+     * set up listView containing all journeys
+     */
     private void initJourneyListView() {
         journeyListView = findViewById(R.id.journeys_list_view);
         journeyListView.setHasFixedSize(true);
@@ -76,6 +82,9 @@ public class JourneyOverview extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Update all journeys and remove loading indicator
+     */
     private void onJourneysChange(List<Journey> journeys) {
         adapter.setJourneys(journeys);
         progressBar.setVisibility(View.GONE);

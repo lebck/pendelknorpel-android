@@ -11,6 +11,9 @@ import de.hsrm.lback.myapplication.network.ApiConnector;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.Location;
 
+/**
+ * Task that fetches journeys from given start and end location
+ */
 public class FetchJourneysTask extends AsyncTask<Location, Void, List<Journey>> {
     private MutableLiveData<List<Journey>> journeysData;
 

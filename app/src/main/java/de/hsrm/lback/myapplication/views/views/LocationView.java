@@ -28,8 +28,7 @@ import de.hsrm.lback.myapplication.views.activities.LocationOverview;
 
 
 /**
- * Represents a single location
- *
+ * Represents a single location on the LocationOverview
  */
 public class LocationView extends LinearLayout implements View.OnDragListener {
 
@@ -55,6 +54,9 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    /**
+     * Setup ViewModel and DragDrop listeners
+     */
     public void init(LocationOverview activity, LocationViewModel viewModel) {
         this.activity = activity;
         this.viewModel = viewModel;
@@ -121,19 +123,6 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
     @Override
     public boolean performClick() {
         return super.performClick();
-    }
-
-    /**
-     * show snackbar with target and source location
-     */
-    public void showDropSnackBar(Location src, Location target) {
-        Snackbar snackbar = Snackbar.make(
-                this,
-                String.format("Journey from %s to %s", src.getName(), target.getName()),
-                Snackbar.LENGTH_SHORT
-        );
-
-        snackbar.show();
     }
 
     /**

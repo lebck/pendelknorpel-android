@@ -7,6 +7,9 @@ import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Location;
 
+/**
+ * Task that fetches Locations matching given search term
+ */
 public class SearchLocationsTask extends AsyncTask<String, Void, List<Location>> {
     private MutableLiveData<List<Location>> resultsData;
 

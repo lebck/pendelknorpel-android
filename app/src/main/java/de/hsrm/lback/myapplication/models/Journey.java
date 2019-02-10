@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * contains one or more connections
+ */
 public class Journey {
     public static final String JOURNEY_ID = "journey";
     private Location srcLocation;

@@ -2,6 +2,7 @@ package de.hsrm.lback.myapplication.views.activities;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,6 +63,7 @@ public class LocationOverview extends AppCompatActivity {
 
     }
 
+    /** Update all locations in grid */
     private void onLocationsChange(List<Location> locations) {
 
 
@@ -90,13 +92,20 @@ public class LocationOverview extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * open editView for single-use location
+     */
     private void openEditViewAnonymous() {
         Intent intent = new Intent(this, EditLocationView.class);
 
         startActivityForResult(intent, 0);
     }
 
-    public void openJourneyOverview(Location srcLocation, Location targetLocation) {
+    /**
+     * open journey overview of given Locations.
+     * Open anonymous editView for locations that are null
+     */
+    public void openJourneyOverview(@Nullable Location srcLocation, @Nullable Location targetLocation) {
         if (srcLocation != null && targetLocation != null) {
             // TODO open EditLocationView for locations that have id 0
             if (srcLocation.getUid() != 0 && targetLocation.getUid() != 0) { // both locations are already set
@@ -108,7 +117,9 @@ public class LocationOverview extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * open journey overview of given Locations.
+     */
     private void openRegularJourneyOverview(Location srcLocation, Location targetLocation) {
         Intent intent = new Intent(this, JourneyOverview.class);
         intent.putExtra(Location.SRC_LOCATION, srcLocation.getUid());

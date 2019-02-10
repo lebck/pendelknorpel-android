@@ -16,6 +16,7 @@ import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 
 /**
+ * Displays a small overview over the current journey
  */
 public class JourneyViewSmall extends Fragment {
 
@@ -53,6 +54,9 @@ public class JourneyViewSmall extends Fragment {
         onJourneyChange();
     }
 
+    /**
+     * update view according to journey
+     */
     private void onJourneyChange() {
         Journey j = null;
 
@@ -70,11 +74,11 @@ public class JourneyViewSmall extends Fragment {
 
     }
 
+    /**
+     * open Journey DetailView on click with animation
+     * @param view
+     */
     private void onClick(View view) {
-        // Intent intent = new Intent(getContext(), JourneyView.class);
-
-        // getActivity().startActivity(intent);
-
         JourneyDetailView journeyDetailView = new JourneyDetailView();
 
         journeyDetailView.setBackground(

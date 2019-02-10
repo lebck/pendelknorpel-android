@@ -13,6 +13,9 @@ import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 
+/**
+ * controls a list of journeys
+ */
 public class JourneyViewModel extends AndroidViewModel {
     private Location src;
     private Location target;

@@ -23,6 +23,7 @@ import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 
 /**
+ * Display all information about a journey
  */
 public class JourneyDetailView extends Fragment {
     private Bitmap background;
