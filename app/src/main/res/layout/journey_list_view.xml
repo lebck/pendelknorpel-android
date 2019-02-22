@@ -1,38 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center"
-    android:layout_marginVertical="40dp"
-    >
-
-    <TextView
-        android:id="@+id/start_time"
+    android:layout_marginBottom="20dp"
+    android:background="@color/colorPrimary"
+    android:paddingVertical="20dp">
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/JourneyViewText"
-        android:text="21:15"/>
+        android:layout_alignParentStart="true">
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/JourneyViewText"
+            android:text="21:15"/>
+        <TextView
+            android:id="@+id/real_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/JourneyViewText"
+            android:textColor="@color/colorWarning"
+            android:text="21:20"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/vehicle"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/JourneyViewText"
-        android:text="Bus: 3"/>
+        android:layout_centerInParent="true">
+        <TextView
+            android:id="@+id/vehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/JourneyViewText"
+            android:text="Bus: 3"/>
 
-    <TextView
-        android:id="@+id/changes"
+        <TextView
+            android:id="@+id/changes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/JourneyViewText"
+            android:text="U: 1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/JourneyViewText"
-        android:text="U: 1"/>
+        android:layout_alignParentEnd="true">
+        <TextView
+            android:id="@+id/end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/JourneyViewText"
+            android:text="22:15"/>
+        <TextView
+            android:id="@+id/real_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/JourneyViewText"
+            android:textColor="@color/colorWarning"
+            android:text="22:15"/>
 
-    <TextView
-        android:id="@+id/end_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/JourneyViewText"
-        android:text="22:15"/>
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

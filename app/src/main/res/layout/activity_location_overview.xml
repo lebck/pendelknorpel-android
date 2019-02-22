@@ -16,6 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         class="de.hsrm.lback.myapplication.views.fragments.JourneyViewSmall"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/anonymous_anchor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="80dp">
 
     <GridView
         android:id="@+id/locations_grid"
@@ -26,16 +33,16 @@
         android:verticalSpacing="30dp"
         android:stretchMode="spacingWidth"
         android:columnWidth="100dp"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="80dp"
         />
 
     <include
+        android:layout_marginTop="30dp"
         android:id="@+id/anonymous"
         layout="@layout/location_layout"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_width="wrap_content" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

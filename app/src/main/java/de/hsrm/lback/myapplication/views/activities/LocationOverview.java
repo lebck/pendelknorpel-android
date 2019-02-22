@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +59,17 @@ public class LocationOverview extends AppCompatActivity {
         // set Locations on change
         locationData.observe(this, this::onLocationsChange);
 
-        // setup anonymous location view
+        initializeAnonymousLocation();
+    }
+
+     /** setup anonymous location view */
+     private void initializeAnonymousLocation() {
         anonymousLocationView.init(this, new LocationViewModel(getApplication()));
+        TextView anonymousLocationName = anonymousLocationView.findViewById(R.id.location_name);
+        ImageView anonymousLocationLogo = anonymousLocationView.findViewById(R.id.location_logo);
+
+        anonymousLocationName.setText(R.string.anonymous);
+
     }
 
     @Override

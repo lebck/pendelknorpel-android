@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -92,33 +93,63 @@ public class XMLParser {
 
     }
 
+    /** create TimeList containing planned and real times for a connection */
+    private TimeList getTimesByLegElement(Element originElement, Element destinationElement) {
+        TimeList list = new TimeList();
+
+        // create planned times:
+        String startDate = originElement.getAttribute("date");
+        String startTime = originElement.getAttribute("time");
+
+        String endDate = destinationElement.getAttribute("date");
+        String endTime = destinationElement.getAttribute("time");
+
+        list.startDateTime = LocalDateTime.parse(startDate + " " + startTime, FORMAT);
+        list.endDateTime = LocalDateTime.parse(endDate + " " + endTime, FORMAT);
+
+        // create real times, if they exist:
+        String realStartTime = originElement.getAttribute("rtTime");
+        String realStartDate = originElement.getAttribute("rtDate");
+
+        String realEndTime = destinationElement.getAttribute("rtTime");
+        String realEndDate = destinationElement.getAttribute("rtDate");
+
+        try {
+            list.realStartDateTime =
+                    LocalDateTime.parse(realStartDate + " " + realStartTime, FORMAT);
+            list.realEndDateTime =
+                    LocalDateTime.parse(realEndDate + " " + realEndTime, FORMAT);
+        } catch (DateTimeParseException e) {
+            list.realStartDateTime = list.startDateTime;
+            list.realEndDateTime = list.endDateTime;
+        }
+
+        return list;
+    }
+
     /**
      * Parse Leg XML Element and return connection
      */
     private Connection getConnectionByLegElement(Element leg) {
-        // Eéxtract values from given element
+        // Extract values from given element
         Element originElement = (Element) leg.getElementsByTagName("Origin").item(0);
         Element destinationElement = (Element) leg.getElementsByTagName("Destination").item(0);
         String vehicleString = leg.getAttribute("name");
-        String startDate = originElement.getAttribute("date");
-        String startTime = originElement.getAttribute("time");
-        String endDate = destinationElement.getAttribute("date");
-        String endTime = destinationElement.getAttribute("time");
-
-        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " " + startTime, FORMAT);
-
-        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " " + endTime, FORMAT);
 
         Location from = getLocationByLocationElement(originElement);
         Location to = getLocationByLocationElement(destinationElement);
+
+        TimeList list = getTimesByLegElement(originElement, destinationElement);
 
         // insert values in new connection
         Connection connection = new Connection();
 
         connection.setStartLocation(from);
         connection.setEndLocation(to);
-        connection.setStartTimeObject(startDateTime);
-        connection.setEndTimeObject(endDateTime);
+        connection.setStartTimeObject(list.startDateTime);
+        connection.setEndTimeObject(list.endDateTime);
+        connection.setRealEndTimeObject(list.realEndDateTime);
+        connection.setRealStartTimeObject(list.realStartDateTime);
         connection.setLineId(vehicleString);
         connection.setVehicle("BUS");
 
@@ -204,4 +235,10 @@ public class XMLParser {
         }
     }
 
+    private class TimeList {
+        public LocalDateTime startDateTime;
+        public LocalDateTime endDateTime;
+        public LocalDateTime realStartDateTime;
+        public LocalDateTime realEndDateTime;
+    }
 }

@@ -49,8 +49,8 @@ public class ConnectionsAdapter extends BaseAdapter {
 
         startLocationName.setText(connection.getStartLocation().getName());
         endLocationName.setText(connection.getEndLocation().getName());
-        startTime.setText(connection.getStartTimeString());
-        endTime.setText(connection.getEndTimeString());
+        startTime.setText(connection.getStartTimeString()[0]);
+        endTime.setText(connection.getEndTimeString()[0]);
 
         lineName.setText(String.format("%s %s",
                 connection.getVehicle(), connection.getLineId()

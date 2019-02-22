@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
     private JourneyClickListener listener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout itemView;
-        public ViewHolder(@NonNull LinearLayout itemView) {
+        public RelativeLayout itemView;
+        public ViewHolder(@NonNull RelativeLayout itemView) {
             super(itemView);
             this.itemView = itemView;
         }
@@ -39,8 +40,8 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
     public JourneyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        LinearLayout layout =
-                (LinearLayout) inflater.inflate(R.layout.journey_list_view, parent, false);
+        RelativeLayout layout =
+                (RelativeLayout) inflater.inflate(R.layout.journey_list_view, parent, false);
 
         return new ViewHolder(layout);
     }
@@ -48,9 +49,11 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull JourneyAdapter.ViewHolder viewHolder, int i) {
         Journey j = journeys.get(i);
-        LinearLayout layout = viewHolder.itemView;
+        RelativeLayout layout = viewHolder.itemView;
         TextView startTime = layout.findViewById(R.id.start_time);
+        TextView realStartTime = layout.findViewById(R.id.real_start_time);
         TextView endTime = layout.findViewById(R.id.end_time);
+        TextView realEndTime = layout.findViewById(R.id.real_end_time);
         TextView changes = layout.findViewById(R.id.changes);
         TextView vehicle = layout.findViewById(R.id.vehicle);
 
@@ -58,8 +61,13 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
         List<Connection> connections = j.getConnections();
 
-        startTime.setText(connections.get(0).getStartTimeObject().format(Connection.FORMATTER));
-        endTime.setText(connections.get(connections.size() - 1).getEndTimeObject().format(Connection.FORMATTER));
+        String[] startTimeStrings = connections.get(0).getStartTimeString();
+        String[] endTimeStrings = connections.get(connections.size() - 1).getEndTimeString();
+
+        startTime.setText(startTimeStrings[0]);
+        realStartTime.setText(startTimeStrings[1]);
+        endTime.setText(endTimeStrings[0]);
+        realEndTime.setText(endTimeStrings[1]);
         changes.setText(String.format("U: %s", connections.size() - 1));
         vehicle.setText(j.getVehicleString());
     }

@@ -6,8 +6,12 @@ import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 /**
  * a single connection between two locations connected by one bus/train line
@@ -17,6 +21,8 @@ public class Connection {
     public static final DateTimeFormatter JSON_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private LocalDateTime realStartTime;
+    private LocalDateTime realEndTime;
     private String lineId;
     private String vehicle;
     private Location startLocation;
@@ -50,14 +56,27 @@ public class Connection {
     public String getEndTime() {
         return endTime.toString();
     }
+
     @JsonIgnore
-    public String getStartTimeString() {
-        return startTime.format(FORMATTER);
+    public String[] getStartTimeString() {
+        String startTimeString = startTime.format(FORMATTER);
+        String delay = "";
+
+        if (!startTime.equals(realStartTime))
+             delay = realStartTime.format(FORMATTER);
+
+        return new String[]{startTimeString, delay};
     }
 
     @JsonIgnore
-    public String getEndTimeString() {
-        return endTime.format(FORMATTER);
+    public String[] getEndTimeString() {
+        String endTimeString = endTime.format(FORMATTER);
+        String delay = "";
+
+        if (!endTime.equals(realEndTime))
+            delay = realEndTime.format(FORMATTER);
+
+        return new String[]{endTimeString, delay};
     }
 
     public String getLineId() {
@@ -83,6 +102,23 @@ public class Connection {
     public void setEndTime(String endTime) {
         this.endTime = LocalDateTime.parse(endTime);
     }
+
+    public String getRealStartTime() {
+        return realStartTime.toString();
+    }
+
+    public void setRealStartTime(String realStartTime) {
+        this.realStartTime = LocalDateTime.parse(realStartTime);
+    }
+
+    public String getRealEndTime() {
+        return realEndTime.toString();
+    }
+
+    public void setRealEndTime(String realEndTime) {
+        this.realEndTime = LocalDateTime.parse(realEndTime);
+    }
+
 
     public void setLineId(String lineId) {
         this.lineId = lineId;
@@ -117,4 +153,13 @@ public class Connection {
     public void setEndTimeObject(LocalDateTime endDateTime) {
         this.endTime = endDateTime;
     }
+
+    public void setRealStartTimeObject(LocalDateTime startTimeObject) {
+        this.realStartTime = startTimeObject;
+    }
+
+    public void setRealEndTimeObject(LocalDateTime endDateTime) {
+        this.realEndTime = endDateTime;
+    }
+
 }
