@@ -24,6 +24,7 @@ public class Location {
     public static final String SRC_LOCATION = "start_location";
     public static final String DESTINATION_LOCATION = "destination_location";
     private static final String DEFAULT_LOGO_NAME = "plus";
+    public static final String LOCATION = "location";
 
     @PrimaryKey(autoGenerate = true)
     private int uid;

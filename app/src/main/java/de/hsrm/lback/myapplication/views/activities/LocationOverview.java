@@ -1,5 +1,6 @@
 package de.hsrm.lback.myapplication.views.activities;
 
+import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -32,6 +33,8 @@ public class LocationOverview extends AppCompatActivity {
     private List<Location> locations;
     private LocationRepository locationRepository;
 
+    private boolean anonymousLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class LocationOverview extends AppCompatActivity {
         this.anonymousLocationView = findViewById(R.id.anonymous);
 
         this.locationRepository = new LocationRepository(this);
+        this.anonymousLocation = false;
 
         // fetch location data and prepare list
         LiveData<List<Location>> locationData = locationRepository.getAllLocations();
@@ -95,10 +99,8 @@ public class LocationOverview extends AppCompatActivity {
     /**
      * open editView for single-use location
      */
-    private void openEditViewAnonymous() {
-        Intent intent = new Intent(this, EditLocationView.class);
-
-        startActivityForResult(intent, 0);
+    private Location openEditViewAnonymous() {
+        return null;
     }
 
     /**
@@ -112,7 +114,7 @@ public class LocationOverview extends AppCompatActivity {
                 openRegularJourneyOverview(srcLocation, targetLocation);
             }
             Log.d("journey", String.format("%s %s", srcLocation.toString(), targetLocation.toString()));
-        } else if (srcLocation != null) {
+        } else if (srcLocation == null) {
             openEditViewAnonymous();
         }
     }

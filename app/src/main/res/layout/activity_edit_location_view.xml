@@ -30,20 +30,7 @@
          android:layout_height="100dp"
          />
 
-     <EditText
-         style="@style/Text"
-         android:id="@+id/edit_location_name"
-         android:layout_marginTop="50dp"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:hint="@string/location_name"
-         android:textAlignment="center"/>
-
-     <ListView
-         android:id="@+id/search_results"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:dividerHeight="5dp"/>
+     <include layout="@layout/location_search" />
 
      <EditText
          style="@style/Text"

@@ -71,7 +71,9 @@ public class JourneyOverview extends AppCompatActivity {
         journeyListView.setAdapter(adapter);
     }
 
-    /** open specific view for journey */
+    /**
+     * open specific view for journey
+     */
     private void onJourneyClick(Journey journey) {
         // create intent
         Intent intent = new Intent(this, JourneyView.class);
