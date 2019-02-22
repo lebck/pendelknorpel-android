@@ -46,11 +46,16 @@ public class ConnectionsAdapter extends BaseAdapter {
         TextView lineName = convertView.findViewById(R.id.vehicle_id);
         TextView startTime = convertView.findViewById(R.id.start_time);
         TextView endTime = convertView.findViewById(R.id.end_time);
+        TextView realStartTime = convertView.findViewById(R.id.real_start_time);
+        TextView realEndTime = convertView.findViewById(R.id.real_end_time);
 
         startLocationName.setText(connection.getStartLocation().getName());
         endLocationName.setText(connection.getEndLocation().getName());
+
         startTime.setText(connection.getStartTimeString()[0]);
+        realStartTime.setText(connection.getStartTimeString()[1]);
         endTime.setText(connection.getEndTimeString()[0]);
+        realEndTime.setText(connection.getEndTimeString()[1]);
 
         lineName.setText(String.format("%s %s",
                 connection.getVehicle(), connection.getLineId()
