@@ -29,6 +29,8 @@ import de.hsrm.lback.myapplication.viewmodels.JourneyViewModel;
  * Display a list of journeys from a location to another location
  */
 public class JourneyOverview extends AppCompatActivity {
+    public static final String SRC_JSON = "src_json";
+    public static final String TARGET_JSON = "target_json";
     private RecyclerView journeyListView;
     private JourneyAdapter adapter;
     private ProgressBar progressBar;
@@ -47,7 +49,13 @@ public class JourneyOverview extends AppCompatActivity {
         int srcId = getIntent().getIntExtra(Location.SRC_LOCATION, 0);
         int targetId = getIntent().getIntExtra(Location.DESTINATION_LOCATION, 0);
 
-        viewModel.init(srcId, targetId);
+        viewModel.init();
+
+        if (srcId == 0) viewModel.setSrc(getIntent().getStringExtra(SRC_JSON));
+        else viewModel.setSrc(srcId);
+
+        if (targetId == 0) viewModel.setTarget(getIntent().getStringExtra(TARGET_JSON));
+        else viewModel.setTarget(targetId);
 
         viewModel.getSrcData().observe(this, viewModel::onSrcChange);
         viewModel.getTargetData().observe(this, viewModel::onTargetChange);

@@ -3,6 +3,7 @@ package de.hsrm.lback.myapplication.views.activities;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,8 @@ import de.hsrm.lback.myapplication.views.fragments.ChooseLogoFragment;
 
 public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
+    public static final int ANONYMOUS_SRC = 0;
+    public static final int ANONYMOUS_TARGET = 1;
     private ImageView locationLogo;
     private EditText locationText;
     private EditText displayName;
@@ -43,6 +46,8 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
     private MutableLiveData<List<Location>> locationResults;
     private LocationRepository locationRepository;
     private LocationSearchAdapter searchResultsAdapter;
+
+    private int locationUid;
 
     private ChooseLogoFragment chooseLogoFragment;
 
@@ -74,7 +79,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
 
         // retrieve location
-        int locationUid = getIntent().getIntExtra(Location.LOCATION_UID, -1);
+        this.locationUid = getIntent().getIntExtra(Location.LOCATION_UID, 0);
 
         if (locationUid != 0)
             this.locationLiveData = locationRepository.get(locationUid);
@@ -82,6 +87,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
             this.locationLiveData = new MutableLiveData<>();
             ((MutableLiveData<Location>)this.locationLiveData)
                     .setValue(new Location("", 0));
+            viewModel.init(locationLiveData.getValue());
         }
 
         this.locationLiveData.observe(this, this::onLocationChange);
@@ -161,8 +167,18 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
         // save data to location object
         this.viewModel.getLocation().setName(this.locationText.getText().toString());
         this.viewModel.getLocation().setDisplayName(this.displayName.getText().toString());
-        // save location
-        this.viewModel.update();
+        // save location if not anonymous
+        if (locationUid != 0) {
+            this.viewModel.update();
+        } else {
+            Intent result = new Intent();
+
+            result.putExtra(Location.SERIALIZED_LOCATION,
+                    LocationRepository.serializeLocation(viewModel.getLocation())
+            );
+
+            setResult(RESULT_OK, result);
+        }
 
         // return to previous activity
         super.finish();

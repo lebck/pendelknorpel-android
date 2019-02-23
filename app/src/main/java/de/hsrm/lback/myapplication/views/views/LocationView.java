@@ -134,20 +134,35 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
 
         if (event.getAction() == DragEvent.ACTION_DROP) {  // when view is dropped
 
-            LocationView target = (LocationView) v;
             LocationView src = (LocationView) event.getLocalState();
+            LocationView target = (LocationView) v;
 
-            if (target == src) {   // if view is dropped on itself
+            Location srcLocation = src.getViewModel().getLocation();
+            Location targetLocation = target.getViewModel().getLocation();
 
-                activity.openEditView(target.getViewModel().getLocation().getUid());
+            boolean srcIsAnonymous = srcLocation == null;
+            boolean targetIsAnonymous = targetLocation == null;
 
+            if (targetIsAnonymous && srcIsAnonymous) {
+                activity.openAnonymousEditView(0, 0);
 
-            } else { // if view is dropped on other LocationView
-                Location srcLocation = src.getViewModel().getLocation();
-                Location targetLocation = target.getViewModel().getLocation();
+            } else if (targetIsAnonymous) {
+                System.out.println("anonymous target");
+                activity.openAnonymousEditView(srcLocation.getUid(), 0);
 
-                activity.openJourneyOverview(srcLocation, targetLocation);
+            } else if (srcIsAnonymous) {
+                System.out.println("anonymous src");
+                activity.openAnonymousEditView(0, targetLocation.getUid());
+            } else {
 
+                if (target == src) {   // if view is dropped on itself
+
+                    activity.openEditView(target.getViewModel().getLocation().getUid());
+
+                } else { // if view is dropped on other LocationView
+                    activity.openJourneyOverview(srcLocation, targetLocation);
+
+                }
             }
         }
 

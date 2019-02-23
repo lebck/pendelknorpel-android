@@ -1,8 +1,8 @@
 package de.hsrm.lback.myapplication.views.activities;
 
-import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +28,8 @@ import de.hsrm.lback.myapplication.views.views.LocationView;
  * new Locations
  */
 public class LocationOverview extends AppCompatActivity {
+    private static final String AN_SRC = "an_src";
+    private static final String AN_TARGET = "an_target";
     private GridView locationsGrid;
     private LocationView anonymousLocationView;
 
@@ -35,11 +37,13 @@ public class LocationOverview extends AppCompatActivity {
     private List<Location> locations;
     private LocationRepository locationRepository;
 
-    private boolean anonymousLocation;
+    private Location anonymousSrcLocation;
+    private Location anonymousTargetLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        restoreAnonymousLocations(savedInstanceState);
         setContentView(R.layout.activity_location_overview);
 
         // get views
@@ -47,7 +51,6 @@ public class LocationOverview extends AppCompatActivity {
         this.anonymousLocationView = findViewById(R.id.anonymous);
 
         this.locationRepository = new LocationRepository(this);
-        this.anonymousLocation = false;
 
         // fetch location data and prepare list
         LiveData<List<Location>> locationData = locationRepository.getAllLocations();
@@ -107,11 +110,54 @@ public class LocationOverview extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /**
-     * open editView for single-use location
-     */
-    private Location openEditViewAnonymous() {
-        return null;
+    /** open view(s) to edit anonymous location(s) */
+    public void openAnonymousEditView(int srcUid, int targetUid) {
+        if (srcUid != 0)
+            locationRepository
+                    .get(srcUid)
+                    .observe(this, location -> anonymousSrcLocation = location);
+        else openAnonymousEditView(EditLocationView.ANONYMOUS_SRC);
+
+        if (targetUid != 0)
+            locationRepository
+                    .get(targetUid)
+                    .observe(this, location -> anonymousTargetLocation = location);
+        else openAnonymousEditView(EditLocationView.ANONYMOUS_TARGET);
+    }
+
+    private void openAnonymousEditView(int requestCode) {
+        Intent intent = new Intent(this, EditLocationView.class);
+        intent.putExtra(Location.LOCATION_UID, 0);
+
+        startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (data != null) {
+            if (requestCode == EditLocationView.ANONYMOUS_SRC) {
+                String s = data.getStringExtra(Location.SERIALIZED_LOCATION);
+
+                Location l = LocationRepository.getLocationByJson(s);
+
+                anonymousSrcLocation = l;
+
+            } else {
+                String s = data.getStringExtra(Location.SERIALIZED_LOCATION);
+
+                Location l = LocationRepository.getLocationByJson(s);
+
+                anonymousTargetLocation = l;
+
+            }
+
+            if (anonymousSrcLocation != null && anonymousTargetLocation != null) {
+                openJourneyOverview(anonymousSrcLocation, anonymousTargetLocation);
+
+                anonymousSrcLocation = null;
+                anonymousTargetLocation = null;
+            }
+        }
     }
 
     /**
@@ -123,11 +169,23 @@ public class LocationOverview extends AppCompatActivity {
             // TODO open EditLocationView for locations that have id 0
             if (srcLocation.getUid() != 0 && targetLocation.getUid() != 0) { // both locations are already set
                 openRegularJourneyOverview(srcLocation, targetLocation);
+            } else {
+                openJsonBasedJourneyOverview(srcLocation, targetLocation);
             }
             Log.d("journey", String.format("%s %s", srcLocation.toString(), targetLocation.toString()));
-        } else if (srcLocation == null) {
-            openEditViewAnonymous();
         }
+    }
+
+    private void openJsonBasedJourneyOverview(Location src, Location target) {
+        String srcJson = LocationRepository.serializeLocation(src);
+        String targetJson = LocationRepository.serializeLocation(target);
+
+        Intent intent = new Intent(this, JourneyOverview.class);
+
+        intent.putExtra(JourneyOverview.SRC_JSON, srcJson);
+        intent.putExtra(JourneyOverview.TARGET_JSON, targetJson);
+
+        startActivity(intent);
     }
 
     /**
@@ -138,5 +196,32 @@ public class LocationOverview extends AppCompatActivity {
         intent.putExtra(Location.SRC_LOCATION, srcLocation.getUid());
         intent.putExtra(Location.DESTINATION_LOCATION, targetLocation.getUid());
         startActivity(intent);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        if (anonymousSrcLocation != null)
+            outState.putString(AN_SRC, LocationRepository.serializeLocation(anonymousSrcLocation));
+        if (anonymousTargetLocation != null)
+            outState.putString(AN_TARGET, LocationRepository.serializeLocation(anonymousSrcLocation));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        restoreAnonymousLocations(savedInstanceState);
+    }
+
+    private void restoreAnonymousLocations(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            String src = savedInstanceState.getString(AN_SRC, null);
+            String target = savedInstanceState.getString(AN_TARGET, null);
+
+            if (src != null)
+                anonymousSrcLocation = LocationRepository.getLocationByJson(src);
+            if (target != null)
+                anonymousTargetLocation = LocationRepository.getLocationByJson(target);
+        }
     }
 }

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -63,6 +64,15 @@ public class LocationRepository {
         try {
             return new ObjectMapper().readValue(json, Location.class);
         } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String serializeLocation(Location location) {
+        try {
+            return new ObjectMapper().writeValueAsString(location);
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
             return null;
         }

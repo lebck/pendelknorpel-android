@@ -21,8 +21,10 @@ import de.hsrm.lback.myapplication.persistence.converters.StringLiveDataConverte
 @TypeConverters({StringLiveDataConverter.class})
 public class Location {
     public static final String LOCATION_UID = "location_uid";
+    public static final String SECOND_LOCATION = "second_location";
     public static final String SRC_LOCATION = "start_location";
     public static final String DESTINATION_LOCATION = "destination_location";
+    public static final String SERIALIZED_LOCATION = "serialized_location";
     private static final String DEFAULT_LOGO_NAME = "plus";
     public static final String LOCATION = "location";
 

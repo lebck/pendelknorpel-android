@@ -22,16 +22,33 @@ public class JourneyViewModel extends AndroidViewModel {
     private LiveData<List<Journey>> journeys;
     private LiveData<Location> srcData;
     private LiveData<Location> targetData;
+    private LocationRepository locationRepository;
 
     public JourneyViewModel(Application application) {
         super(application);
     }
 
-    public void init(int srcId, int targetId) {
-        LocationRepository locationRepository = new LocationRepository(getApplication());
-        srcData = locationRepository.get(srcId);
-        targetData = locationRepository.get(targetId);
+    public void init() {
+        locationRepository = new LocationRepository(getApplication());
         journeys = new MutableLiveData<>();
+    }
+
+    public void setSrc(int uid) {
+        srcData = locationRepository.get(uid);
+    }
+
+    public void setSrc(String json) {
+        srcData = new MutableLiveData<>();
+        ((MutableLiveData<Location>)srcData).setValue(LocationRepository.getLocationByJson(json));
+    }
+
+    public void setTarget(int uid) {
+        targetData = locationRepository.get(uid);
+    }
+
+    public void setTarget(String json) {
+        targetData = new MutableLiveData<>();
+        ((MutableLiveData<Location>)targetData).setValue(LocationRepository.getLocationByJson(json));
     }
 
     /** set target */
