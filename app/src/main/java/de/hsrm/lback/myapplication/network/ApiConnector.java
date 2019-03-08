@@ -4,20 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-import de.hsrm.lback.myapplication.models.Connection;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.Vehicle;
 
 /**
  * Controls connection to apis (currently only RMV API)
@@ -32,7 +26,8 @@ public class ApiConnector {
     private static final String JOURNEY_PATH =
             DOMAIN + BASE_URL + "/trip" + AUTH_PATH;
 
-    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:MM");
 
     private XMLParser parser;
 
@@ -52,7 +47,8 @@ public class ApiConnector {
                     JOURNEY_PATH +
                             "&originExtId=" + fromId +
                             "&destExtId=" + toId +
-                            "&date=" + time.format(FORMAT)
+                            "&date=" + time.format(DATE_FORMAT) +
+                            "&time=" + time.format(TIME_FORMAT)
             );
             xml = get(url);
         } catch (IOException e) {

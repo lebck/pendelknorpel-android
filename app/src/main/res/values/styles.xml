@@ -47,4 +47,10 @@
         <item name="android:textAlignment">textStart</item>
     </style>
 
+    <style name="Button">
+        <item name="android:background">#00ffffff</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
 </resources>

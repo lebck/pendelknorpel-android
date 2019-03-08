@@ -4,14 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.activities.JourneyOverview"
-    >
+    tools:context=".views.activities.JourneyOverview">
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentTop="true"
-        >
+        android:id="@+id/journey_component">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorPrimary"
+            android:paddingBottom="20dp"
+            android:layout_marginBottom="20dp"
+            >
         <TextView
             android:id="@+id/headline"
             android:layout_width="match_parent"
@@ -21,6 +28,31 @@
             android:layout_marginTop="30dp"
             style="@style/Headline"
             />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp">
+            <Button
+                android:layout_alignParentStart="true"
+                android:id="@+id/time_picker_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Button" />
+            <Button
+                android:layout_centerInParent="true"
+                android:id="@+id/now_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/now"
+                style="@style/Button" />
+            <Button
+                android:layout_alignParentEnd="true"
+                android:id="@+id/date_picker_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Button" />
+        </RelativeLayout>
+    </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/journeys_list_view"
@@ -29,6 +61,7 @@
             android:layout_marginHorizontal="10dp" />
 
     </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/progress_bar"

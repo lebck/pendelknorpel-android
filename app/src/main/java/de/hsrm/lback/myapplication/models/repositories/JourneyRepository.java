@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
@@ -16,9 +17,14 @@ import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.network.FetchJourneysTask;
 
 public class JourneyRepository {
-    public static void getAllJourneys (Location src, Location target, MutableLiveData<List<Journey>> journeys) {
+    public static void getAllJourneys (
+            Location src,
+            Location target,
+            MutableLiveData<List<Journey>> journeys,
+            LocalDateTime dateTime
+    ) {
 
-        new FetchJourneysTask(journeys).execute(src, target);
+        new FetchJourneysTask(journeys, dateTime).execute(src, target);
 
     }
 

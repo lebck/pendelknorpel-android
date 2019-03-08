@@ -16,9 +16,11 @@ import de.hsrm.lback.myapplication.models.Location;
  */
 public class FetchJourneysTask extends AsyncTask<Location, Void, List<Journey>> {
     private MutableLiveData<List<Journey>> journeysData;
+    private LocalDateTime dateTime;
 
-    public FetchJourneysTask(MutableLiveData<List<Journey>> journeysData) {
+    public FetchJourneysTask(MutableLiveData<List<Journey>> journeysData, LocalDateTime dateTime) {
         this.journeysData = journeysData;
+        this.dateTime = dateTime;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class FetchJourneysTask extends AsyncTask<Location, Void, List<Journey>> 
         List <Journey> journeys = null;
 
         // TODO remove hardcoded datetime
-        journeys = connector.getDepartures(src, target, LocalDateTime.now());
+        journeys = connector.getDepartures(src, target, dateTime);
 
         journeysData.postValue(journeys);
 

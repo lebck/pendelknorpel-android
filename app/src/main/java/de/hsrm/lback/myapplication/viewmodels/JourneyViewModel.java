@@ -4,8 +4,8 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Journey;
@@ -14,15 +14,17 @@ import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 
 /**
- * controls a list of journeys
+ * controls a list of journeysData
  */
 public class JourneyViewModel extends AndroidViewModel {
     private Location src;
     private Location target;
-    private LiveData<List<Journey>> journeys;
+    private LiveData<List<Journey>> journeysData;
     private LiveData<Location> srcData;
     private LiveData<Location> targetData;
     private LocationRepository locationRepository;
+    private MutableLiveData<LocalDateTime> dateTimeData;
+    private MutableLiveData<Boolean> readyToLoad;
 
     public JourneyViewModel(Application application) {
         super(application);
@@ -30,7 +32,11 @@ public class JourneyViewModel extends AndroidViewModel {
 
     public void init() {
         locationRepository = new LocationRepository(getApplication());
-        journeys = new MutableLiveData<>();
+        readyToLoad = new MutableLiveData<>();
+        readyToLoad.setValue(false);
+        journeysData = new MutableLiveData<>();
+        dateTimeData = new MutableLiveData<>();
+        dateTimeData.setValue(LocalDateTime.now());
     }
 
     public void setSrc(int uid) {
@@ -54,23 +60,35 @@ public class JourneyViewModel extends AndroidViewModel {
     /** set target */
     public void onTargetChange(Location location) {
         this.target = location;
-        fetchJourneys();
+        updateReadyToLoad();
     }
 
     /** set src */
     public void onSrcChange(Location location) {
         this.src = location;
-        fetchJourneys();
+        updateReadyToLoad();
     }
 
     /**
      * load journey data if src and target location are both loaded
      * and set change-listener
      */
-    private void fetchJourneys() {
-        if (src != null && target != null) {
-            JourneyRepository.getAllJourneys(src, target, (MutableLiveData<List<Journey>>) journeys);
-        }
+    public void fetchJourneys() {
+        LocalDateTime dateTime = dateTimeData.getValue();
+
+        // guard to prevent NullPointerException
+        if (dateTime == null) dateTime = LocalDateTime.now();
+
+        JourneyRepository.getAllJourneys(
+                src,
+                target,
+                (MutableLiveData<List<Journey>>) journeysData,
+                dateTime
+        );
+    }
+
+    private void updateReadyToLoad() {
+        readyToLoad.setValue(src != null && target != null);
     }
 
     public LiveData<Location> getSrcData() {
@@ -81,7 +99,19 @@ public class JourneyViewModel extends AndroidViewModel {
         return targetData;
     }
 
-    public LiveData<List<Journey>> getJourneys() {
-        return journeys;
+    public LiveData<List<Journey>> getJourneysData() {
+        return journeysData;
+    }
+
+    public LiveData<LocalDateTime> getDateTimeData() {
+        return dateTimeData;
+    }
+
+    public LiveData<Boolean> getReadyToLoadData() {
+        return readyToLoad;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        dateTimeData.setValue(dateTime);
     }
 }
