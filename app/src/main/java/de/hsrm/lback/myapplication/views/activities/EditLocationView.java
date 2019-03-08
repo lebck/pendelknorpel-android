@@ -36,6 +36,8 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
     public static final int ANONYMOUS_SRC = 0;
     public static final int ANONYMOUS_TARGET = 1;
+    public static final int ANONYMOUS_UID = -1;
+    public static final int NEW_UID = 0;
     private ImageView locationLogo;
     private EditText locationText;
     private EditText displayName;
@@ -48,6 +50,8 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
     private LocationSearchAdapter searchResultsAdapter;
 
     private int locationUid;
+
+    private boolean isAnonymous;
 
     private ChooseLogoFragment chooseLogoFragment;
 
@@ -79,9 +83,10 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
 
         // retrieve location
-        this.locationUid = getIntent().getIntExtra(Location.LOCATION_UID, 0);
+        this.locationUid = getIntent().getIntExtra(Location.LOCATION_UID, ANONYMOUS_UID);
 
-        if (locationUid != 0)
+        // if location already exists and is not anonymous
+        if (locationUid != NEW_UID && locationUid != ANONYMOUS_UID)
             this.locationLiveData = locationRepository.get(locationUid);
         else {
             this.locationLiveData = new MutableLiveData<>();
@@ -168,7 +173,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
         this.viewModel.getLocation().setName(this.locationText.getText().toString());
         this.viewModel.getLocation().setDisplayName(this.displayName.getText().toString());
         // save location if not anonymous
-        if (locationUid != 0) {
+        if (locationUid != ANONYMOUS_UID) {
             this.viewModel.update();
         } else {
             Intent result = new Intent();

@@ -1,5 +1,6 @@
 package de.hsrm.lback.myapplication.views.activities;
 
+import android.app.TaskStackBuilder;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.PersistableBundle;
@@ -112,22 +113,24 @@ public class LocationOverview extends AppCompatActivity {
 
     /** open view(s) to edit anonymous location(s) */
     public void openAnonymousEditView(int srcUid, int targetUid) {
+        if (targetUid != 0)
+            locationRepository
+                    .get(targetUid)
+                    .observe(this, location -> anonymousTargetLocation = location);
+        else openAnonymousEditView(EditLocationView.ANONYMOUS_TARGET);
+
         if (srcUid != 0)
             locationRepository
                     .get(srcUid)
                     .observe(this, location -> anonymousSrcLocation = location);
         else openAnonymousEditView(EditLocationView.ANONYMOUS_SRC);
 
-        if (targetUid != 0)
-            locationRepository
-                    .get(targetUid)
-                    .observe(this, location -> anonymousTargetLocation = location);
-        else openAnonymousEditView(EditLocationView.ANONYMOUS_TARGET);
     }
 
     private void openAnonymousEditView(int requestCode) {
         Intent intent = new Intent(this, EditLocationView.class);
-        intent.putExtra(Location.LOCATION_UID, 0);
+        intent.putExtra(Location.LOCATION_UID, EditLocationView.ANONYMOUS_UID);
+        intent.putExtra("code", requestCode);
 
         startActivityForResult(intent, requestCode);
     }
@@ -138,16 +141,12 @@ public class LocationOverview extends AppCompatActivity {
             if (requestCode == EditLocationView.ANONYMOUS_SRC) {
                 String s = data.getStringExtra(Location.SERIALIZED_LOCATION);
 
-                Location l = LocationRepository.getLocationByJson(s);
-
-                anonymousSrcLocation = l;
+                anonymousSrcLocation = LocationRepository.getLocationByJson(s);
 
             } else {
                 String s = data.getStringExtra(Location.SERIALIZED_LOCATION);
 
-                Location l = LocationRepository.getLocationByJson(s);
-
-                anonymousTargetLocation = l;
+                anonymousTargetLocation = LocationRepository.getLocationByJson(s);
 
             }
 
@@ -164,16 +163,14 @@ public class LocationOverview extends AppCompatActivity {
      * open journey overview of given Locations.
      * Open anonymous editView for locations that are null
      */
-    public void openJourneyOverview(@Nullable Location srcLocation, @Nullable Location targetLocation) {
-        if (srcLocation != null && targetLocation != null) {
-            // TODO open EditLocationView for locations that have id 0
-            if (srcLocation.getUid() != 0 && targetLocation.getUid() != 0) { // both locations are already set
-                openRegularJourneyOverview(srcLocation, targetLocation);
-            } else {
-                openJsonBasedJourneyOverview(srcLocation, targetLocation);
-            }
-            Log.d("journey", String.format("%s %s", srcLocation.toString(), targetLocation.toString()));
+    public void openJourneyOverview(Location srcLocation, Location targetLocation) {
+        if (srcLocation.getUid() != 0 && targetLocation.getUid() != 0) { // both locations are already set
+            openRegularJourneyOverview(srcLocation, targetLocation);
+        } else {
+            openJsonBasedJourneyOverview(srcLocation, targetLocation);
         }
+        Log.d("journey", String.format("%s %s", srcLocation.toString(), targetLocation.toString()));
+
     }
 
     private void openJsonBasedJourneyOverview(Location src, Location target) {
