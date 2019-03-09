@@ -15,4 +15,6 @@
     <string name="delete">Delete</string>
     <string name="today">Heute</string>
     <string name="tomorrow">Morgen</string>
+    <string name="short_name">Kurzname</string>
+    <string name="edit_location">Haltestelle bearbeiten</string>
 </resources>

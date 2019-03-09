@@ -7,12 +7,16 @@
 
     <EditText style="@style/Text"
         android:id="@+id/edit_location_name"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/location_name"
         android:textAlignment="center"
-        android:textColorHint="@color/colorAccent"
+        android:paddingVertical="10dp"
+        android:layout_marginHorizontal="40dp"
+        android:textColorHint="@color/colorGrayLight"
+        android:textColor="@color/colorBright"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="5dp"
         />
 
     <ListView

@@ -10,7 +10,8 @@
     android:text="Hallo"
     android:layout_marginBottom="10dp"
     android:layout_marginVertical="40dp"
-    android:background="@color/colorPrimary"
+    android:textColor="@color/colorBright"
+    android:background="@drawable/rounded_background"
     style="@style/TextStrong"
     xmlns:android="http://schemas.android.com/apk/res/android" />
 

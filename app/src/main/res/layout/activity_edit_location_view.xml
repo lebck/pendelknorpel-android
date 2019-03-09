@@ -20,7 +20,9 @@
          android:layout_height="?attr/actionBarSize"
          android:background="@color/colorPrimary"
          android:elevation="4dp"
+         android:layout_marginBottom="20dp"
          android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+         app:title="@string/edit_location"
          app:popupTheme="@style/Base.Theme.AppCompat.Light"
          />
 
@@ -28,18 +30,26 @@
          android:id="@+id/location_logo"
          android:layout_width="100dp"
          android:layout_height="100dp"
+         android:padding="20dp"
+         android:src="@drawable/ic_android_black_24dp"
+         android:background="@drawable/location_bubble"
          />
-
-     <include layout="@layout/location_search" />
 
      <EditText
          style="@style/Text"
          android:id="@+id/edit_location_display_name"
-         android:layout_marginTop="50dp"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:hint="ID"
-         android:textAlignment="center"/>
+         android:layout_marginHorizontal="80dp"
+         android:layout_marginBottom="20dp"
+         android:hint="@string/short_name"
+         android:textAlignment="center"
+         android:backgroundTint="@color/colorBright"
+         android:textColorHint="@color/colorGrayLight"
+         android:textColor="@color/colorBright" />
+
+     <include layout="@layout/location_search" />
+
  </LinearLayout>
 
 </RelativeLayout>
