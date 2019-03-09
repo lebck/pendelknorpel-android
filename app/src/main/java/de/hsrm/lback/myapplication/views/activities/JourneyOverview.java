@@ -2,7 +2,7 @@ package de.hsrm.lback.myapplication.views.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.v4.app.DialogFragment;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +25,7 @@ import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 import de.hsrm.lback.myapplication.viewmodels.JourneyViewModel;
+import de.hsrm.lback.myapplication.views.fragments.DatePickerFragment;
 import de.hsrm.lback.myapplication.views.fragments.TimePickerFragment;
 
 /**
@@ -32,13 +34,14 @@ import de.hsrm.lback.myapplication.views.fragments.TimePickerFragment;
 public class JourneyOverview extends AppCompatActivity {
     public static final String SRC_JSON = "src_json";
     public static final String TARGET_JSON = "target_json";
-    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:MM");
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.");
     private RecyclerView journeyListView;
     private JourneyAdapter adapter;
     private ProgressBar progressBar;
-    private LinearLayout journeyComponent;
     private Button timePickerButton;
     private Button nowButton;
+    private Button dateButton;
     private JourneyViewModel viewModel;
 
     @Override
@@ -46,9 +49,9 @@ public class JourneyOverview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey_overview);
         progressBar = findViewById(R.id.progress_bar);
-        journeyComponent = findViewById(R.id.journey_component);
         timePickerButton = findViewById(R.id.time_picker_button);
         nowButton = findViewById(R.id.now_button);
+        dateButton = findViewById(R.id.date_picker_button);
 
         initJourneyListView();
 
@@ -76,6 +79,7 @@ public class JourneyOverview extends AppCompatActivity {
         // initialize listeners
         timePickerButton.setOnClickListener(this::onTimePickerClicked);
         nowButton.setOnClickListener(this::onNowButtonClicked);
+        dateButton.setOnClickListener(this::onDatePickerClicked);
 
     }
 
@@ -90,6 +94,19 @@ public class JourneyOverview extends AppCompatActivity {
             viewModel.fetchJourneys();
         }
         timePickerButton.setText(dateTime.format(TIME_FORMAT));
+        dateButton.setText(getDateString(dateTime.toLocalDate()));
+    }
+
+    private String getDateString(LocalDate date) {
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+        String dateString = date.format(DATE_FORMAT);
+
+        if (date.equals(today)) dateString = getString(R.string.today);
+        else if (date.equals(tomorrow)) dateString = getString(R.string.tomorrow);
+
+        return dateString;
     }
 
     /**
@@ -129,12 +146,12 @@ public class JourneyOverview extends AppCompatActivity {
     }
 
     private void showProgressBar() {
-        journeyComponent.setVisibility(View.GONE);
+        journeyListView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     private void hideProgressBar() {
-        journeyComponent.setVisibility(View.VISIBLE);
+        journeyListView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
 
@@ -145,18 +162,15 @@ public class JourneyOverview extends AppCompatActivity {
 
     private void onTimePickerClicked(View view) {
         TimePickerFragment newFragment = new TimePickerFragment();
-        newFragment.setReceiver(this::onTimeChosen);
+        newFragment.setReceiver(viewModel::onTimeChosen);
         newFragment.show(getSupportFragmentManager(), "timePicker");
 
     }
 
-    private void onTimeChosen(int hours, int minutes) {
-        LocalDateTime dateTime = viewModel.getDateTimeData().getValue();
-        if (dateTime != null) {
-            dateTime = dateTime.with(LocalTime.of(hours, minutes));
-
-            viewModel.setDateTime(dateTime);
-        }
+    private void onDatePickerClicked(View view) {
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setReceiver(viewModel::onDateChosen);
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     private void onNowButtonClicked(View view) {

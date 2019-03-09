@@ -5,7 +5,9 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Journey;
@@ -86,6 +88,25 @@ public class JourneyViewModel extends AndroidViewModel {
                 dateTime
         );
     }
+
+    public void onTimeChosen(int hours, int minutes) {
+        LocalDateTime dateTime = getDateTimeData().getValue();
+        if (dateTime != null) {
+            dateTime = dateTime.with(LocalTime.of(hours, minutes));
+
+            setDateTime(dateTime);
+        }
+    }
+
+    public void onDateChosen(int year, int month, int dayOfMonth) {
+        LocalDateTime dateTime = getDateTimeData().getValue();
+        if (dateTime != null) {
+            dateTime = dateTime.with(LocalDate.of(year, month, dayOfMonth));
+
+            setDateTime(dateTime);
+        }
+    }
+
 
     private void updateReadyToLoad() {
         readyToLoad.setValue(src != null && target != null);
