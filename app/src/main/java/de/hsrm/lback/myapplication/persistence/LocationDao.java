@@ -2,6 +2,7 @@ package de.hsrm.lback.myapplication.persistence;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -23,4 +24,7 @@ public interface LocationDao {
 
     @Query("SELECT * from location WHERE uid=:uid")
     LiveData<Location> get(int uid);
+
+    @Delete
+    void delete(Location location);
 }

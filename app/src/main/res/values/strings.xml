@@ -12,4 +12,5 @@
     <string name="current_journey">current_journey</string>
     <string name="anonymous">Anonym</string>
     <string name="now">Jetzt</string>
+    <string name="delete">Delete</string>
 </resources>

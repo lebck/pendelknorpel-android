@@ -35,6 +35,10 @@ public class LocationViewModel extends AndroidViewModel {
             locationRepository.update(this.location);
     }
 
+    public void delete() {
+        locationRepository.delete(this.location);
+    }
+
     public Location getLocation() {
         return this.location;
     }

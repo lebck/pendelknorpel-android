@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".views.activities.EditLocationView">
     <item
+        android:title="@string/delete"
+        android:id="@+id/delete"
+        android:icon="@drawable/icon_trash"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:title="@string/submit"
         android:id="@+id/submit"
         android:icon="@drawable/icon_check"

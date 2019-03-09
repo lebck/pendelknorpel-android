@@ -3,13 +3,22 @@ package de.hsrm.lback.myapplication.models.repositories.tasks;
 import android.os.AsyncTask;
 
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.persistence.LocationDao;
 
-public abstract class LocationAsyncTask extends AsyncTask<Location, Void, Void> {
+public class LocationAsyncTask extends AsyncTask<Location, Void, Void> {
 
-    protected LocationDao locationDao;
+    private Runner runner;
 
-    public LocationAsyncTask(LocationDao locationDao) {
-        this.locationDao = locationDao;
+    public LocationAsyncTask(Runner runner) {
+        this.runner = runner;
+    }
+
+    @Override
+    protected Void doInBackground(final Location... locations) {
+        runner.run(locations);
+        return null;
+    }
+
+    public interface Runner {
+        void run(final Location... locations);
     }
 }

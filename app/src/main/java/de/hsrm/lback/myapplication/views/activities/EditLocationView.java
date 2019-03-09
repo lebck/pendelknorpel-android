@@ -203,10 +203,18 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
         if (id == R.id.submit) {
             this.onSubmit();
             return true;
+        } else if (id == R.id.delete) {
+            this.onDelete();
+            return true;
         }
 
         return false;
 
+    }
+
+    private void onDelete() {
+        viewModel.delete();
+        finish();
     }
 
     /** Process click on logo */
@@ -226,9 +234,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
