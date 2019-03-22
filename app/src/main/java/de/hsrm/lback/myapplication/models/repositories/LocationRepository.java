@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.models.repositories.tasks.GpsTask;
 import de.hsrm.lback.myapplication.models.repositories.tasks.LocationAsyncTask;
 import de.hsrm.lback.myapplication.network.SearchLocationsTask;
 import de.hsrm.lback.myapplication.persistence.AppDatabase;
@@ -73,5 +74,13 @@ public class LocationRepository {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public LiveData<List<Location>> getLocationsForGpsCoords(double lat, double lon) {
+        MutableLiveData<List<Location>> locationsLiveData = new MutableLiveData<>();
+
+        new GpsTask(locationsLiveData).execute(lat, lon);
+
+        return locationsLiveData;
     }
 }

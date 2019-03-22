@@ -1,6 +1,5 @@
 package de.hsrm.lback.myapplication.views.activities;
 
-import android.app.TaskStackBuilder;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.PersistableBundle;
@@ -31,8 +30,11 @@ import de.hsrm.lback.myapplication.views.views.LocationView;
 public class LocationOverview extends AppCompatActivity {
     private static final String AN_SRC = "an_src";
     private static final String AN_TARGET = "an_target";
+    private static final int GPS_SRC = 2;
+    private static final int GPS_TARGET = 3;
     private GridView locationsGrid;
     private LocationView anonymousLocationView;
+    private LocationView gpsLocationView;
 
     private LocationAdapter gridArrayAdapter;
     private List<Location> locations;
@@ -50,6 +52,7 @@ public class LocationOverview extends AppCompatActivity {
         // get views
         this.locationsGrid = findViewById(R.id.locations_grid);
         this.anonymousLocationView = findViewById(R.id.anonymous);
+        this.gpsLocationView = findViewById(R.id.gps);
 
         this.locationRepository = new LocationRepository(this);
 
@@ -63,17 +66,27 @@ public class LocationOverview extends AppCompatActivity {
         // set Locations on change
         locationData.observe(this, this::onLocationsChange);
 
-        initializeAnonymousLocation();
+        initializeStaticLocations();
     }
 
-     /** setup anonymous location view */
-     private void initializeAnonymousLocation() {
-        anonymousLocationView.init(this, new LocationViewModel(getApplication()));
+     /** setup anonymous location view and gps location view */
+     private void initializeStaticLocations() {
+        LocationViewModel anonymousLocationViewModel = new LocationViewModel(getApplication());
+        anonymousLocationViewModel.setAnonymous(true);
+        anonymousLocationView.init(this, anonymousLocationViewModel);
         TextView anonymousLocationName = anonymousLocationView.findViewById(R.id.location_name);
         ImageView anonymousLocationLogo = anonymousLocationView.findViewById(R.id.location_logo);
 
         anonymousLocationName.setText(R.string.anonymous);
 
+        LocationViewModel gpsLocationViewModel = new LocationViewModel(getApplication());
+        gpsLocationViewModel.setGps(true);
+        gpsLocationView.init(this, gpsLocationViewModel);
+        TextView gpsLocationName = gpsLocationView.findViewById(R.id.location_name);
+        ImageView gpsLocationLogo = gpsLocationView.findViewById(R.id.location_logo);
+
+        gpsLocationName.setText(getString(R.string.gps));
+        gpsLocationLogo.setImageResource(R.drawable.icon_gps);
     }
 
     @Override
@@ -89,7 +102,7 @@ public class LocationOverview extends AppCompatActivity {
         // fill up locationslist with empty locations until there are 9
         int len = locations.size();
         for (int i = 0; i < 9 - len; i++) {
-            locations.add(new Location("", 0));
+            locations.add(new Location(""));
         }
 
         // TODO make this less ugly:
@@ -138,16 +151,17 @@ public class LocationOverview extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (data != null) {
-            if (requestCode == EditLocationView.ANONYMOUS_SRC) {
-                String s = data.getStringExtra(Location.SERIALIZED_LOCATION);
-
-                anonymousSrcLocation = LocationRepository.getLocationByJson(s);
-
-            } else {
-                String s = data.getStringExtra(Location.SERIALIZED_LOCATION);
-
-                anonymousTargetLocation = LocationRepository.getLocationByJson(s);
-
+            String s = data.getStringExtra(Location.SERIALIZED_LOCATION);
+            Location l = LocationRepository.getLocationByJson(s);
+            switch (requestCode) {
+                case EditLocationView.ANONYMOUS_SRC:
+                case GPS_SRC:
+                    anonymousSrcLocation = l;
+                    break;
+                case EditLocationView.ANONYMOUS_TARGET:
+                case GPS_TARGET:
+                    anonymousTargetLocation = l;
+                    break;
             }
 
             if (anonymousSrcLocation != null && anonymousTargetLocation != null) {
@@ -220,5 +234,21 @@ public class LocationOverview extends AppCompatActivity {
             if (target != null)
                 anonymousTargetLocation = LocationRepository.getLocationByJson(target);
         }
+    }
+
+    public void openGpsEditView(@Nullable Location srcLocation, @Nullable Location targetLocation) {
+        int requestCode;
+
+        if (srcLocation != null) {
+            requestCode = GPS_TARGET;
+            anonymousSrcLocation = srcLocation;
+        } else {
+            requestCode = GPS_SRC;
+            anonymousTargetLocation = targetLocation;
+        }
+
+        Intent intent = new Intent(this, GpsLIstActivity.class);
+
+        startActivityForResult(intent, requestCode);
     }
 }

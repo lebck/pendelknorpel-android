@@ -137,24 +137,33 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
             LocationView src = (LocationView) event.getLocalState();
             LocationView target = (LocationView) v;
 
-            Location srcLocation = src.getViewModel().getLocation();
-            Location targetLocation = target.getViewModel().getLocation();
+            LocationViewModel srcViewModel = src.getViewModel();
+            LocationViewModel targetViewModel = target.getViewModel();
 
-            boolean srcIsAnonymous = srcLocation == null;
-            boolean targetIsAnonymous = targetLocation == null;
+            Location srcLocation = srcViewModel.getLocation();
+            Location targetLocation = targetViewModel.getLocation();
+
+            boolean srcIsAnonymous = srcViewModel.isAnonymous();
+            boolean targetIsAnonymous = targetViewModel.isAnonymous();
+
+            boolean srcIsGps = srcViewModel.isGps();
+            boolean targetIsGps = targetViewModel.isGps();
+
+            boolean srcAndTargetAreSet = srcLocation != null && targetLocation != null;
 
             if (targetIsAnonymous && srcIsAnonymous) {
                 activity.openAnonymousEditView(0, 0);
 
             } else if (targetIsAnonymous) {
-                System.out.println("anonymous target");
                 activity.openAnonymousEditView(srcLocation.getUid(), 0);
 
             } else if (srcIsAnonymous) {
-                System.out.println("anonymous src");
                 activity.openAnonymousEditView(0, targetLocation.getUid());
-            } else {
-
+            } else if (srcIsGps && !targetIsGps) {
+                activity.openGpsEditView(null, targetLocation);
+            } else if (targetIsGps && !srcIsGps) {
+                activity.openGpsEditView(srcLocation, null);
+            } else if (srcAndTargetAreSet) {
                 if (target == src) {   // if view is dropped on itself
 
                     activity.openEditView(target.getViewModel().getLocation().getUid());

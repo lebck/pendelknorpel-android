@@ -1,5 +1,7 @@
 package de.hsrm.lback.myapplication.network;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,10 +23,14 @@ public class ApiConnector {
     private static final String BASE_URL = "/hapi";
     private static final String DOMAIN = "https://www.rmv.de";
     private static final String AUTH_PATH = String.format("?accessId=%s", API_KEY);
+    private static final String URL_PATTERN =
+            DOMAIN + BASE_URL + "%s" + AUTH_PATH;
     private static final String LOCATION_PATH =
-            DOMAIN + BASE_URL + "/location.name" + AUTH_PATH;
+            String.format(URL_PATTERN, "/location.name");
     private static final String JOURNEY_PATH =
-            DOMAIN + BASE_URL + "/trip" + AUTH_PATH;
+            String.format(URL_PATTERN, "/trip");
+    public static final String GPS_PATH =
+            String.format(URL_PATTERN, "/location.nearbystops");
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:MM");
@@ -93,5 +99,22 @@ public class ApiConnector {
 
         return result.toString();
 
+    }
+
+    public List<Location> getLocationsByLatLon(double lat, double lon) {
+        try {
+            URL url = new URL(
+                    GPS_PATH +
+                            "&originCoordLat=" + lat +
+                            "&originCoordLong=" + lon
+            );
+
+            String xml = get(url);
+
+            return parser.parseGpsSearchXml(xml);
+        } catch (IOException e) {
+            Log.e("ApiConnector", "Fetching data failed!");
+            return Collections.emptyList();
+        }
     }
 }

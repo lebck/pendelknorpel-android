@@ -3,6 +3,7 @@
     package="de.hsrm.lback.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/PendelKnorpel">
-        <activity android:name=".views.activities.LocationOverview"
+        <activity
+            android:name=".views.activities.LocationOverview"
             android:theme="@style/PendelKnorpel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +23,16 @@
         </activity>
         <activity android:name=".views.activities.EditLocationView" />
         <activity android:name=".views.activities.JourneyOverview" />
-        <activity android:name=".views.activities.JourneyView"></activity>
-    </application>
+        <activity android:name=".views.activities.JourneyView" />
+        <activity android:name=".views.activities.GpsLIstActivity"></activity>
 
+        <receiver android:name=".helpers.GpsLocationReceiver">
+            <intent-filter>
+                <action android:name="android.location.PROVIDERS_CHANGED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+    </application>
 
 </manifest>

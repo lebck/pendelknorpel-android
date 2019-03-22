@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
@@ -25,10 +26,9 @@ public class LocationSearchAdapter extends BaseAdapter {
 
     public LocationSearchAdapter(
             AppCompatActivity activity,
-            List<Location> locations,
             View.OnClickListener listener) {
         super();
-        this.locations = locations;
+        this.locations = Collections.emptyList();
         this.listener = listener;
         this.activity = activity;
     }
@@ -66,5 +66,6 @@ public class LocationSearchAdapter extends BaseAdapter {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
+        notifyDataSetChanged();
     }
 }

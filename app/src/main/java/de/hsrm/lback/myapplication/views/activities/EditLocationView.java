@@ -75,7 +75,6 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
         this.searchResultsAdapter = new LocationSearchAdapter(
                 this,
-                locationResults.getValue(),
                 this::onSearchResultClick
         );
 
@@ -91,7 +90,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
         else {
             this.locationLiveData = new MutableLiveData<>();
             ((MutableLiveData<Location>)this.locationLiveData)
-                    .setValue(new Location("", 0));
+                    .setValue(new Location(""));
             viewModel.init(locationLiveData.getValue());
         }
 

@@ -235,6 +235,14 @@ public class XMLParser {
         }
     }
 
+    /**
+     * Parse XML returned by a request to the "nearby locations" api
+     */
+    public List<Location> parseGpsSearchXml(String xml) {
+
+        return parseLocationSearchXml(xml);
+    }
+
     private class TimeList {
         public LocalDateTime startDateTime;
         public LocalDateTime endDateTime;

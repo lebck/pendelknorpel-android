@@ -21,21 +21,16 @@ import de.hsrm.lback.myapplication.persistence.converters.StringLiveDataConverte
 @TypeConverters({StringLiveDataConverter.class})
 public class Location {
     public static final String LOCATION_UID = "location_uid";
-    public static final String SECOND_LOCATION = "second_location";
     public static final String SRC_LOCATION = "start_location";
     public static final String DESTINATION_LOCATION = "destination_location";
     public static final String SERIALIZED_LOCATION = "serialized_location";
     private static final String DEFAULT_LOGO_NAME = "plus";
-    public static final String LOCATION = "location";
 
     @PrimaryKey(autoGenerate = true)
     private int uid;
 
     @ColumnInfo(name = "name")
     private String name;
-
-    @ColumnInfo(name = "position")
-    private int position;
 
     @ColumnInfo(name = "logo")
     private String logo;
@@ -47,8 +42,7 @@ public class Location {
     private String displayName;
 
     /** constructor used by rooms */
-    public Location(String name, int position, String logo, String displayName) {
-        this.position = position;
+    public Location(String name, String logo, String displayName) {
         this.logo = logo;
         this.name = name;
         this.displayName = displayName;
@@ -58,8 +52,7 @@ public class Location {
     public Location() {}
 
     @Ignore // ignored by rooms
-    public Location(String name, int position) {
-        this.position = position;
+    public Location(String name) {
 
         this.logo = DEFAULT_LOGO_NAME;
 
@@ -68,16 +61,13 @@ public class Location {
 
     @Override
     public String toString() {
-        return String.format("Location{ %s, %s, %s, %s }", name, position, uid, apiId);
+        return String.format("Location{ %s, %s, %s }", name, uid, apiId);
     }
 
     public String getName() {
         return name;
     }
 
-    public int getPosition() {
-        return position;
-    }
 
     public void setName(String name) {
 
@@ -105,7 +95,6 @@ public class Location {
     }
 
     public void setPosition(int position) {
-        this.position = position;
     }
 
 

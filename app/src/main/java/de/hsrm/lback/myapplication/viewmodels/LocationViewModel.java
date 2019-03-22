@@ -17,10 +17,14 @@ public class LocationViewModel extends AndroidViewModel {
 
     private Location location;
     private LocationRepository locationRepository;
+    private boolean anonymous;
+    private boolean gps;
 
     public LocationViewModel(Application application) {
         super(application);
         this.locationRepository = new LocationRepository(application);
+        this.anonymous = false;
+        this.gps = false;
     }
 
     public void init(Location location) {
@@ -43,4 +47,19 @@ public class LocationViewModel extends AndroidViewModel {
         return this.location;
     }
 
+    public boolean isAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        this.anonymous = anonymous;
+    }
+
+    public boolean isGps() {
+        return gps;
+    }
+
+    public void setGps(boolean gps) {
+        this.gps = gps;
+    }
 }
