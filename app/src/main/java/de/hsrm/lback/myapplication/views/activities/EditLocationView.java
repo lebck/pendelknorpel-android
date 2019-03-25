@@ -101,6 +101,8 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
         this.onLocationChange();
 
+        locationText.requestFocus();
+
     }
 
     private Bitmap createBackground() {
@@ -164,6 +166,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
                 this.viewModel.init(location);
                 this.onLogoChange(this.viewModel.getLocation().getLogo());
             }
+            locationText.setSelection(locationText.getText().length());
         }
     }
 
