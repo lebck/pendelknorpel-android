@@ -8,16 +8,24 @@ import android.graphics.Bitmap;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.AutoTransition;
+import android.transition.ChangeBounds;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.transition.TransitionManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -26,6 +34,7 @@ import java.util.List;
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.BackgroundManager;
 import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
+import de.hsrm.lback.myapplication.helpers.adapters.LocationLogoAdapter;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationSearchAdapter;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
@@ -38,10 +47,15 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
     public static final int ANONYMOUS_TARGET = 1;
     public static final int ANONYMOUS_UID = -1;
     public static final int NEW_UID = 0;
+
     private ImageView locationLogo;
     private EditText locationText;
     private EditText displayName;
     private ListView searchResults;
+    private RecyclerView logoChooser;
+    private RelativeLayout logoContainer;
+
+    private Transition scaleTransition;
 
     private LocationViewModel viewModel;
     private LiveData<Location> locationLiveData;
@@ -52,8 +66,6 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
     private int locationUid;
 
     private boolean isAnonymous;
-
-    private ChooseLogoFragment chooseLogoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +78,13 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
         this.locationLogo = findViewById(R.id.location_logo);
         this.displayName = findViewById(R.id.edit_location_display_name);
         this.searchResults = findViewById(R.id.search_results);
+        this.logoChooser = findViewById(R.id.logo_chooser);
+        this.logoContainer = findViewById(R.id.logo_container);
 
         this.locationResults = new MutableLiveData<>();
         this.locationResults.setValue(Collections.emptyList());
         this.locationRepository = new LocationRepository(this);
         this.viewModel = new LocationViewModel(getApplication());
-        this.chooseLogoFragment = ChooseLogoFragment.getInstance(this::onLogoChosen, this::createBackground);
 
         this.searchResultsAdapter = new LocationSearchAdapter(
                 this,
@@ -98,10 +111,14 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
         this.locationLogo.setOnClickListener(this::onLogoClick);
         this.locationText.addTextChangedListener(this);
         this.locationResults.observe(this, this::onSearchResultsChange);
+        this.logoChooser.setAdapter(new LocationLogoAdapter(ResourcesHelper.getLogoList(), this::onLogoChosen));
 
         this.onLocationChange();
 
         locationText.requestFocus();
+
+        scaleTransition =
+                TransitionInflater.from(this).inflateTransition(R.transition.scale_transition);
 
     }
 
@@ -142,17 +159,29 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
 
     private void onLogoChosen(String s) {
-        // remove fragment
-        getSupportFragmentManager()
-                .beginTransaction()
-                .remove(chooseLogoFragment)
-                .commit();
-
         // update logo
         viewModel.getLocation().setLogo(s);
         onLocationChange();
+        hideLogoChooser();
     }
 
+    private void showLogoChooser() {
+        TransitionManager.beginDelayedTransition(logoContainer, scaleTransition);
+        ViewGroup.LayoutParams params = logoChooser.getLayoutParams();
+        params.height = 265;
+        logoChooser.setLayoutParams(params);
+        logoChooser.setVisibility(View.VISIBLE);
+
+
+    }
+
+    private void hideLogoChooser() {
+        TransitionManager.beginDelayedTransition(logoContainer, scaleTransition);
+        ViewGroup.LayoutParams params = logoChooser.getLayoutParams();
+        params.height = 0;
+        logoChooser.setLayoutParams(params);
+        logoChooser.setVisibility(View.GONE);
+    }
     private void onLocationChange() {
         this.onLocationChange(this.viewModel.getLocation());
     }
@@ -221,11 +250,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
     /** Process click on logo */
     public void onLogoClick(View v) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-                .add(R.id.edit_location, chooseLogoFragment)
-                .addToBackStack(null);
-
-        transaction.commit();
+        showLogoChooser();
     }
 
 

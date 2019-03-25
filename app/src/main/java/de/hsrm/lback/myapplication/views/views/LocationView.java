@@ -154,15 +154,16 @@ public class LocationView extends LinearLayout implements View.OnDragListener {
             if (targetIsAnonymous && srcIsAnonymous) {
                 activity.openAnonymousEditView(0, 0);
 
+            } else if (srcIsGps && !targetIsGps) {
+                activity.openGpsEditView(null, targetLocation);
+            } else if (targetIsGps && !srcIsGps) {
+                activity.openGpsEditView(srcLocation, null);
+
             } else if (targetIsAnonymous) {
                 activity.openAnonymousEditView(srcLocation.getUid(), 0);
 
             } else if (srcIsAnonymous) {
                 activity.openAnonymousEditView(0, targetLocation.getUid());
-            } else if (srcIsGps && !targetIsGps) {
-                activity.openGpsEditView(null, targetLocation);
-            } else if (targetIsGps && !srcIsGps) {
-                activity.openGpsEditView(srcLocation, null);
             } else if (srcAndTargetAreSet) {
                 if (target == src) {   // if view is dropped on itself
 

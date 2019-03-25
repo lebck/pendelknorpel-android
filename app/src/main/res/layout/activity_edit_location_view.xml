@@ -26,14 +26,20 @@
          app:popupTheme="@style/Base.Theme.AppCompat.Light"
          />
 
-     <ImageView
-         android:id="@+id/location_logo"
-         android:layout_width="100dp"
-         android:layout_height="100dp"
-         android:padding="20dp"
-         android:src="@drawable/ic_android_black_24dp"
-         android:background="@drawable/location_bubble"
-         />
+     <RelativeLayout
+         android:id="@+id/logo_container"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <include layout="@layout/location_logo"/>
+         <android.support.v7.widget.RecyclerView
+             android:id="@+id/logo_chooser"
+             android:background="@color/colorPrimaryDark"
+             android:layout_width="wrap_content"
+             android:layout_height="0dp"
+             android:orientation="horizontal"
+             app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+     </RelativeLayout>
 
      <EditText
          style="@style/Text"

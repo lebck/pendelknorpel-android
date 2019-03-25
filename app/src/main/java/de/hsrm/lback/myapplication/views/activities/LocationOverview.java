@@ -126,17 +126,22 @@ public class LocationOverview extends AppCompatActivity {
 
     /** open view(s) to edit anonymous location(s) */
     public void openAnonymousEditView(int srcUid, int targetUid) {
-        if (targetUid != 0)
-            locationRepository
-                    .get(targetUid)
-                    .observe(this, location -> anonymousTargetLocation = location);
-        else openAnonymousEditView(EditLocationView.ANONYMOUS_TARGET);
-
-        if (srcUid != 0)
+        if (srcUid != 0) {
             locationRepository
                     .get(srcUid)
                     .observe(this, location -> anonymousSrcLocation = location);
-        else openAnonymousEditView(EditLocationView.ANONYMOUS_SRC);
+        } else {
+            openAnonymousEditView(EditLocationView.ANONYMOUS_SRC);
+            return;
+        }
+
+        if (targetUid != 0) {
+            locationRepository
+                    .get(targetUid)
+                    .observe(this, location -> anonymousTargetLocation = location);
+        } else {
+            openAnonymousEditView(EditLocationView.ANONYMOUS_TARGET);
+        }
 
     }
 
@@ -164,7 +169,13 @@ public class LocationOverview extends AppCompatActivity {
                     break;
             }
 
-            if (anonymousSrcLocation != null && anonymousTargetLocation != null) {
+            if (anonymousSrcLocation == null && anonymousTargetLocation != null) {
+                openAnonymousEditView(EditLocationView.ANONYMOUS_SRC);
+
+            } else if (anonymousSrcLocation != null && anonymousTargetLocation == null) {
+                openAnonymousEditView(EditLocationView.ANONYMOUS_TARGET);
+
+            } else {
                 openJourneyOverview(anonymousSrcLocation, anonymousTargetLocation);
 
                 anonymousSrcLocation = null;

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class ResourcesHelper {
     public static int getResId(String resName, Class<?> c) {
-
         try {
             Field idField = c.getDeclaredField(resName);
             return idField.getInt(idField);
@@ -21,8 +20,8 @@ public class ResourcesHelper {
                 "icon_check",
                 "icon_home",
                 "icon_money",
-                "icon_umbrella"
-
+                "icon_umbrella",
+                "icon_trash"
         );
     }
 }
