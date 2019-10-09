@@ -39,7 +39,9 @@ public class JourneyOverview extends AppCompatActivity {
     private Button timePickerButton;
     private Button nowButton;
     private Button dateButton;
+    // ToDo add showPreviousButton
     private Button showMoreButton;
+    private ProgressBar showMoreProgressBar;
     private JourneyViewModel viewModel;
 
     @Override
@@ -51,6 +53,7 @@ public class JourneyOverview extends AppCompatActivity {
         nowButton = findViewById(R.id.now_button);
         dateButton = findViewById(R.id.date_picker_button);
         showMoreButton = findViewById(R.id.more_journeys);
+        showMoreProgressBar = findViewById(R.id.show_more_progress);
 
         initJourneyListView();
 
@@ -142,6 +145,7 @@ public class JourneyOverview extends AppCompatActivity {
      */
     private void onJourneysChange(JourneyList journeys) {
         adapter.setJourneys(journeys);
+        showMoreProgressBar.setVisibility(View.GONE);
         if (journeys.getJourneys().size() > 0) {
             this.hideProgressBar();
         }
@@ -187,6 +191,8 @@ public class JourneyOverview extends AppCompatActivity {
     }
 
     private void onShowMoreClicked(View view) {
+        showMoreButton.setVisibility(View.GONE);
+        showMoreProgressBar.setVisibility(View.VISIBLE);
         viewModel.fetchMoreJourneys();
     }
 }

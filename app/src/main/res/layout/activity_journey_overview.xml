@@ -75,9 +75,16 @@
                     android:id="@+id/more_journeys"
                     style="@style/Button"
                     android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
                     android:text="@string/more" />
+                <ProgressBar
+                        android:id="@+id/show_more_progress"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
             </LinearLayout>
         </ScrollView>
 
