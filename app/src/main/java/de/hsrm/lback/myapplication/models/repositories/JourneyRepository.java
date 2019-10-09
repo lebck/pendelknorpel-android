@@ -13,14 +13,16 @@ import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Journey;
+import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.network.FetchJourneysTask;
+import de.hsrm.lback.myapplication.network.FetchMoreJourneysTask;
 
 public class JourneyRepository {
-    public static void getAllJourneys (
+    public static void getAllJourneys(
             Location src,
             Location target,
-            MutableLiveData<List<Journey>> journeys,
+            MutableLiveData<JourneyList> journeys,
             LocalDateTime dateTime
     ) {
 
@@ -64,5 +66,13 @@ public class JourneyRepository {
 
         editor.apply();
 
+    }
+
+    public static void getMoreJourneys(Location src,
+                                       Location target,
+                                       JourneyList currentJourneys,
+                                       MutableLiveData<JourneyList> journeysData,
+                                       LocalDateTime dateTime) {
+        new FetchMoreJourneysTask(currentJourneys, journeysData, dateTime).execute(src, target);
     }
 }

@@ -14,9 +14,10 @@ import java.util.List;
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Connection;
 import de.hsrm.lback.myapplication.models.Journey;
+import de.hsrm.lback.myapplication.models.JourneyList;
 
 public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHolder> {
-    private List<Journey> journeys;
+    private JourneyList journeys;
     private JourneyClickListener listener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -31,7 +32,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
         void onClick(Journey journey);
     }
 
-    public JourneyAdapter(List<Journey> journeys, JourneyClickListener listener) {
+    public JourneyAdapter(JourneyList journeys, JourneyClickListener listener) {
         this.journeys = journeys;
         this.listener = listener;
     }
@@ -49,7 +50,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull JourneyAdapter.ViewHolder viewHolder, int i) {
-        Journey j = journeys.get(i);
+        Journey j = journeys.getJourneys().get(i);
         RelativeLayout layout = viewHolder.itemView;
         TextView startTime = layout.findViewById(R.id.start_time);
         TextView realStartTime = layout.findViewById(R.id.real_start_time);
@@ -81,10 +82,10 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return journeys.size();
+        return journeys.getJourneys().size();
     }
 
-    public void setJourneys(List<Journey> journeys) {
+    public void setJourneys(JourneyList journeys) {
         this.journeys = journeys;
         notifyDataSetChanged();
     }

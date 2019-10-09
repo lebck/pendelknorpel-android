@@ -21,6 +21,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import de.hsrm.lback.myapplication.models.Connection;
 import de.hsrm.lback.myapplication.models.Journey;
+import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
 
 /**
@@ -33,6 +34,11 @@ public class XMLParser {
     private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private DocumentBuilder builder;
+
+    private class ElementsResult {
+        public NodeList elements;
+        public Element root;
+    }
 
     public XMLParser() {
         try {
@@ -49,12 +55,16 @@ public class XMLParser {
     /**
      * return all elements matching tagName from given xml string
      */
-    private NodeList getElements(String xml, String tagName) throws IOException, SAXException {
+    private ElementsResult getElements(String xml, String tagName) throws IOException, SAXException {
         Document doc = builder.parse(new ByteArrayInputStream(xml.getBytes()));
 
         Element root = doc.getDocumentElement();
 
-        return root.getElementsByTagName(tagName);
+        ElementsResult elementsResult = new ElementsResult();
+        elementsResult.elements = root.getElementsByTagName(tagName);
+        elementsResult.root = root;
+
+        return elementsResult;
 
     }
 
@@ -195,13 +205,13 @@ public class XMLParser {
     /**
      * Parse list of Trip XML Elements and return a list of journeys
      */
-    private List<Journey> getJourneysByTripNodeList(NodeList trips) {
+    private JourneyList getJourneysByTripNodeList(NodeList trips, String scrollF, String scrollB) {
         List<Journey> journeys = new ArrayList<>();
         for (int i = 0; i < trips.getLength(); i++) {
             journeys.add(getJourneyByTripElement(trips.item(i)));
         }
 
-        return journeys;
+        return new JourneyList(journeys, scrollF, scrollB);
     }
 
     /**
@@ -209,7 +219,7 @@ public class XMLParser {
      */
     public List<Location> parseLocationSearchXml(String xml) {
         try {
-            NodeList nodes = getElements(xml, LOCATION_TAG_NAME);
+            NodeList nodes = getElements(xml, LOCATION_TAG_NAME).elements;
 
             return getLocationsByStopLocationNodeList(nodes);
 
@@ -224,14 +234,21 @@ public class XMLParser {
     /**
      * Parse XML returned by a request to the search api
      */
-    public List<Journey> parseTripSearchXml(String xml) {
+    public JourneyList parseTripSearchXml(String xml) {
         try {
-            NodeList trips = getElements(xml, JOURNEY_TAG_NAME);
 
-            return getJourneysByTripNodeList(trips);
+            ElementsResult result = getElements(xml, JOURNEY_TAG_NAME);
+            NodeList trips = result.elements;
+            Element root = result.root;
+
+            String scrollF = root.getAttribute("scrF");
+            String scrollB = root.getAttribute("scrB");
+
+
+            return getJourneysByTripNodeList(trips, scrollF, scrollB);
         } catch (IOException | SAXException e) {
             e.printStackTrace();
-            return Collections.emptyList();
+            return new JourneyList(Collections.emptyList(), "", "");
         }
     }
 

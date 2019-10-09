@@ -11,6 +11,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Journey;
+import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
@@ -21,7 +22,7 @@ import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
 public class JourneyViewModel extends AndroidViewModel {
     private Location src;
     private Location target;
-    private LiveData<List<Journey>> journeysData;
+    private LiveData<JourneyList> journeysData;
     private LiveData<Location> srcData;
     private LiveData<Location> targetData;
     private LocationRepository locationRepository;
@@ -84,7 +85,26 @@ public class JourneyViewModel extends AndroidViewModel {
         JourneyRepository.getAllJourneys(
                 src,
                 target,
-                (MutableLiveData<List<Journey>>) journeysData,
+                (MutableLiveData<JourneyList>) journeysData,
+                dateTime
+        );
+    }
+
+    public void fetchMoreJourneys() {
+        LocalDateTime dateTime = dateTimeData.getValue();
+
+        // guard to prevent NullPointerException
+        if (dateTime == null) dateTime = LocalDateTime.now();
+
+        JourneyList currentJourneys = journeysData.getValue();
+
+        if (currentJourneys == null) return;
+
+        JourneyRepository.getMoreJourneys(
+                src,
+                target,
+                currentJourneys,
+                (MutableLiveData<JourneyList>) journeysData,
                 dateTime
         );
     }
@@ -120,7 +140,7 @@ public class JourneyViewModel extends AndroidViewModel {
         return targetData;
     }
 
-    public LiveData<List<Journey>> getJourneysData() {
+    public LiveData<JourneyList> getJourneysData() {
         return journeysData;
     }
 

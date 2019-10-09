@@ -2,26 +2,23 @@ package de.hsrm.lback.myapplication.views.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.adapters.JourneyAdapter;
 import de.hsrm.lback.myapplication.models.Journey;
+import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
 import de.hsrm.lback.myapplication.viewmodels.JourneyViewModel;
@@ -42,6 +39,7 @@ public class JourneyOverview extends AppCompatActivity {
     private Button timePickerButton;
     private Button nowButton;
     private Button dateButton;
+    private Button showMoreButton;
     private JourneyViewModel viewModel;
 
     @Override
@@ -52,6 +50,7 @@ public class JourneyOverview extends AppCompatActivity {
         timePickerButton = findViewById(R.id.time_picker_button);
         nowButton = findViewById(R.id.now_button);
         dateButton = findViewById(R.id.date_picker_button);
+        showMoreButton = findViewById(R.id.more_journeys);
 
         initJourneyListView();
 
@@ -80,6 +79,7 @@ public class JourneyOverview extends AppCompatActivity {
         timePickerButton.setOnClickListener(this::onTimePickerClicked);
         nowButton.setOnClickListener(this::onNowButtonClicked);
         dateButton.setOnClickListener(this::onDatePickerClicked);
+        showMoreButton.setOnClickListener(this::onShowMoreClicked);
 
     }
 
@@ -119,7 +119,7 @@ public class JourneyOverview extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         journeyListView.setLayoutManager(layoutManager);
 
-        adapter = new JourneyAdapter(new ArrayList<>(), this::onJourneyClick);
+        adapter = new JourneyAdapter(new JourneyList(Collections.emptyList(), "", ""), this::onJourneyClick);
 
         journeyListView.setAdapter(adapter);
     }
@@ -138,27 +138,36 @@ public class JourneyOverview extends AppCompatActivity {
     }
 
     /**
-     * Update all journeys and remove loading indicator
+     * Update all journeys and remove loading indicator and show more button
      */
-    private void onJourneysChange(List<Journey> journeys) {
+    private void onJourneysChange(JourneyList journeys) {
         adapter.setJourneys(journeys);
-        this.hideProgressBar();
+        if (journeys.getJourneys().size() > 0) {
+            this.hideProgressBar();
+        }
     }
 
+    /**
+     * show progress bar and hide "show more" button
+     */
     private void showProgressBar() {
         journeyListView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
+        showMoreButton.setVisibility(View.GONE);
     }
 
+    /**
+     * hide progress bar and show "show more" button
+     */
     private void hideProgressBar() {
         journeyListView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+        showMoreButton.setVisibility(View.VISIBLE);
     }
 
     private void onReadyToLoadChange(Boolean readyToLoad) {
         if (readyToLoad) viewModel.fetchJourneys();
     }
-
 
     private void onTimePickerClicked(View view) {
         TimePickerFragment newFragment = new TimePickerFragment();
@@ -175,5 +184,9 @@ public class JourneyOverview extends AppCompatActivity {
 
     private void onNowButtonClicked(View view) {
         viewModel.setDateTime(LocalDateTime.now());
+    }
+
+    private void onShowMoreClicked(View view) {
+        viewModel.fetchMoreJourneys();
     }
 }

@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Journey;
+import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
 
 /**
@@ -45,7 +46,7 @@ public class ApiConnector {
     /**
      * return List of journeys that match the start and end location and the time
      */
-    public List<Journey> getDepartures(Location from, Location to, LocalDateTime time) {
+    public JourneyList getDepartures(Location from, Location to, LocalDateTime time) {
         String fromId = from.getApiId();
         String toId = to.getApiId();
         String xml = "";
@@ -59,7 +60,7 @@ public class ApiConnector {
             );
             xml = get(url);
         } catch (IOException e) {
-            return Collections.emptyList();
+            return new JourneyList(Collections.emptyList(), "", "");
         }
 
 
@@ -102,6 +103,9 @@ public class ApiConnector {
 
     }
 
+    /**
+     * return locations by a gps coordinate
+     */
     public List<Location> getLocationsByLatLon(double lat, double lon) {
         try {
             URL url = new URL(
@@ -117,5 +121,28 @@ public class ApiConnector {
             Log.e("ApiConnector", "Fetching data failed!");
             return Collections.emptyList();
         }
+    }
+
+    public JourneyList getMore(Location from, Location to, String scrollForwardData, LocalDateTime time) {
+        String xml;
+        String fromId = from.getApiId();
+        String toId = to.getApiId();
+
+        try {
+            URL url = new URL(
+                    JOURNEY_PATH +
+                            "&originExtId=" + fromId +
+                            "&destExtId=" + toId +
+                            "&date=" + time.format(DATE_FORMAT) +
+                            "&time=" + time.format(TIME_FORMAT) +
+                            "&context=" + scrollForwardData
+            );
+            xml = get(url);
+        } catch (IOException e) {
+            return new JourneyList(Collections.emptyList(), "", "");
+        }
+
+        return parser.parseTripSearchXml(xml);
+
     }
 }
