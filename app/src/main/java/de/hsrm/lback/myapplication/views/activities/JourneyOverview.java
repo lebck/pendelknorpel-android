@@ -113,15 +113,14 @@ public class JourneyOverview extends AppCompatActivity {
     private void initJourneyListView() {
         journeyListView = findViewById(R.id.journeys_list_view);
         journeyListView.setHasFixedSize(true);
-        journeyListView.setNestedScrollingEnabled(false);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         journeyListView.setLayoutManager(layoutManager);
 
         adapter = new JourneyAdapter(new JourneyList(Collections.emptyList(),"",""),
                 this::onJourneyClick,
-                this::onShowMoreClicked
-        );
+                this::onShowMoreClicked,
+                this::onShowEarlierClicked);
 
         journeyListView.setAdapter(adapter);
     }
@@ -188,5 +187,9 @@ public class JourneyOverview extends AppCompatActivity {
 
     private void onShowMoreClicked(View view) {
         viewModel.fetchMoreJourneys();
+    }
+
+    private void onShowEarlierClicked(View view) {
+        viewModel.fetchEarlierJourneys();
     }
 }

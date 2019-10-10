@@ -18,7 +18,8 @@
                 android:layout_marginBottom="20dp"
                 android:background="@color/colorPrimary"
                 android:orientation="vertical"
-                android:paddingBottom="20dp">
+                android:paddingBottom="20dp"
+                android:elevation="4dp">
 
             <TextView
                     android:id="@+id/headline"
@@ -62,7 +63,10 @@
                 android:id="@+id/journeys_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp" />
+                android:paddingHorizontal="10dp"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                />
 
     </LinearLayout>
 

@@ -168,7 +168,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
     private void showLogoChooser() {
         TransitionManager.beginDelayedTransition(logoContainer, scaleTransition);
         ViewGroup.LayoutParams params = logoChooser.getLayoutParams();
-        params.height = 265;
+        params.height = 380;
         logoChooser.setLayoutParams(params);
         logoChooser.setVisibility(View.VISIBLE);
 

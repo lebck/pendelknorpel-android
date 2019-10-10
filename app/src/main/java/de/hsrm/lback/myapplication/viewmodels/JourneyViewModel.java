@@ -109,6 +109,27 @@ public class JourneyViewModel extends AndroidViewModel {
         );
     }
 
+    public void fetchEarlierJourneys() {
+        LocalDateTime dateTime = dateTimeData.getValue();
+
+        // guard to prevent NullPointerException
+        if (dateTime == null) dateTime = LocalDateTime.now();
+
+        JourneyList currentJourneys = journeysData.getValue();
+
+        if (currentJourneys == null) return;
+
+        JourneyRepository.getEarlierJourneys(
+                src,
+                target,
+                currentJourneys,
+                (MutableLiveData<JourneyList>) journeysData,
+                dateTime
+        );
+
+    }
+
+
     public void onTimeChosen(int hours, int minutes) {
         LocalDateTime dateTime = getDateTimeData().getValue();
         if (dateTime != null) {

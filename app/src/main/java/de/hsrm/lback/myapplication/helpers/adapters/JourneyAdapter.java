@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,6 +24,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
     private JourneyList journeys;
     private JourneyClickListener listener;
     private View.OnClickListener onShowMoreListener;
+    private View.OnClickListener onShowEarlierListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View itemView;
@@ -35,15 +34,15 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
         }
     }
 
-    public JourneyAdapter (
+    public JourneyAdapter(
             JourneyList journeys,
             JourneyClickListener listener,
-            View.OnClickListener onShowMoreListener
-
-    ) {
+            View.OnClickListener onShowMoreListener,
+            View.OnClickListener onShowEarlierListener) {
         this.journeys = journeys;
         this.listener = listener;
         this.onShowMoreListener = onShowMoreListener;
+        this.onShowEarlierListener = onShowEarlierListener;
     }
 
     @NonNull
@@ -68,6 +67,8 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
         TextView vehicle = layout.findViewById(R.id.vehicle);
         Button showMoreButton = layout.findViewById(R.id.more_journeys);
         ProgressBar showMoreProgressBar = layout.findViewById(R.id.show_more_progress);
+        Button earlierButton = layout.findViewById(R.id.earlier_journeys);
+        ProgressBar showEarlierProgressBar = layout.findViewById(R.id.earlier_progress);
 
         layout.setOnClickListener(v -> this.listener.onClick(j));
 
@@ -89,8 +90,19 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
         changes.setText(String.format("U: %s", connections.size() - 1));
         vehicle.setText(j.getVehicleString());
 
-        // show "show more" button & attach listener if this is the last item in the list
-        if (i == journeys.getJourneys().size() - 1) {
+        if (i == 0) {
+            // show "earlier" button & attach listener if this is the first item in the list
+            earlierButton.setVisibility(View.VISIBLE);
+            showEarlierProgressBar.setVisibility(View.GONE);
+            // show spinner & hide button on click & then execute callback
+            earlierButton.setOnClickListener(view -> {
+                showEarlierProgressBar.setVisibility(View.VISIBLE);
+                earlierButton.setVisibility(View.GONE);
+                this.onShowEarlierListener.onClick(view);
+            });
+
+        } else if (i == journeys.getJourneys().size() - 1) {
+            // show "show more" button & attach listener if this is the last item in the list
             showMoreButton.setVisibility(View.VISIBLE);
             // show spinner & hide button on click & then execute callback
             showMoreButton.setOnClickListener(view -> {
@@ -102,6 +114,10 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
             showMoreButton.setVisibility(View.GONE);
             showMoreProgressBar.setVisibility(View.GONE);
             showMoreButton.setOnClickListener(null);
+
+            showEarlierProgressBar.setVisibility(View.GONE);
+            earlierButton.setVisibility(View.GONE);
+            earlierButton.setOnClickListener(null);
         }
     }
 

@@ -123,7 +123,7 @@ public class ApiConnector {
         }
     }
 
-    public JourneyList getMore(Location from, Location to, String scrollForwardData, LocalDateTime time) {
+    public JourneyList getMore(Location from, Location to, String scrollForwardData, String scrollBackwardsData, LocalDateTime time) {
         String xml;
         String fromId = from.getApiId();
         String toId = to.getApiId();
@@ -135,7 +135,7 @@ public class ApiConnector {
                             "&destExtId=" + toId +
                             "&date=" + time.format(DATE_FORMAT) +
                             "&time=" + time.format(TIME_FORMAT) +
-                            "&context=" + scrollForwardData
+                            "&context=" + (scrollForwardData != null ? scrollForwardData : scrollBackwardsData)
             );
             xml = get(url);
         } catch (IOException e) {

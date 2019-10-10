@@ -28,6 +28,7 @@ import de.hsrm.lback.myapplication.views.views.LocationView;
  * new Locations
  */
 public class LocationOverview extends AppCompatActivity {
+    private static final int LOCATION_BUBBLE_AMOUNT = 12;
     private static final String AN_SRC = "an_src";
     private static final String AN_TARGET = "an_target";
     private static final int GPS_SRC = 2;
@@ -99,9 +100,9 @@ public class LocationOverview extends AppCompatActivity {
     private void onLocationsChange(List<Location> locations) {
 
 
-        // fill up locationslist with empty locations until there are 9
+        // fill up locationslist with empty locations until there are enough
         int len = locations.size();
-        for (int i = 0; i < 9 - len; i++) {
+        for (int i = 0; i < LOCATION_BUBBLE_AMOUNT - len; i++) {
             locations.add(new Location(""));
         }
 

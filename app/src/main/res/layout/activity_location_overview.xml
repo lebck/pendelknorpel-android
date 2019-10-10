@@ -1,58 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".views.activities.LocationOverview"
-    android:background="@color/colorPrimaryDark"
-    android:id="@+id/location_overview_root"
-    >
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/location_overview_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="0dp"
+        android:orientation="vertical"
+        android:translationZ="5dp"
+        tools:context=".views.activities.LocationOverview">
 
 
     <fragment
-        android:id="@+id/fragment_journey_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        class="de.hsrm.lback.myapplication.views.fragments.JourneyViewSmall"/>
+            android:id="@+id/fragment_journey_detail"
+            class="de.hsrm.lback.myapplication.views.fragments.JourneyViewSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/anonymous_anchor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="80dp">
-
-    <GridView
-        android:id="@+id/locations_grid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numColumns="3"
-        android:horizontalSpacing="30dp"
-        android:verticalSpacing="30dp"
-        android:stretchMode="spacingWidth"
-        android:columnWidth="100dp"
-        />
-
-        <LinearLayout
+            android:id="@+id/anonymous_anchor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <include
-                android:layout_marginTop="30dp"
-                android:id="@+id/anonymous"
-                layout="@layout/location_layout"
-                android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:paddingHorizontal="10dp"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:orientation="vertical">
+
+        <GridView
+                android:id="@+id/locations_grid"
                 android:layout_width="wrap_content"
-                android:layout_marginEnd="30dp"/>
+                android:layout_height="wrap_content"
+                android:columnWidth="120dp"
+                android:horizontalSpacing="0dp"
+                android:numColumns="3"
+                android:stretchMode="spacingWidth"
+                android:verticalSpacing="30dp"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:paddingTop="5dp"
+                android:paddingBottom="30dp"
+                />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:paddingBottom="20dp">
 
             <include
-                android:layout_marginTop="30dp"
-                android:id="@+id/gps"
-                layout="@layout/location_layout"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
+                    android:id="@+id/anonymous"
+                    layout="@layout/location_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp" />
+
+            <include
+                    android:id="@+id/gps"
+                    layout="@layout/location_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
         </LinearLayout>
 

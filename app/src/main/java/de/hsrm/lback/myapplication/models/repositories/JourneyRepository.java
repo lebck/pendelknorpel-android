@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Journey;
@@ -73,6 +72,10 @@ public class JourneyRepository {
                                        JourneyList currentJourneys,
                                        MutableLiveData<JourneyList> journeysData,
                                        LocalDateTime dateTime) {
-        new FetchMoreJourneysTask(currentJourneys, journeysData, dateTime).execute(src, target);
+        new FetchMoreJourneysTask(currentJourneys, journeysData, dateTime, true).execute(src, target);
+    }
+
+    public static void getEarlierJourneys(Location src, Location target, JourneyList currentJourneys, MutableLiveData<JourneyList> journeysData, LocalDateTime dateTime) {
+        new FetchMoreJourneysTask(currentJourneys, journeysData, dateTime, false).execute(src, target);
     }
 }

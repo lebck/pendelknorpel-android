@@ -17,28 +17,41 @@ public class FetchMoreJourneysTask extends AsyncTask<Location, Void, JourneyList
     private MutableLiveData<JourneyList> journeysData;
     private LocalDateTime dateTime;
     private JourneyList currentJourneys;
+    private boolean more;
 
-    public FetchMoreJourneysTask(JourneyList currentJourneys, MutableLiveData<JourneyList> journeysData, LocalDateTime dateTime) {
+    public FetchMoreJourneysTask(JourneyList currentJourneys, MutableLiveData<JourneyList> journeysData, LocalDateTime dateTime, boolean more) {
         this.journeysData = journeysData;
         this.dateTime = dateTime;
         this.currentJourneys = currentJourneys;
+        this.more = more;
     }
 
     @Override
-    protected JourneyList doInBackground(Location ...locations) {
+    protected JourneyList doInBackground(Location... locations) {
         ApiConnector connector = new ApiConnector();
 
         Location src = locations[0];
         Location target = locations[1];
 
-        JourneyList moreJourneys = connector.getMore(src, target, currentJourneys.getScrollForwardData(), dateTime);
+        String moreData = more ? currentJourneys.getScrollForwardData() : null;
+        String earlierData = more ? null : currentJourneys.getScrollBackwardsData();
 
-        String newGetMoreData = moreJourneys.getScrollForwardData();
+        JourneyList moreJourneys = connector.getMore(src, target, moreData, earlierData, dateTime);
+
 
         List<Journey> aggregatedJourneyList = currentJourneys.getJourneys();
-        aggregatedJourneyList.addAll(moreJourneys.getJourneys());
+        JourneyList newJourneys;
 
-        JourneyList newJourneys = new JourneyList(aggregatedJourneyList, newGetMoreData, currentJourneys.getScrollBackwardsData());
+        if (more) {
+            String newGetMoreData = moreJourneys.getScrollForwardData();
+            aggregatedJourneyList.addAll(moreJourneys.getJourneys());
+            newJourneys = new JourneyList(aggregatedJourneyList, newGetMoreData, currentJourneys.getScrollBackwardsData());
+        } else {
+            String getEarlierData = moreJourneys.getScrollBackwardsData();
+            aggregatedJourneyList.addAll(0, moreJourneys.getJourneys());
+            newJourneys = new JourneyList(aggregatedJourneyList, currentJourneys.getScrollForwardData(), getEarlierData);
+        }
+
 
         journeysData.postValue(newJourneys);
 

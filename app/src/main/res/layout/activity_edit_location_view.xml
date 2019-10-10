@@ -1,61 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".views.activities.EditLocationView"
-    android:id="@+id/edit_location"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/edit_location"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        tools:context=".views.activities.EditLocationView">
 
- <LinearLayout
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:orientation="vertical"
-     android:gravity="center_horizontal">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-     <android.support.v7.widget.Toolbar
-         android:id="@+id/edit_toolbar"
-         android:layout_width="match_parent"
-         android:layout_height="?attr/actionBarSize"
-         android:background="@color/colorPrimary"
-         android:elevation="4dp"
-         android:layout_marginBottom="20dp"
-         android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
-         app:title="@string/edit_location"
-         app:popupTheme="@style/Base.Theme.AppCompat.Light"
-         />
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/edit_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp"
+                android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+                app:popupTheme="@style/Base.Theme.AppCompat.Light"
+                app:title="@string/edit_location" />
 
-     <RelativeLayout
-         android:id="@+id/logo_container"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content">
-         <include layout="@layout/location_logo"/>
-         <android.support.v7.widget.RecyclerView
-             android:id="@+id/logo_chooser"
-             android:background="@color/colorPrimaryDark"
-             android:layout_width="wrap_content"
-             android:layout_height="0dp"
-             android:orientation="horizontal"
-             app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+        <RelativeLayout
+                android:id="@+id/logo_container"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
 
-     </RelativeLayout>
+            <include layout="@layout/location_logo"
+                    android:paddingVertical="20dp"
+                    />
 
-     <EditText
-         style="@style/Text"
-         android:id="@+id/edit_location_display_name"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_marginHorizontal="80dp"
-         android:layout_marginBottom="20dp"
-         android:hint="@string/short_name"
-         android:textAlignment="center"
-         android:backgroundTint="@color/colorBright"
-         android:textColorHint="@color/colorGrayLight"
-         android:textColor="@color/colorBright" />
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/logo_chooser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/colorPrimary"
+                    android:clipChildren="false"
+                    android:elevation="6dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="20dp"
+                    android:clipToPadding="false"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-     <include layout="@layout/location_search" />
+        </RelativeLayout>
 
- </LinearLayout>
+        <EditText
+                android:id="@+id/edit_location_display_name"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/rounded_background"
+                android:elevation="2dp"
+                android:hint="@string/short_name"
+                android:paddingVertical="10dp"
+                android:textAlignment="center"
+                android:textColorHint="@color/colorGrayLight" />
+
+        <include layout="@layout/location_search" />
+
+    </LinearLayout>
 
 </RelativeLayout>

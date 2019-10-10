@@ -2,17 +2,19 @@
 
     <!-- Base application theme. -->
     <style name="PendelKnorpel" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/colorPrimaryDark</item>
-        <item name="android:textColor">@color/colorAccent</item>
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="android:windowBackground">@color/colorPrimary</item>
+    <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="Headline" parent="Base.TextAppearance.AppCompat.Headline">
-        <item name="android:textColor">@color/colorAccent</item>
+    <style name="Headline" parent="Text">
+        <item name="android:textSize">23sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:fontFamily">@font/lato_black</item>
     </style>
 
     <style name="textWarning">
@@ -21,10 +23,12 @@
     </style>
 
     <style name="Text">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/barlow_semi_condensed</item>
     </style>
 
-    <style name="JourneyViewText">
+    <style name="JourneyViewText" parent="Text">
+        <item name="android:textSize">17sp</item>
         <item name="android:layout_marginHorizontal">10dp</item>
     </style>
 
@@ -37,20 +41,20 @@
         <item name="android:background">@color/colorPrimaryDarkTransparent</item>
     </style>
 
-    <style name="TextStrong">
+    <style name="TextStrong" parent="Text">
         <item name="android:textSize">18sp</item>
         <item name="android:fontWeight">200</item>
     </style>
 
-    <style name="ConnectionText">
+    <style name="ConnectionText" parent="Text">
         <item name="android:textColor">#fff</item>
         <item name="android:textAlignment">textStart</item>
     </style>
 
-    <style name="Button">
+    <style name="Button" parent="Text">
         <item name="android:background">#00ffffff</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#fff</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
 </resources>
