@@ -40,8 +40,6 @@ public class JourneyOverview extends AppCompatActivity {
     private Button nowButton;
     private Button dateButton;
     // ToDo add showPreviousButton
-    private Button showMoreButton;
-    private ProgressBar showMoreProgressBar;
     private JourneyViewModel viewModel;
 
     @Override
@@ -52,8 +50,6 @@ public class JourneyOverview extends AppCompatActivity {
         timePickerButton = findViewById(R.id.time_picker_button);
         nowButton = findViewById(R.id.now_button);
         dateButton = findViewById(R.id.date_picker_button);
-        showMoreButton = findViewById(R.id.more_journeys);
-        showMoreProgressBar = findViewById(R.id.show_more_progress);
 
         initJourneyListView();
 
@@ -82,7 +78,6 @@ public class JourneyOverview extends AppCompatActivity {
         timePickerButton.setOnClickListener(this::onTimePickerClicked);
         nowButton.setOnClickListener(this::onNowButtonClicked);
         dateButton.setOnClickListener(this::onDatePickerClicked);
-        showMoreButton.setOnClickListener(this::onShowMoreClicked);
 
     }
 
@@ -118,11 +113,15 @@ public class JourneyOverview extends AppCompatActivity {
     private void initJourneyListView() {
         journeyListView = findViewById(R.id.journeys_list_view);
         journeyListView.setHasFixedSize(true);
+        journeyListView.setNestedScrollingEnabled(false);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         journeyListView.setLayoutManager(layoutManager);
 
-        adapter = new JourneyAdapter(new JourneyList(Collections.emptyList(), "", ""), this::onJourneyClick);
+        adapter = new JourneyAdapter(new JourneyList(Collections.emptyList(),"",""),
+                this::onJourneyClick,
+                this::onShowMoreClicked
+        );
 
         journeyListView.setAdapter(adapter);
     }
@@ -145,7 +144,6 @@ public class JourneyOverview extends AppCompatActivity {
      */
     private void onJourneysChange(JourneyList journeys) {
         adapter.setJourneys(journeys);
-        showMoreProgressBar.setVisibility(View.GONE);
         if (journeys.getJourneys().size() > 0) {
             this.hideProgressBar();
         }
@@ -157,7 +155,6 @@ public class JourneyOverview extends AppCompatActivity {
     private void showProgressBar() {
         journeyListView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-        showMoreButton.setVisibility(View.GONE);
     }
 
     /**
@@ -166,7 +163,6 @@ public class JourneyOverview extends AppCompatActivity {
     private void hideProgressBar() {
         journeyListView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-        showMoreButton.setVisibility(View.VISIBLE);
     }
 
     private void onReadyToLoadChange(Boolean readyToLoad) {
@@ -191,8 +187,6 @@ public class JourneyOverview extends AppCompatActivity {
     }
 
     private void onShowMoreClicked(View view) {
-        showMoreButton.setVisibility(View.GONE);
-        showMoreProgressBar.setVisibility(View.VISIBLE);
         viewModel.fetchMoreJourneys();
     }
 }

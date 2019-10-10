@@ -1,75 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:orientation="horizontal"
-    android:gravity="center"
-    android:layout_marginBottom="20dp"
-    android:background="@drawable/rounded_background"
-    android:paddingVertical="20dp">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:gravity="center_vertical">
-        <TextView
-            android:id="@+id/start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/JourneyViewText"
-            android:text="21:15"/>
-        <TextView
-            android:id="@+id/real_start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/JourneyViewText"
-            android:textColor="@color/colorWarning"
-            android:text="21:20"/>
-    </LinearLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/vehicle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/JourneyViewText"
-            android:text="Bus: 3"/>
+    <Button
+            android:id="@+id/earlier_journeys"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:text="@string/more"
+            android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/changes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/JourneyViewText"
-            android:text="U: 1"/>
+    <ProgressBar
+            android:id="@+id/earlier_progress"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:visibility="visible" />
 
-    </LinearLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingVertical="20dp">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/JourneyViewText"
-            android:text="22:15"/>
-        <TextView
-            android:id="@+id/real_end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/JourneyViewText"
-            android:textColor="@color/colorWarning"
-            android:text="22:15"/>
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-    </LinearLayout>
-</RelativeLayout>
+            <TextView
+                    android:id="@+id/start_time"
+                    style="@style/JourneyViewText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="21:15" />
+
+            <TextView
+                    android:id="@+id/real_start_time"
+                    style="@style/JourneyViewText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="21:20"
+                    android:textColor="@color/colorWarning" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:id="@+id/vehicle"
+                    style="@style/JourneyViewText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bus: 3" />
+
+            <TextView
+                    android:id="@+id/changes"
+                    style="@style/JourneyViewText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="U: 1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/end_time"
+                    style="@style/JourneyViewText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="22:15" />
+
+            <TextView
+                    android:id="@+id/real_end_time"
+                    style="@style/JourneyViewText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="22:15"
+                    android:textColor="@color/colorWarning" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Button
+            android:id="@+id/more_journeys"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="-20dp"
+            android:gravity="center"
+            android:text="@string/more"
+            android:visibility="gone" />
+
+    <ProgressBar
+            android:id="@+id/show_more_progress"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:visibility="gone" />
+
+</LinearLayout>
