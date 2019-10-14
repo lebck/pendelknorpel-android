@@ -24,7 +24,7 @@
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="85dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/rounded_background"
             android:gravity="center"
@@ -122,5 +122,4 @@
             android:paddingTop="15dp"
             android:gravity="center"
             android:visibility="gone" />
-
 </LinearLayout>
