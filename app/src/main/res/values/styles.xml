@@ -23,6 +23,7 @@
     </style>
 
     <style name="Text">
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:fontFamily">@font/barlow_semi_condensed</item>
     </style>
@@ -47,7 +48,6 @@
     </style>
 
     <style name="ConnectionText" parent="Text">
-        <item name="android:textColor">#fff</item>
         <item name="android:textAlignment">textStart</item>
     </style>
 
