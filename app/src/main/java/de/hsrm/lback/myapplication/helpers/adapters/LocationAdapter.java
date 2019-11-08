@@ -58,11 +58,11 @@ public class LocationAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LocationViewModel viewModel = new LocationViewModel(application);
-        viewModel.init(locations.get(position));
+        viewModel.init(locations.get(position), this.activity);
         convertView = activity.getLayoutInflater().inflate(layoutId, null);
 
         if (convertView instanceof LocationView)
-            ((LocationView)convertView).init(activity, viewModel);
+            ((LocationView)convertView).init(viewModel);
 
 
         return convertView;

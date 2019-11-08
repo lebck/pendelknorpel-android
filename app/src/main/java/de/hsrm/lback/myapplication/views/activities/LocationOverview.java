@@ -27,7 +27,7 @@ import de.hsrm.lback.myapplication.views.views.LocationView;
  * Displays a list of Locations and provides inputs to add
  * new Locations
  */
-public class LocationOverview extends AppCompatActivity {
+public class LocationOverview extends AppCompatActivity implements LocationViewModel.ViewHandler {
     private static final int LOCATION_BUBBLE_AMOUNT = 12;
     private static final String AN_SRC = "an_src";
     private static final String AN_TARGET = "an_target";
@@ -74,7 +74,7 @@ public class LocationOverview extends AppCompatActivity {
      private void initializeStaticLocations() {
         LocationViewModel anonymousLocationViewModel = new LocationViewModel(getApplication());
         anonymousLocationViewModel.setAnonymous(true);
-        anonymousLocationView.init(this, anonymousLocationViewModel);
+        anonymousLocationView.init(anonymousLocationViewModel);
         TextView anonymousLocationName = anonymousLocationView.findViewById(R.id.location_name);
         ImageView anonymousLocationLogo = anonymousLocationView.findViewById(R.id.location_logo);
 
@@ -82,7 +82,7 @@ public class LocationOverview extends AppCompatActivity {
 
         LocationViewModel gpsLocationViewModel = new LocationViewModel(getApplication());
         gpsLocationViewModel.setGps(true);
-        gpsLocationView.init(this, gpsLocationViewModel);
+        gpsLocationView.init(gpsLocationViewModel);
         TextView gpsLocationName = gpsLocationView.findViewById(R.id.location_name);
         ImageView gpsLocationLogo = gpsLocationView.findViewById(R.id.location_logo);
 

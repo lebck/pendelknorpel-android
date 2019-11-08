@@ -104,7 +104,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
             this.locationLiveData = new MutableLiveData<>();
             ((MutableLiveData<Location>)this.locationLiveData)
                     .setValue(new Location(""));
-            viewModel.init(locationLiveData.getValue());
+            viewModel.setLocation(locationLiveData.getValue());
         }
 
         this.locationLiveData.observe(this, this::onLocationChange);
@@ -192,7 +192,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
             this.displayName.setText(location.getDisplayName());
             this.onLogoChange(location.getLogo());
             if (this.viewModel.getLocation() == null) {
-                this.viewModel.init(location);
+                this.viewModel.setLocation(location);
                 this.onLogoChange(this.viewModel.getLocation().getLogo());
             }
             locationText.setSelection(locationText.getText().length());
