@@ -16,6 +16,7 @@ import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.network.FetchJourneysTask;
 import de.hsrm.lback.myapplication.network.FetchMoreJourneysTask;
+import de.hsrm.lback.myapplication.network.RefreshJourneyTask;
 
 public class JourneyRepository {
     public static void getAllJourneys(
@@ -77,5 +78,9 @@ public class JourneyRepository {
 
     public static void getEarlierJourneys(Location src, Location target, JourneyList currentJourneys, MutableLiveData<JourneyList> journeysData, LocalDateTime dateTime) {
         new FetchMoreJourneysTask(currentJourneys, journeysData, dateTime, false).execute(src, target);
+    }
+
+    public static void refreshJourney(MutableLiveData<Journey> journeyData) {
+        new RefreshJourneyTask(journeyData).execute();
     }
 }

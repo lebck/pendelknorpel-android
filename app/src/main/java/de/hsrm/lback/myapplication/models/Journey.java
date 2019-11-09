@@ -13,6 +13,7 @@ public class Journey {
     private Location srcLocation;
     private Location targetLocation;
     private List<Connection> connections;
+    private String checksum;
 
 
     public Journey(List<Connection> connections) {
@@ -69,5 +70,13 @@ public class Journey {
                 srcLocation.getName(),
                 targetLocation.getName()
         );
+    }
+
+    public String getChecksum() {
+        return checksum;
+    }
+
+    public void setChecksum(String checksum) {
+        this.checksum = checksum;
     }
 }

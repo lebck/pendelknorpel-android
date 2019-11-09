@@ -1,5 +1,6 @@
 package de.hsrm.lback.myapplication.views.fragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +23,16 @@ import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.adapters.ConnectionsAdapter;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
+import de.hsrm.lback.myapplication.viewmodels.JourneyDetailViewModel;
 
 /**
  * Display all information about a journey
  */
 public class JourneyDetailView extends Fragment {
     private Bitmap background;
+    private ConnectionsAdapter connectionsAdapter;
+    private JourneyDetailViewModel viewModel;
+    private SwipeRefreshLayout view;
 
     public JourneyDetailView() {
         // Required empty public constructor
@@ -35,6 +41,7 @@ public class JourneyDetailView extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = ViewModelProviders.of(this).get(JourneyDetailViewModel.class);
 
     }
 
@@ -53,27 +60,36 @@ public class JourneyDetailView extends Fragment {
         if (background != null)
             view.setBackground(new BitmapDrawable(getResources(), background));
 
-        // get journey from sharedPreferences
-        SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.current_journey), Context.MODE_PRIVATE);
+        this.view = (SwipeRefreshLayout) view;
+        this.view.setOnRefreshListener(this::handleRefresh);
+        this.viewModel.getJourneyData().observe(this, this::onJourneyChanged);
 
-        String json = preferences.getString(Journey.JOURNEY_ID, "");
 
-        Journey j = JourneyRepository.getCurrentJourney(getContext());
+    }
 
+    private void onJourneyChanged(Journey journey) {
         // set headline
         TextView journeyHeadline = view.findViewById(R.id.connection_headline);
         journeyHeadline.setText(String.format(
-                "VERBINDUNG\n%s", j.getDetailString()
+                "VERBINDUNG\n%s", journey.getDetailString()
         ));
 
         // display journey
         ListView connectionList = view.findViewById(R.id.connection_list);
 
-        BaseAdapter adapter = new ConnectionsAdapter(j.getConnections());
+        this.connectionsAdapter = new ConnectionsAdapter(journey.getConnections());
 
-        connectionList.setAdapter(adapter);
+        connectionList.setAdapter(this.connectionsAdapter);
+
+        this.view.setRefreshing(false);
 
     }
+
+    private void handleRefresh() {
+        this.viewModel.refreshJourney();
+    }
+
+
 
     public void setBackground(Bitmap bitmap) {
         this.background = bitmap;

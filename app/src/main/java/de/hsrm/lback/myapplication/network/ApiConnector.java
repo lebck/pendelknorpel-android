@@ -145,4 +145,22 @@ public class ApiConnector {
         return parser.parseTripSearchXml(xml);
 
     }
+
+    public Journey refreshJourney(Journey journey) {
+        String checksum = journey.getChecksum();
+        Location from = journey.getSrcLocation();
+        Location to = journey.getTargetLocation();
+        LocalDateTime time = journey.getConnections().get(0).getStartTimeObject();
+
+        JourneyList journeys = getDepartures(from, to, time);
+        return findJourney(journeys.getJourneys(), checksum);
+    }
+
+    private Journey findJourney(List<Journey> journeys, String checksum) {
+        return journeys
+                .stream()
+                .filter(journey -> journey.getChecksum().equals(checksum))
+                .findAny()
+                .orElse(null);
+    }
 }

@@ -197,7 +197,7 @@ public class XMLParser {
         Journey journey = new Journey();
 
         journey.setConnections(getConnectionsByTripElement(element));
-
+        journey.setChecksum(element.getAttribute("checksum"));
 
         return journey;
     }
