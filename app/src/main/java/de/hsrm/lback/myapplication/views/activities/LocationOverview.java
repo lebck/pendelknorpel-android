@@ -1,5 +1,6 @@
 package de.hsrm.lback.myapplication.views.activities;
 
+import android.app.ActionBar;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.graphics.Point;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,17 +21,18 @@ import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.services.LocationService;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationAdapter;
+import de.hsrm.lback.myapplication.services.WindowService;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 import de.hsrm.lback.myapplication.views.views.LocationView;
 
 /**
  * Main actvity of the app.
- *
+ * <p>
  * Displays a list of Locations and provides inputs to add
  * new Locations
  */
 public class LocationOverview extends AppCompatActivity implements LocationViewModel.ViewHandler {
-    private static final int LOCATION_BUBBLE_AMOUNT = 12;
+    private int locationBubbleAmount = 12;
     private static final String AN_SRC = "an_src";
     private static final String AN_TARGET = "an_target";
     private static final int GPS_SRC = 2;
@@ -45,11 +48,15 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
     private Location anonymousSrcLocation;
     private Location anonymousTargetLocation;
 
+    private WindowService windowService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         restoreAnonymousLocations(savedInstanceState);
         setContentView(R.layout.activity_location_overview);
+
+        this.windowService = new WindowService(this);
 
         // get views
         this.locationsGrid = findViewById(R.id.locations_grid);
@@ -62,12 +69,14 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
         LiveData<List<Location>> locationData = locationService.getAllLocations();
         this.locations = new ArrayList<>();
 
+        this.setRowAmount(
+                (this.windowService.getHeight() - (int) windowService.pxFromDp(120)) /
+                        this.windowService.calculateMeasures(300)
+                        - 2
+        );
         this.gridArrayAdapter = new LocationAdapter(this, locations, locationService, getApplication(), R.layout.location_layout);
         this.locationsGrid.setAdapter(gridArrayAdapter);
-        Point size = new Point();
-        getWindowManager().getDefaultDisplay().getSize(size);
-
-        Log.d("DISPLAYSIZE",String.format("%sx%s", size.x, size.y));
+        this.locationsGrid.setColumnWidth(this.windowService.calculateMeasures(300));
 
         // set Locations on change
         locationData.observe(this, this::onLocationsChange);
@@ -75,11 +84,18 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
         initializeStaticLocations();
     }
 
-     /** setup anonymous location view and gps location view */
-     private void initializeStaticLocations() {
+    /**
+     * setup anonymous location view and gps location view
+     */
+    private void initializeStaticLocations() {
         LocationViewModel anonymousLocationViewModel = new LocationViewModel(getApplication());
         anonymousLocationViewModel.setAnonymous(true);
         anonymousLocationView.init(anonymousLocationViewModel);
+
+        ViewGroup.LayoutParams params = anonymousLocationView.getLayoutParams();
+        params.width = this.windowService.calculateMeasures(300);
+        anonymousLocationView.setLayoutParams(params);
+
         TextView anonymousLocationName = anonymousLocationView.findViewById(R.id.location_name);
         ImageView anonymousLocationLogo = anonymousLocationView.findViewById(R.id.location_logo);
 
@@ -88,6 +104,9 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
         LocationViewModel gpsLocationViewModel = new LocationViewModel(getApplication());
         gpsLocationViewModel.setGps(true);
         gpsLocationView.init(gpsLocationViewModel);
+
+        gpsLocationView.setLayoutParams(params);
+
         TextView gpsLocationName = gpsLocationView.findViewById(R.id.location_name);
         ImageView gpsLocationLogo = gpsLocationView.findViewById(R.id.location_logo);
 
@@ -101,17 +120,18 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
 
     }
 
-    /** Update all locations in grid */
+    /**
+     * Update all locations in grid
+     */
     private void onLocationsChange(List<Location> locations) {
 
 
         // fill up locationslist with empty locations until there are enough
         int len = locations.size();
-        for (int i = 0; i < LOCATION_BUBBLE_AMOUNT - len; i++) {
+        for (int i = 0; i < this.locationBubbleAmount - len; i++) {
             locations.add(new Location(""));
         }
 
-        // TODO make this less ugly:
         this.locations.clear();
         this.locations.addAll(locations);
         this.gridArrayAdapter.notifyDataSetChanged();
@@ -130,7 +150,9 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
         startActivity(intent);
     }
 
-    /** open view(s) to edit anonymous location(s) */
+    /**
+     * open view(s) to edit anonymous location(s)
+     */
     public void openAnonymousEditView(int srcUid, int targetUid) {
         if (srcUid != 0) {
             locationService
@@ -267,5 +289,9 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
         Intent intent = new Intent(this, GpsLIstActivity.class);
 
         startActivityForResult(intent, requestCode);
+    }
+
+    public void setRowAmount(int rowAmount) {
+        this.locationBubbleAmount = rowAmount * 3;
     }
 }
