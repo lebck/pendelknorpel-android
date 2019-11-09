@@ -1,9 +1,10 @@
-package de.hsrm.lback.myapplication.network;
+package de.hsrm.lback.myapplication.helpers.tasks;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
 import de.hsrm.lback.myapplication.models.Journey;
+import de.hsrm.lback.myapplication.network.ApiConnector;
 
 public class RefreshJourneyTask extends AsyncTask<Void, Void, Void> {
 

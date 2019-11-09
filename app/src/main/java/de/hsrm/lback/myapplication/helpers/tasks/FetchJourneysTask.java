@@ -1,15 +1,12 @@
-package de.hsrm.lback.myapplication.network;
+package de.hsrm.lback.myapplication.helpers.tasks;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.network.ApiConnector;
-import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.Location;
 
 /**

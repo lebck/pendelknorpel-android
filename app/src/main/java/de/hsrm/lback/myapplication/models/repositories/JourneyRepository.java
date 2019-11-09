@@ -14,9 +14,9 @@ import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.network.FetchJourneysTask;
-import de.hsrm.lback.myapplication.network.FetchMoreJourneysTask;
-import de.hsrm.lback.myapplication.network.RefreshJourneyTask;
+import de.hsrm.lback.myapplication.helpers.tasks.FetchJourneysTask;
+import de.hsrm.lback.myapplication.helpers.tasks.FetchMoreJourneysTask;
+import de.hsrm.lback.myapplication.helpers.tasks.RefreshJourneyTask;
 
 public class JourneyRepository {
     public static void getAllJourneys(

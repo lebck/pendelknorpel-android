@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.models.repositories.tasks;
+package de.hsrm.lback.myapplication.helpers.tasks;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;

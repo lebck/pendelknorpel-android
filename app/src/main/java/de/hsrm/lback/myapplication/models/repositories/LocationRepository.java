@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.tasks.GpsTask;
-import de.hsrm.lback.myapplication.models.repositories.tasks.LocationAsyncTask;
-import de.hsrm.lback.myapplication.network.SearchLocationsTask;
+import de.hsrm.lback.myapplication.helpers.tasks.GpsTask;
+import de.hsrm.lback.myapplication.helpers.tasks.LocationAsyncTask;
+import de.hsrm.lback.myapplication.helpers.tasks.SearchLocationsTask;
 import de.hsrm.lback.myapplication.persistence.AppDatabase;
 import de.hsrm.lback.myapplication.persistence.LocationDao;
 

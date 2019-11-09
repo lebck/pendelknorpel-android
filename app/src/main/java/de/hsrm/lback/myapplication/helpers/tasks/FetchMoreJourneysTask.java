@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.network;
+package de.hsrm.lback.myapplication.helpers.tasks;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
@@ -9,6 +9,7 @@ import java.util.List;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.network.ApiConnector;
 
 /**
  * Task that fetches journeys from given start and end location

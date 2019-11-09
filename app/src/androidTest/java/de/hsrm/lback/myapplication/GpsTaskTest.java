@@ -1,18 +1,13 @@
 package de.hsrm.lback.myapplication;
 
-import android.app.Application;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.tasks.GpsTask;
+import de.hsrm.lback.myapplication.helpers.tasks.GpsTask;
 
 public class GpsTaskTest {
 
