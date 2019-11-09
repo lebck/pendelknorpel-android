@@ -1,7 +1,7 @@
 package de.hsrm.lback.myapplication.viewmodels;
 
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
+import de.hsrm.lback.myapplication.services.LocationService;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -14,17 +14,16 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.SuccessContinuation;
 
 import java.util.List;
 
 public class GpsListViewModel extends AndroidViewModel {
-    private LocationRepository locationRepository;
+    private LocationService locationService;
     private FusedLocationProviderClient client;
 
     public GpsListViewModel(@NonNull Application application) {
         super(application);
-        this.locationRepository = new LocationRepository(application);
+        this.locationService = new LocationService(application);
         client = LocationServices.getFusedLocationProviderClient(application);
     }
 
@@ -52,7 +51,7 @@ public class GpsListViewModel extends AndroidViewModel {
     public LiveData<List<Location>>
         getLocationsForGpsCoord(double lat, double lon) {
 
-        return locationRepository.getLocationsForGpsCoords(lat, lon);
+        return locationService.getLocationsForGpsCoords(lat, lon);
     }
 
 }

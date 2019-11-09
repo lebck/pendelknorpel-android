@@ -7,7 +7,7 @@ import android.view.DragEvent;
 import android.view.View;
 
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
+import de.hsrm.lback.myapplication.services.LocationService;
 import de.hsrm.lback.myapplication.views.views.LocationView;
 
 /**
@@ -26,7 +26,7 @@ public class LocationViewModel extends AndroidViewModel {
     }
 
     private Location location;
-    private LocationRepository locationRepository;
+    private LocationService locationService;
     private boolean anonymous;
     private boolean gps;
     private ViewHandler viewHandler;
@@ -35,7 +35,7 @@ public class LocationViewModel extends AndroidViewModel {
 
     public LocationViewModel(Application application) {
         super(application);
-        this.locationRepository = new LocationRepository(application);
+        this.locationService = new LocationService(application);
         this.anonymous = false;
         this.gps = false;
     }
@@ -47,13 +47,13 @@ public class LocationViewModel extends AndroidViewModel {
 
     public void update() {
         if (this.location.getUid() == 0)
-            locationRepository.insert(this.location);
+            locationService.insert(this.location);
         else
-            locationRepository.update(this.location);
+            locationService.update(this.location);
     }
 
     public void delete() {
-        locationRepository.delete(this.location);
+        locationService.delete(this.location);
     }
 
     public Location getLocation() {

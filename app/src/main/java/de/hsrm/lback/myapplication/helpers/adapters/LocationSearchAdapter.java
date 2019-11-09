@@ -1,7 +1,5 @@
 package de.hsrm.lback.myapplication.helpers.adapters;
 
-import android.app.Activity;
-import android.app.Application;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +11,6 @@ import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
-import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
-import de.hsrm.lback.myapplication.views.activities.LocationOverview;
-import de.hsrm.lback.myapplication.views.views.LocationView;
 
 public class LocationSearchAdapter extends BaseAdapter {
 

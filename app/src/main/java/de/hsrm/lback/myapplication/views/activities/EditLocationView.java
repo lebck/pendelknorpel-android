@@ -5,15 +5,12 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.transition.AutoTransition;
-import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
@@ -37,9 +34,8 @@ import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationLogoAdapter;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationSearchAdapter;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
+import de.hsrm.lback.myapplication.services.LocationService;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
-import de.hsrm.lback.myapplication.views.fragments.ChooseLogoFragment;
 
 public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
@@ -60,7 +56,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
     private LocationViewModel viewModel;
     private LiveData<Location> locationLiveData;
     private MutableLiveData<List<Location>> locationResults;
-    private LocationRepository locationRepository;
+    private LocationService locationService;
     private LocationSearchAdapter searchResultsAdapter;
 
     private int locationUid;
@@ -83,7 +79,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
         this.locationResults = new MutableLiveData<>();
         this.locationResults.setValue(Collections.emptyList());
-        this.locationRepository = new LocationRepository(this);
+        this.locationService = new LocationService(this);
         this.viewModel = new LocationViewModel(getApplication());
 
         this.searchResultsAdapter = new LocationSearchAdapter(
@@ -99,7 +95,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
         // if location already exists and is not anonymous
         if (locationUid != NEW_UID && locationUid != ANONYMOUS_UID)
-            this.locationLiveData = locationRepository.get(locationUid);
+            this.locationLiveData = locationService.get(locationUid);
         else {
             this.locationLiveData = new MutableLiveData<>();
             ((MutableLiveData<Location>)this.locationLiveData)
@@ -210,7 +206,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
             Intent result = new Intent();
 
             result.putExtra(Location.SERIALIZED_LOCATION,
-                    LocationRepository.serializeLocation(viewModel.getLocation())
+                    LocationService.serializeLocation(viewModel.getLocation())
             );
 
             setResult(RESULT_OK, result);
@@ -256,7 +252,7 @@ public class EditLocationView extends AppCompatActivity implements TextWatcher {
 
     /** display locations based on search term */
     private void previewLocations(String searchTerm) {
-        this.locationRepository.search(searchTerm, this.locationResults);
+        this.locationService.search(searchTerm, this.locationResults);
     }
 
 

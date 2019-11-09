@@ -20,7 +20,7 @@ import de.hsrm.lback.myapplication.helpers.adapters.JourneyAdapter;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
+import de.hsrm.lback.myapplication.services.JourneyService;
 import de.hsrm.lback.myapplication.viewmodels.JourneyViewModel;
 import de.hsrm.lback.myapplication.views.fragments.DatePickerFragment;
 import de.hsrm.lback.myapplication.views.fragments.TimePickerFragment;
@@ -133,7 +133,7 @@ public class JourneyOverview extends AppCompatActivity {
         Intent intent = new Intent(this, JourneyView.class);
 
 
-        JourneyRepository.setCurrentJourney(getApplicationContext(), journey);
+        JourneyService.setCurrentJourney(getApplicationContext(), journey);
         // start journeyView activity
         startActivity(intent);
     }

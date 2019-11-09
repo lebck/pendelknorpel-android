@@ -13,7 +13,7 @@ import android.widget.TextView;
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.BackgroundManager;
 import de.hsrm.lback.myapplication.models.Journey;
-import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
+import de.hsrm.lback.myapplication.services.JourneyService;
 
 /**
  * Displays a small overview over the current journey
@@ -61,7 +61,7 @@ public class JourneyViewSmall extends Fragment {
         Journey j = null;
 
         if (getContext() != null)
-            j = JourneyRepository.getCurrentJourney(getContext());
+            j = JourneyService.getCurrentJourney(getContext());
 
         if (j != null && getView() != null) {
             // display journey

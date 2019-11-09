@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.models.repositories;
+package de.hsrm.lback.myapplication.services;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
@@ -18,7 +18,7 @@ import de.hsrm.lback.myapplication.helpers.tasks.FetchJourneysTask;
 import de.hsrm.lback.myapplication.helpers.tasks.FetchMoreJourneysTask;
 import de.hsrm.lback.myapplication.helpers.tasks.RefreshJourneyTask;
 
-public class JourneyRepository {
+public class JourneyService {
     public static void getAllJourneys(
             Location src,
             Location target,

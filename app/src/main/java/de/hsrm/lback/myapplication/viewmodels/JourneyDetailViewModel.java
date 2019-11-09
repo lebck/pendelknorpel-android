@@ -5,7 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 
 import de.hsrm.lback.myapplication.models.Journey;
-import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
+import de.hsrm.lback.myapplication.services.JourneyService;
 
 public class JourneyDetailViewModel extends AndroidViewModel {
     private MutableLiveData<Journey> journeyData;
@@ -14,12 +14,12 @@ public class JourneyDetailViewModel extends AndroidViewModel {
         super(application);
 
         this.journeyData = new MutableLiveData<>();
-        this.journeyData.postValue(JourneyRepository.getCurrentJourney(this.getApplication().getApplicationContext()));
+        this.journeyData.postValue(JourneyService.getCurrentJourney(this.getApplication().getApplicationContext()));
     }
 
 
     public void refreshJourney() {
-        JourneyRepository.refreshJourney(journeyData);
+        JourneyService.refreshJourney(journeyData);
     }
 
     public MutableLiveData<Journey> getJourneyData() {

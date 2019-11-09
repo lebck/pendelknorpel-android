@@ -8,13 +8,11 @@ import android.arch.lifecycle.MutableLiveData;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
-import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.JourneyRepository;
-import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
+import de.hsrm.lback.myapplication.services.JourneyService;
+import de.hsrm.lback.myapplication.services.LocationService;
 
 /**
  * controls a list of journeysData
@@ -25,7 +23,7 @@ public class JourneyViewModel extends AndroidViewModel {
     private LiveData<JourneyList> journeysData;
     private LiveData<Location> srcData;
     private LiveData<Location> targetData;
-    private LocationRepository locationRepository;
+    private LocationService locationService;
     private MutableLiveData<LocalDateTime> dateTimeData;
     private MutableLiveData<Boolean> readyToLoad;
 
@@ -34,7 +32,7 @@ public class JourneyViewModel extends AndroidViewModel {
     }
 
     public void init() {
-        locationRepository = new LocationRepository(getApplication());
+        locationService = new LocationService(getApplication());
         readyToLoad = new MutableLiveData<>();
         readyToLoad.setValue(false);
         journeysData = new MutableLiveData<>();
@@ -43,21 +41,21 @@ public class JourneyViewModel extends AndroidViewModel {
     }
 
     public void setSrc(int uid) {
-        srcData = locationRepository.get(uid);
+        srcData = locationService.get(uid);
     }
 
     public void setSrc(String json) {
         srcData = new MutableLiveData<>();
-        ((MutableLiveData<Location>)srcData).setValue(LocationRepository.getLocationByJson(json));
+        ((MutableLiveData<Location>)srcData).setValue(LocationService.getLocationByJson(json));
     }
 
     public void setTarget(int uid) {
-        targetData = locationRepository.get(uid);
+        targetData = locationService.get(uid);
     }
 
     public void setTarget(String json) {
         targetData = new MutableLiveData<>();
-        ((MutableLiveData<Location>)targetData).setValue(LocationRepository.getLocationByJson(json));
+        ((MutableLiveData<Location>)targetData).setValue(LocationService.getLocationByJson(json));
     }
 
     /** set target */
@@ -82,7 +80,7 @@ public class JourneyViewModel extends AndroidViewModel {
         // guard to prevent NullPointerException
         if (dateTime == null) dateTime = LocalDateTime.now();
 
-        JourneyRepository.getAllJourneys(
+        JourneyService.getAllJourneys(
                 src,
                 target,
                 (MutableLiveData<JourneyList>) journeysData,
@@ -100,7 +98,7 @@ public class JourneyViewModel extends AndroidViewModel {
 
         if (currentJourneys == null) return;
 
-        JourneyRepository.getMoreJourneys(
+        JourneyService.getMoreJourneys(
                 src,
                 target,
                 currentJourneys,
@@ -119,7 +117,7 @@ public class JourneyViewModel extends AndroidViewModel {
 
         if (currentJourneys == null) return;
 
-        JourneyRepository.getEarlierJourneys(
+        JourneyService.getEarlierJourneys(
                 src,
                 target,
                 currentJourneys,

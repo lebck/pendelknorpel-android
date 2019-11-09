@@ -1,47 +1,29 @@
 package de.hsrm.lback.myapplication.views.activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.GnssStatus;
 import android.location.LocationManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
-import de.hsrm.lback.myapplication.helpers.GpsLocationReceiver;
-import de.hsrm.lback.myapplication.helpers.adapters.LocationAdapter;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationSearchAdapter;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
+import de.hsrm.lback.myapplication.services.LocationService;
 import de.hsrm.lback.myapplication.viewmodels.GpsListViewModel;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
-
-import static android.location.GpsStatus.GPS_EVENT_STARTED;
-import static android.location.GpsStatus.GPS_EVENT_STOPPED;
 
 public class GpsLIstActivity extends AppCompatActivity {
     public static final int REQUEST_LOCATION_PERMISSION = 99;
@@ -136,7 +118,7 @@ public class GpsLIstActivity extends AppCompatActivity {
 
     private void finish(Location result) {
         Intent intent = new Intent();
-        intent.putExtra(Location.SERIALIZED_LOCATION, LocationRepository.serializeLocation(result));
+        intent.putExtra(Location.SERIALIZED_LOCATION, LocationService.serializeLocation(result));
 
         setResult(GPS_RESULT, intent);
 

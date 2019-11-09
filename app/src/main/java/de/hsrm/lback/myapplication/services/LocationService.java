@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.models.repositories;
+package de.hsrm.lback.myapplication.services;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -19,11 +19,11 @@ import de.hsrm.lback.myapplication.persistence.AppDatabase;
 import de.hsrm.lback.myapplication.persistence.LocationDao;
 
 /** Used to retrieve Location objects */
-public class LocationRepository {
+public class LocationService {
     private LocationDao locationDao;
     private LiveData<List<Location>> allLocations;
 
-    public LocationRepository(Context context) {
+    public LocationService(Context context) {
         AppDatabase db = AppDatabase.getDatabase(context);
 
         locationDao = db.locationDao();

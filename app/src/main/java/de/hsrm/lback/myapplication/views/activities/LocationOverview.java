@@ -2,6 +2,7 @@ package de.hsrm.lback.myapplication.views.activities;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.models.repositories.LocationRepository;
+import de.hsrm.lback.myapplication.services.LocationService;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationAdapter;
 import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 import de.hsrm.lback.myapplication.views.views.LocationView;
@@ -39,7 +40,7 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
 
     private LocationAdapter gridArrayAdapter;
     private List<Location> locations;
-    private LocationRepository locationRepository;
+    private LocationService locationService;
 
     private Location anonymousSrcLocation;
     private Location anonymousTargetLocation;
@@ -55,14 +56,18 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
         this.anonymousLocationView = findViewById(R.id.anonymous);
         this.gpsLocationView = findViewById(R.id.gps);
 
-        this.locationRepository = new LocationRepository(this);
+        this.locationService = new LocationService(this);
 
         // fetch location data and prepare list
-        LiveData<List<Location>> locationData = locationRepository.getAllLocations();
+        LiveData<List<Location>> locationData = locationService.getAllLocations();
         this.locations = new ArrayList<>();
 
-        this.gridArrayAdapter = new LocationAdapter(this, locations, locationRepository, getApplication(), R.layout.location_layout);
+        this.gridArrayAdapter = new LocationAdapter(this, locations, locationService, getApplication(), R.layout.location_layout);
         this.locationsGrid.setAdapter(gridArrayAdapter);
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+
+        Log.d("DISPLAYSIZE",String.format("%sx%s", size.x, size.y));
 
         // set Locations on change
         locationData.observe(this, this::onLocationsChange);
@@ -128,7 +133,7 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
     /** open view(s) to edit anonymous location(s) */
     public void openAnonymousEditView(int srcUid, int targetUid) {
         if (srcUid != 0) {
-            locationRepository
+            locationService
                     .get(srcUid)
                     .observe(this, location -> anonymousSrcLocation = location);
         } else {
@@ -137,7 +142,7 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
         }
 
         if (targetUid != 0) {
-            locationRepository
+            locationService
                     .get(targetUid)
                     .observe(this, location -> anonymousTargetLocation = location);
         } else {
@@ -158,7 +163,7 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (data != null) {
             String s = data.getStringExtra(Location.SERIALIZED_LOCATION);
-            Location l = LocationRepository.getLocationByJson(s);
+            Location l = LocationService.getLocationByJson(s);
             switch (requestCode) {
                 case EditLocationView.ANONYMOUS_SRC:
                 case GPS_SRC:
@@ -200,8 +205,8 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
     }
 
     private void openJsonBasedJourneyOverview(Location src, Location target) {
-        String srcJson = LocationRepository.serializeLocation(src);
-        String targetJson = LocationRepository.serializeLocation(target);
+        String srcJson = LocationService.serializeLocation(src);
+        String targetJson = LocationService.serializeLocation(target);
 
         Intent intent = new Intent(this, JourneyOverview.class);
 
@@ -225,9 +230,9 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         if (anonymousSrcLocation != null)
-            outState.putString(AN_SRC, LocationRepository.serializeLocation(anonymousSrcLocation));
+            outState.putString(AN_SRC, LocationService.serializeLocation(anonymousSrcLocation));
         if (anonymousTargetLocation != null)
-            outState.putString(AN_TARGET, LocationRepository.serializeLocation(anonymousSrcLocation));
+            outState.putString(AN_TARGET, LocationService.serializeLocation(anonymousSrcLocation));
     }
 
     @Override
@@ -242,9 +247,9 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
             String target = savedInstanceState.getString(AN_TARGET, null);
 
             if (src != null)
-                anonymousSrcLocation = LocationRepository.getLocationByJson(src);
+                anonymousSrcLocation = LocationService.getLocationByJson(src);
             if (target != null)
-                anonymousTargetLocation = LocationRepository.getLocationByJson(target);
+                anonymousTargetLocation = LocationService.getLocationByJson(target);
         }
     }
 
