@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.views.fragments;
+package de.hsrm.lback.myapplication.views.journeydetail.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
@@ -17,18 +17,18 @@ import android.widget.TextView;
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.adapters.ConnectionsAdapter;
 import de.hsrm.lback.myapplication.models.Journey;
-import de.hsrm.lback.myapplication.viewmodels.JourneyDetailViewModel;
+import de.hsrm.lback.myapplication.views.journeydetail.JourneyDetailViewModel;
 
 /**
  * Display all information about a journey
  */
-public class JourneyDetailView extends Fragment {
+public class JourneyDetailFragment extends Fragment {
     private Bitmap background;
     private ConnectionsAdapter connectionsAdapter;
     private JourneyDetailViewModel viewModel;
     private SwipeRefreshLayout view;
 
-    public JourneyDetailView() {
+    public JourneyDetailFragment() {
         // Required empty public constructor
     }
 

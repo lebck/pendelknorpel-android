@@ -8,12 +8,12 @@
         android:elevation="0dp"
         android:orientation="vertical"
         android:translationZ="5dp"
-        tools:context=".views.activities.LocationOverview">
+        tools:context=".views.locationoverview.LocationOverview">
 
 
     <fragment
             android:id="@+id/fragment_journey_detail"
-            class="de.hsrm.lback.myapplication.views.fragments.JourneyViewSmall"
+            class="de.hsrm.lback.myapplication.views.journeyoverview.fragments.JourneyViewSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

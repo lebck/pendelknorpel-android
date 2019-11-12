@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.viewmodels;
+package de.hsrm.lback.myapplication.views.views.location;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -8,7 +8,6 @@ import android.view.View;
 
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.services.LocationService;
-import de.hsrm.lback.myapplication.views.views.LocationView;
 
 /**
  * VM of a location

@@ -1,9 +1,7 @@
-package de.hsrm.lback.myapplication.views.activities;
+package de.hsrm.lback.myapplication.views.locationoverview;
 
-import android.app.ActionBar;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +20,11 @@ import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.services.LocationService;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationAdapter;
 import de.hsrm.lback.myapplication.services.WindowService;
-import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
-import de.hsrm.lback.myapplication.views.views.LocationView;
+import de.hsrm.lback.myapplication.views.views.location.LocationViewModel;
+import de.hsrm.lback.myapplication.views.editlocation.EditLocationActivity;
+import de.hsrm.lback.myapplication.views.gpslist.GpsListActivity;
+import de.hsrm.lback.myapplication.views.journeyoverview.JourneyOverviewActivity;
+import de.hsrm.lback.myapplication.views.views.location.LocationView;
 
 /**
  * Main actvity of the app.
@@ -143,7 +144,7 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
      * open view to edit the location
      */
     public void openEditView(int uid) {
-        Intent intent = new Intent(this, EditLocationView.class);
+        Intent intent = new Intent(this, EditLocationActivity.class);
 
         intent.putExtra(Location.LOCATION_UID, uid);
 
@@ -159,7 +160,7 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
                     .get(srcUid)
                     .observe(this, location -> anonymousSrcLocation = location);
         } else {
-            openAnonymousEditView(EditLocationView.ANONYMOUS_SRC);
+            openAnonymousEditView(EditLocationActivity.ANONYMOUS_SRC);
             return;
         }
 
@@ -168,14 +169,14 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
                     .get(targetUid)
                     .observe(this, location -> anonymousTargetLocation = location);
         } else {
-            openAnonymousEditView(EditLocationView.ANONYMOUS_TARGET);
+            openAnonymousEditView(EditLocationActivity.ANONYMOUS_TARGET);
         }
 
     }
 
     private void openAnonymousEditView(int requestCode) {
-        Intent intent = new Intent(this, EditLocationView.class);
-        intent.putExtra(Location.LOCATION_UID, EditLocationView.ANONYMOUS_UID);
+        Intent intent = new Intent(this, EditLocationActivity.class);
+        intent.putExtra(Location.LOCATION_UID, EditLocationActivity.ANONYMOUS_UID);
         intent.putExtra("code", requestCode);
 
         startActivityForResult(intent, requestCode);
@@ -187,21 +188,21 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
             String s = data.getStringExtra(Location.SERIALIZED_LOCATION);
             Location l = LocationService.getLocationByJson(s);
             switch (requestCode) {
-                case EditLocationView.ANONYMOUS_SRC:
+                case EditLocationActivity.ANONYMOUS_SRC:
                 case GPS_SRC:
                     anonymousSrcLocation = l;
                     break;
-                case EditLocationView.ANONYMOUS_TARGET:
+                case EditLocationActivity.ANONYMOUS_TARGET:
                 case GPS_TARGET:
                     anonymousTargetLocation = l;
                     break;
             }
 
             if (anonymousSrcLocation == null && anonymousTargetLocation != null) {
-                openAnonymousEditView(EditLocationView.ANONYMOUS_SRC);
+                openAnonymousEditView(EditLocationActivity.ANONYMOUS_SRC);
 
             } else if (anonymousSrcLocation != null && anonymousTargetLocation == null) {
-                openAnonymousEditView(EditLocationView.ANONYMOUS_TARGET);
+                openAnonymousEditView(EditLocationActivity.ANONYMOUS_TARGET);
 
             } else {
                 openJourneyOverview(anonymousSrcLocation, anonymousTargetLocation);
@@ -230,10 +231,10 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
         String srcJson = LocationService.serializeLocation(src);
         String targetJson = LocationService.serializeLocation(target);
 
-        Intent intent = new Intent(this, JourneyOverview.class);
+        Intent intent = new Intent(this, JourneyOverviewActivity.class);
 
-        intent.putExtra(JourneyOverview.SRC_JSON, srcJson);
-        intent.putExtra(JourneyOverview.TARGET_JSON, targetJson);
+        intent.putExtra(JourneyOverviewActivity.SRC_JSON, srcJson);
+        intent.putExtra(JourneyOverviewActivity.TARGET_JSON, targetJson);
 
         startActivity(intent);
     }
@@ -242,7 +243,7 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
      * open journey overview of given Locations.
      */
     private void openRegularJourneyOverview(Location srcLocation, Location targetLocation) {
-        Intent intent = new Intent(this, JourneyOverview.class);
+        Intent intent = new Intent(this, JourneyOverviewActivity.class);
         intent.putExtra(Location.SRC_LOCATION, srcLocation.getUid());
         intent.putExtra(Location.DESTINATION_LOCATION, targetLocation.getUid());
         startActivity(intent);
@@ -286,7 +287,7 @@ public class LocationOverview extends AppCompatActivity implements LocationViewM
             anonymousTargetLocation = targetLocation;
         }
 
-        Intent intent = new Intent(this, GpsLIstActivity.class);
+        Intent intent = new Intent(this, GpsListActivity.class);
 
         startActivityForResult(intent, requestCode);
     }

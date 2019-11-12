@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.viewmodels;
+package de.hsrm.lback.myapplication.views.journeydetail;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;

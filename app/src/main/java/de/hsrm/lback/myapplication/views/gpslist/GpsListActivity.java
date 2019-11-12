@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.views.activities;
+package de.hsrm.lback.myapplication.views.gpslist;
 
 import android.Manifest;
 import android.arch.lifecycle.LiveData;
@@ -21,11 +21,10 @@ import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationSearchAdapter;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.services.LocationService;
-import de.hsrm.lback.myapplication.viewmodels.GpsListViewModel;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class GpsLIstActivity extends AppCompatActivity {
+public class GpsListActivity extends AppCompatActivity {
     public static final int REQUEST_LOCATION_PERMISSION = 99;
     public static final int GPS_RESULT = 2;
     private GpsListViewModel viewModel;

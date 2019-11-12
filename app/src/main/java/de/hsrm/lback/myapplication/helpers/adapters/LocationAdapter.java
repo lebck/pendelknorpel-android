@@ -9,9 +9,9 @@ import java.util.List;
 
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.services.LocationService;
-import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
-import de.hsrm.lback.myapplication.views.activities.LocationOverview;
-import de.hsrm.lback.myapplication.views.views.LocationView;
+import de.hsrm.lback.myapplication.views.views.location.LocationViewModel;
+import de.hsrm.lback.myapplication.views.locationoverview.LocationOverview;
+import de.hsrm.lback.myapplication.views.views.location.LocationView;
 
 public class LocationAdapter extends BaseAdapter {
 

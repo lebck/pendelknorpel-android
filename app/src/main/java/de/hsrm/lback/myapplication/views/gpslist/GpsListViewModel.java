@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.viewmodels;
+package de.hsrm.lback.myapplication.views.gpslist;
 
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.services.LocationService;

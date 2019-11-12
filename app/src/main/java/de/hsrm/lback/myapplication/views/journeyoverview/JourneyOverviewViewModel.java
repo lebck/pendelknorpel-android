@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.viewmodels;
+package de.hsrm.lback.myapplication.views.journeyoverview;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -17,7 +17,7 @@ import de.hsrm.lback.myapplication.services.LocationService;
 /**
  * controls a list of journeysData
  */
-public class JourneyViewModel extends AndroidViewModel {
+public class JourneyOverviewViewModel extends AndroidViewModel {
     private Location src;
     private Location target;
     private LiveData<JourneyList> journeysData;
@@ -27,7 +27,7 @@ public class JourneyViewModel extends AndroidViewModel {
     private MutableLiveData<LocalDateTime> dateTimeData;
     private MutableLiveData<Boolean> readyToLoad;
 
-    public JourneyViewModel(Application application) {
+    public JourneyOverviewViewModel(Application application) {
         super(application);
     }
 

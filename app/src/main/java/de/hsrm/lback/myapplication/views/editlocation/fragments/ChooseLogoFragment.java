@@ -1,12 +1,10 @@
-package de.hsrm.lback.myapplication.views.fragments;
+package de.hsrm.lback.myapplication.views.editlocation.fragments;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import android.widget.GridView;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
-import de.hsrm.lback.myapplication.helpers.BackgroundManager;
 import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
 import de.hsrm.lback.myapplication.helpers.adapters.IconAdapter;
 

@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.views.fragments;
+package de.hsrm.lback.myapplication.views.journeyoverview.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +14,7 @@ import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.BackgroundManager;
 import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.services.JourneyService;
+import de.hsrm.lback.myapplication.views.journeydetail.fragments.JourneyDetailFragment;
 
 /**
  * Displays a small overview over the current journey
@@ -79,16 +80,16 @@ public class JourneyViewSmall extends Fragment {
      * @param view
      */
     private void onClick(View view) {
-        JourneyDetailView journeyDetailView = new JourneyDetailView();
+        JourneyDetailFragment journeyDetailFragment = new JourneyDetailFragment();
 
-        journeyDetailView.setBackground(
+        journeyDetailFragment.setBackground(
                 BackgroundManager.getBlurryBackground(getActivity().findViewById(R.id.location_overview_root))
         );
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.location_overview_root, journeyDetailView)
+                .replace(R.id.location_overview_root, journeyDetailFragment)
                 .addToBackStack(null);
 
         transaction.commit();

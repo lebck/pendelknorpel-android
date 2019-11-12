@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.views.activities;
+package de.hsrm.lback.myapplication.views.editlocation;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -35,9 +35,9 @@ import de.hsrm.lback.myapplication.helpers.adapters.LocationLogoAdapter;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationSearchAdapter;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.services.LocationService;
-import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
+import de.hsrm.lback.myapplication.views.views.location.LocationViewModel;
 
-public class EditLocationView extends AppCompatActivity implements TextWatcher {
+public class EditLocationActivity extends AppCompatActivity implements TextWatcher {
 
     public static final int ANONYMOUS_SRC = 0;
     public static final int ANONYMOUS_TARGET = 1;

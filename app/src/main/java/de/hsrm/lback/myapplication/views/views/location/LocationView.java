@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.views.views;
+package de.hsrm.lback.myapplication.views.views.location;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -15,13 +15,12 @@ import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.helpers.LocationDragShadowBuilder;
 import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
 import de.hsrm.lback.myapplication.models.Location;
-import de.hsrm.lback.myapplication.viewmodels.LocationViewModel;
 
 
 /**
  * Represents a single location on the LocationOverview
  */
-public class LocationView extends LinearLayout {
+public class LocationView extends View {
 
     private LocationViewModel viewModel;
     private TextView locationNameView;

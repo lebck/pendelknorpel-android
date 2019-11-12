@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<de.hsrm.lback.myapplication.views.views.LocationView
+<de.hsrm.lback.myapplication.views.views.location.LocationView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/location_view"
     android:orientation="vertical"
@@ -33,4 +33,4 @@
         android:layout_marginBottom="10dp" />
 
 
-</de.hsrm.lback.myapplication.views.views.LocationView>
+</de.hsrm.lback.myapplication.views.views.location.LocationView>

@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.views.fragments;
+package de.hsrm.lback.myapplication.views.journeyoverview.fragments;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

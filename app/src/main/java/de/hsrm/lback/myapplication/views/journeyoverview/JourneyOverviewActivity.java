@@ -1,4 +1,4 @@
-package de.hsrm.lback.myapplication.views.activities;
+package de.hsrm.lback.myapplication.views.journeyoverview;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -21,14 +21,14 @@ import de.hsrm.lback.myapplication.models.Journey;
 import de.hsrm.lback.myapplication.models.JourneyList;
 import de.hsrm.lback.myapplication.models.Location;
 import de.hsrm.lback.myapplication.services.JourneyService;
-import de.hsrm.lback.myapplication.viewmodels.JourneyViewModel;
-import de.hsrm.lback.myapplication.views.fragments.DatePickerFragment;
-import de.hsrm.lback.myapplication.views.fragments.TimePickerFragment;
+import de.hsrm.lback.myapplication.views.journeydetail.JourneyDetailActivity;
+import de.hsrm.lback.myapplication.views.journeyoverview.fragments.DatePickerFragment;
+import de.hsrm.lback.myapplication.views.journeyoverview.fragments.TimePickerFragment;
 
 /**
  * Display a list of journeys from a location to another location
  */
-public class JourneyOverview extends AppCompatActivity {
+public class JourneyOverviewActivity extends AppCompatActivity {
     public static final String SRC_JSON = "src_json";
     public static final String TARGET_JSON = "target_json";
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
@@ -40,7 +40,7 @@ public class JourneyOverview extends AppCompatActivity {
     private Button nowButton;
     private Button dateButton;
     // ToDo add showPreviousButton
-    private JourneyViewModel viewModel;
+    private JourneyOverviewViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class JourneyOverview extends AppCompatActivity {
 
         initJourneyListView();
 
-        viewModel = ViewModelProviders.of(this).get(JourneyViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(JourneyOverviewViewModel.class);
 
         // get src and target location
         int srcId = getIntent().getIntExtra(Location.SRC_LOCATION, 0);
@@ -130,7 +130,7 @@ public class JourneyOverview extends AppCompatActivity {
      */
     private void onJourneyClick(Journey journey) {
         // create intent
-        Intent intent = new Intent(this, JourneyView.class);
+        Intent intent = new Intent(this, JourneyDetailActivity.class);
 
 
         JourneyService.setCurrentJourney(getApplicationContext(), journey);
