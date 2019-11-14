@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<de.hsrm.lback.myapplication.domains.location.views.LocationView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/location_view"
+    android:orientation="vertical"
+    android:layout_height="100dp"
+    android:layout_width="130dp"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="15dp"
+    style="@style/location"
+    android:elevation="6dp"
+        >
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:id="@id/location_logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/icon_check"
+            android:tint="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/location_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="90dp"
+        android:maxHeight="20dp"
+        android:textSize="15sp"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:text="Hallooooooooooooooooooooooooooooo"
+        android:layout_marginBottom="10dp" />
+
+
+</de.hsrm.lback.myapplication.domains.location.views.LocationView>

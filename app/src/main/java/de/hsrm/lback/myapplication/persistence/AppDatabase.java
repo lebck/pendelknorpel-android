@@ -8,7 +8,7 @@ import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 
 @Database(entities = {Location.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase{

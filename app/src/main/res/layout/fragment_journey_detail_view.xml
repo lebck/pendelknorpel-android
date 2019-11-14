@@ -8,7 +8,7 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            tools:context=".views.journeydetail.fragments.JourneyDetailFragment">
+            tools:context=".domains.journey.views.detail.components.JourneyDetailFragment">
 
         <TextView
                 android:id="@+id/connection_headline"

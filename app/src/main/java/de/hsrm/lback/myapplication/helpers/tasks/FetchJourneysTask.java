@@ -5,9 +5,9 @@ import android.os.AsyncTask;
 
 import java.time.LocalDateTime;
 
-import de.hsrm.lback.myapplication.models.JourneyList;
+import de.hsrm.lback.myapplication.domains.journey.models.JourneyList;
 import de.hsrm.lback.myapplication.network.ApiConnector;
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 
 /**
  * Task that fetches journeys from given start and end location
@@ -28,7 +28,7 @@ public class FetchJourneysTask extends AsyncTask<Location, Void, JourneyList> {
 
         ApiConnector connector = new ApiConnector();
 
-        JourneyList journeys = null;
+        JourneyList journeys;
 
         journeys = connector.getDepartures(src, target, dateTime);
 

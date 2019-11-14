@@ -7,11 +7,6 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
-import de.hsrm.lback.myapplication.network.ApiConnector;
-import de.hsrm.lback.myapplication.models.Location;
-
 import static org.junit.Assert.*;
 
 /**

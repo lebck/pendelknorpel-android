@@ -12,9 +12,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
-import de.hsrm.lback.myapplication.models.Connection;
-import de.hsrm.lback.myapplication.models.Journey;
-import de.hsrm.lback.myapplication.models.JourneyList;
+import de.hsrm.lback.myapplication.domains.journey.models.Connection;
+import de.hsrm.lback.myapplication.domains.journey.models.Journey;
+import de.hsrm.lback.myapplication.domains.journey.models.JourneyList;
 
 public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHolder> {
     public interface JourneyClickListener {
@@ -50,7 +50,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
     public JourneyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View layout = inflater.inflate(R.layout.journey_list_view, parent, false);
+        View layout = inflater.inflate(R.layout.component_journey_list_view, parent, false);
 
         return new ViewHolder(layout);
     }

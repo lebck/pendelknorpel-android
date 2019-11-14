@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 import de.hsrm.lback.myapplication.network.ApiConnector;
 
 public class GpsTask extends AsyncTask<Double, Void, Void> {

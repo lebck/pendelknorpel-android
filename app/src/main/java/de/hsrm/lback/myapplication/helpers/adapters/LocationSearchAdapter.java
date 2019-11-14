@@ -1,6 +1,7 @@
 package de.hsrm.lback.myapplication.helpers.adapters;
 
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,21 +11,21 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 
 public class LocationSearchAdapter extends BaseAdapter {
 
-    private AppCompatActivity activity;
+    private LayoutInflater inflater;
     private List<Location> locations;
     private View.OnClickListener listener;
 
     public LocationSearchAdapter(
-            AppCompatActivity activity,
+            LayoutInflater inflater,
             View.OnClickListener listener) {
         super();
         this.locations = Collections.emptyList();
         this.listener = listener;
-        this.activity = activity;
+        this.inflater = inflater;
     }
 
 
@@ -47,11 +48,12 @@ public class LocationSearchAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         Location location = locations.get(position);
-        convertView = activity.getLayoutInflater().inflate(R.layout.location_list_layout, null);
+        convertView = this.inflater.inflate(R.layout.component_location_list_layout, null);
 
         ((TextView)convertView).setText(location.getName());
 
         convertView.setTag(location.getApiId());
+        convertView.setTag(R.id.location_index, position);
 
         convertView.setOnClickListener(listener);
 

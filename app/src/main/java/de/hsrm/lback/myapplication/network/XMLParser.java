@@ -19,10 +19,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import de.hsrm.lback.myapplication.models.Connection;
-import de.hsrm.lback.myapplication.models.Journey;
-import de.hsrm.lback.myapplication.models.JourneyList;
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.journey.models.Connection;
+import de.hsrm.lback.myapplication.domains.journey.models.Journey;
+import de.hsrm.lback.myapplication.domains.journey.models.JourneyList;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 
 /**
  * Parse xml by rmv api

@@ -2,7 +2,7 @@ package de.hsrm.lback.myapplication.helpers.tasks;
 
 import android.os.AsyncTask;
 
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 
 public class LocationAsyncTask extends AsyncTask<Location, Void, Void> {
 

@@ -6,9 +6,9 @@ import android.os.AsyncTask;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import de.hsrm.lback.myapplication.models.Journey;
-import de.hsrm.lback.myapplication.models.JourneyList;
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.journey.models.Journey;
+import de.hsrm.lback.myapplication.domains.journey.models.JourneyList;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 import de.hsrm.lback.myapplication.network.ApiConnector;
 
 /**

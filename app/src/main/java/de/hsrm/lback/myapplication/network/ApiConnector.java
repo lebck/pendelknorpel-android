@@ -7,15 +7,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
-import de.hsrm.lback.myapplication.models.Journey;
-import de.hsrm.lback.myapplication.models.JourneyList;
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.journey.models.Journey;
+import de.hsrm.lback.myapplication.domains.journey.models.JourneyList;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 
 /**
  * Controls connection to apis (currently only RMV API)

@@ -13,17 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/PendelKnorpel">
         <activity
-            android:name=".views.locationoverview.LocationOverview"
+            android:name=".domains.location.views.overview.LocationOverview"
             android:theme="@style/PendelKnorpel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.editlocation.EditLocationActivity" />
-        <activity android:name=".views.journeyoverview.JourneyOverviewActivity" />
-        <activity android:name=".views.journeydetail.JourneyDetailActivity" />
-        <activity android:name=".views.gpslist.GpsListActivity"/>
+        <activity android:name=".domains.location.views.edit.EditLocationActivity" />
+        <activity android:name=".domains.journey.views.overview.JourneyOverviewActivity" />
+        <activity android:name=".domains.journey.views.detail.JourneyDetailActivity" />
+        <activity android:name=".domains.gpslist.GpsListActivity"/>
 
     </application>
 

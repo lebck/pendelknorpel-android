@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import de.hsrm.lback.myapplication.R;
-import de.hsrm.lback.myapplication.models.Journey;
-import de.hsrm.lback.myapplication.models.JourneyList;
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.journey.models.Journey;
+import de.hsrm.lback.myapplication.domains.journey.models.JourneyList;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 import de.hsrm.lback.myapplication.helpers.tasks.FetchJourneysTask;
 import de.hsrm.lback.myapplication.helpers.tasks.FetchMoreJourneysTask;
 import de.hsrm.lback.myapplication.helpers.tasks.RefreshJourneyTask;

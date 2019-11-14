@@ -40,7 +40,7 @@ public class IconAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         String iconName = iconNames.get(position);
         convertView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.location_layout, null);
+                .inflate(R.layout.component_location_layout, null);
 
         ImageView view = convertView.findViewById(R.id.location_logo);
 

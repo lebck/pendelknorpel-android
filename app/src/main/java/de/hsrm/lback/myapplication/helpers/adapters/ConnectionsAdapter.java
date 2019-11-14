@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
-import de.hsrm.lback.myapplication.models.Connection;
+import de.hsrm.lback.myapplication.domains.journey.models.Connection;
 
 public class ConnectionsAdapter extends BaseAdapter {
     private List<Connection> connections;
@@ -37,7 +37,7 @@ public class ConnectionsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        convertView = inflater.inflate(R.layout.connection_view, null);
+        convertView = inflater.inflate(R.layout.component_connection_view, null);
 
         Connection connection = connections.get(position);
 

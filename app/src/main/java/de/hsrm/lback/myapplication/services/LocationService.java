@@ -11,7 +11,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
+import de.hsrm.lback.myapplication.helpers.tasks.GetLocationTask;
 import de.hsrm.lback.myapplication.helpers.tasks.GpsTask;
 import de.hsrm.lback.myapplication.helpers.tasks.LocationAsyncTask;
 import de.hsrm.lback.myapplication.helpers.tasks.SearchLocationsTask;
@@ -39,8 +40,16 @@ public class LocationService {
         new LocationAsyncTask(locations -> locationDao.insert(locations[0])).execute(location);
     }
 
+    public void get(int uid, MutableLiveData<Location> target) {
+        new GetLocationTask(target, locationDao, uid).execute();
+    }
+
     public LiveData<Location> get(int uid) {
-        return locationDao.get(uid);
+        MutableLiveData<Location> liveData = new MutableLiveData<>();
+
+        new GetLocationTask(liveData, locationDao, uid).execute();
+
+        return liveData;
     }
 
     public void update(Location location) {

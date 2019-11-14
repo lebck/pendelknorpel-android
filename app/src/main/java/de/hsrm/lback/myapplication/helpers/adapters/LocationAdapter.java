@@ -7,11 +7,11 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
-import de.hsrm.lback.myapplication.models.Location;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 import de.hsrm.lback.myapplication.services.LocationService;
-import de.hsrm.lback.myapplication.views.views.location.LocationViewModel;
-import de.hsrm.lback.myapplication.views.locationoverview.LocationOverview;
-import de.hsrm.lback.myapplication.views.views.location.LocationView;
+import de.hsrm.lback.myapplication.domains.location.views.LocationViewModel;
+import de.hsrm.lback.myapplication.domains.location.views.overview.LocationOverview;
+import de.hsrm.lback.myapplication.domains.location.views.LocationView;
 
 public class LocationAdapter extends BaseAdapter {
 

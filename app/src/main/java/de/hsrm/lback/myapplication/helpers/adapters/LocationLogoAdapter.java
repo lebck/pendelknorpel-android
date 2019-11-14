@@ -3,10 +3,8 @@ package de.hsrm.lback.myapplication.helpers.adapters;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class LocationLogoAdapter extends RecyclerView.Adapter<LocationLogoAdapte
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         ImageView itemView =
-                (ImageView) inflater.inflate(R.layout.location_logo, parent, false);
+                (ImageView) inflater.inflate(R.layout.component_location_logo, parent, false);
         itemView.setOnClickListener(view -> listener.onLogoChosen((String) view.getTag()));
 
         return new ViewHolder(itemView);
