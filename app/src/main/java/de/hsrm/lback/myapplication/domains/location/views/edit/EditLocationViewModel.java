@@ -8,34 +8,17 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.text.TextWatcher;
 
 import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.domains.location.models.Location;
+import de.hsrm.lback.myapplication.domains.location.views.edit.components.search.SearchLocationViewModel;
 import de.hsrm.lback.myapplication.services.LocationService;
 
-public class EditLocationViewModel extends AndroidViewModel implements TextWatcher {
-    public static class Factory implements ViewModelProvider.Factory {
-        private int locationUid;
-        private Application application;
-
-        public Factory(Application application, int locationUid) {
-            this.locationUid = locationUid;
-            this.application = application;
-        }
-
-        @NonNull
-        @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new EditLocationViewModel(application, locationUid);
-        }
-    }
-
+public class EditLocationViewModel extends AndroidViewModel implements SearchLocationViewModel {
     public static final int ANONYMOUS_UID = -1;
     public static final int NEW_UID = 0;
-
     private MutableLiveData<List<Location>> locationResults;
     private LocationService locationService;
     private MutableLiveData<Location> locationData;
@@ -54,8 +37,7 @@ public class EditLocationViewModel extends AndroidViewModel implements TextWatch
         // if location already exists and is not anonymous => exists in database
         if (uid != NEW_UID && uid != ANONYMOUS_UID) {
             locationService.get(uid, locationData);
-        }
-        else {
+        } else {
             locationData.setValue(new Location(""));
         }
 
@@ -125,7 +107,7 @@ public class EditLocationViewModel extends AndroidViewModel implements TextWatch
         currentLocation.setLogo(getLocation().getLogo());
         currentLocation.setUid(getLocation().getUid());
 
-        locationData.postValue(currentLocation);
+        locationData.setValue(currentLocation);
     }
 
     public Location getLocation() {
@@ -143,5 +125,27 @@ public class EditLocationViewModel extends AndroidViewModel implements TextWatch
 
     public MutableLiveData<Location> getLocationData() {
         return locationData;
+    }
+
+    @Override
+    public void cleanUp() {
+        this.locationData.setValue(new Location(""));
+        this.locationResults.setValue(Collections.emptyList());
+    }
+
+    public static class Factory implements ViewModelProvider.Factory {
+        private int locationUid;
+        private Application application;
+
+        public Factory(Application application, int locationUid) {
+            this.locationUid = locationUid;
+            this.application = application;
+        }
+
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            return (T) new EditLocationViewModel(application, locationUid);
+        }
     }
 }

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/PendelKnorpel">
         <activity
-            android:name=".domains.location.views.overview.LocationOverview"
+            android:name=".domains.location.views.overview.LocationOverviewActivity"
             android:theme="@style/PendelKnorpel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
         <activity android:name=".domains.location.views.edit.EditLocationActivity" />
         <activity android:name=".domains.journey.views.overview.JourneyOverviewActivity" />
         <activity android:name=".domains.journey.views.detail.JourneyDetailActivity" />
-        <activity android:name=".domains.gpslist.GpsListActivity"/>
+        <activity android:name=".domains.gpslist.GpsListFragment"/>
 
     </application>
 

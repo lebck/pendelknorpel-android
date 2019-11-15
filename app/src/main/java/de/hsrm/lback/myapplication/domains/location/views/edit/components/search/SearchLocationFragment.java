@@ -2,30 +2,22 @@ package de.hsrm.lback.myapplication.domains.location.views.edit.components.searc
 
 import android.app.Activity;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.domains.location.models.Location;
-import de.hsrm.lback.myapplication.domains.location.views.LocationViewModel;
-import de.hsrm.lback.myapplication.domains.location.views.edit.EditLocationViewModel;
-import de.hsrm.lback.myapplication.helpers.OnChangeCallback;
+import de.hsrm.lback.myapplication.helpers.Callback;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationSearchAdapter;
 
 public class SearchLocationFragment extends Fragment {
@@ -33,7 +25,9 @@ public class SearchLocationFragment extends Fragment {
     private EditText locationText;
     private LocationSearchAdapter searchResultsAdapter;
     private ListView searchResults;
-    @Nullable private EditLocationViewModel viewModel;
+    private boolean viewCreated = false;
+    @Nullable private SearchLocationViewModel viewModel;
+    @Nullable private Callback<Location> onClickCallback;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -48,17 +42,19 @@ public class SearchLocationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewCreated = true;
         this.locationText = view.findViewById(R.id.edit_location_name);
         this.searchResults = view.findViewById(R.id.search_results);
-
-
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         this.searchResults.setAdapter(searchResultsAdapter);
         this.locationText.requestFocus();
+
+        if (this.viewModel != null) {
+            this.locationText.addTextChangedListener(viewModel);
+            this.locationResults = this.viewModel.getLocationResults();
+            this.locationResults.observe(this, this::onSearchResultsChange);
+            this.viewModel.getLocationData().observe(this, this::onLocationChange);
+        }
+
     }
 
     private void onSearchResultsChange(List<Location> locations) {
@@ -73,6 +69,9 @@ public class SearchLocationFragment extends Fragment {
             int index = (int) view.getTag(R.id.location_index);
             viewModel.setLocationByIndex(index);
         }
+
+        if (onClickCallback != null) onClickCallback.handle(viewModel.getLocationData().getValue());
+
         hideKeyboard();
     }
 
@@ -93,12 +92,17 @@ public class SearchLocationFragment extends Fragment {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void setViewModel(EditLocationViewModel viewModel) {
+    public void setViewModel(SearchLocationViewModel viewModel) {
         this.viewModel = viewModel;
-        this.locationText.addTextChangedListener(viewModel);
-        this.locationResults = this.viewModel.getLocationResults();
-        this.locationResults.observe(this, this::onSearchResultsChange);
-        this.viewModel.getLocationData().observe(this, this::onLocationChange);
+        if (this.viewCreated) {
+            this.locationText.addTextChangedListener(viewModel);
+            this.locationResults = this.viewModel.getLocationResults();
+            this.locationResults.observe(this, this::onSearchResultsChange);
+            this.viewModel.getLocationData().observe(this, this::onLocationChange);
+        }
     }
 
+    public void setOnClickCallback(Callback<Location> onClickCallback) {
+        this.onClickCallback = onClickCallback;
+    }
 }

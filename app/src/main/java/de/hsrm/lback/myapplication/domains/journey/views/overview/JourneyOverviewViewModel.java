@@ -18,8 +18,6 @@ import de.hsrm.lback.myapplication.services.LocationService;
  * controls a list of journeysData
  */
 public class JourneyOverviewViewModel extends AndroidViewModel {
-    private Location src;
-    private Location target;
     private LiveData<JourneyList> journeysData;
     private MutableLiveData<Location> srcData;
     private MutableLiveData<Location> targetData;
@@ -44,7 +42,7 @@ public class JourneyOverviewViewModel extends AndroidViewModel {
     }
 
     public void setSrc(String json) {
-        src = LocationService.getLocationByJson(json);
+        srcData.postValue(LocationService.getLocationByJson(json));
     }
 
     public void setTarget(int uid) {
@@ -52,18 +50,16 @@ public class JourneyOverviewViewModel extends AndroidViewModel {
     }
 
     public void setTarget(String json) {
-        target = LocationService.getLocationByJson(json);
+        targetData.postValue(LocationService.getLocationByJson(json));
     }
 
     /** set target */
     public void onTargetChange(Location location) {
-        this.target = location;
         updateReadyToLoad();
     }
 
     /** set src */
     public void onSrcChange(Location location) {
-        this.src = location;
         updateReadyToLoad();
     }
 
@@ -78,8 +74,8 @@ public class JourneyOverviewViewModel extends AndroidViewModel {
         if (dateTime == null) dateTime = LocalDateTime.now();
 
         JourneyService.getAllJourneys(
-                src,
-                target,
+                getSrc(),
+                getTarget(),
                 (MutableLiveData<JourneyList>) journeysData,
                 dateTime
         );
@@ -96,8 +92,8 @@ public class JourneyOverviewViewModel extends AndroidViewModel {
         if (currentJourneys == null) return;
 
         JourneyService.getMoreJourneys(
-                src,
-                target,
+                getSrc(),
+                getTarget(),
                 currentJourneys,
                 (MutableLiveData<JourneyList>) journeysData,
                 dateTime
@@ -115,8 +111,8 @@ public class JourneyOverviewViewModel extends AndroidViewModel {
         if (currentJourneys == null) return;
 
         JourneyService.getEarlierJourneys(
-                src,
-                target,
+                getSrc(),
+                getTarget(),
                 currentJourneys,
                 (MutableLiveData<JourneyList>) journeysData,
                 dateTime
@@ -145,7 +141,15 @@ public class JourneyOverviewViewModel extends AndroidViewModel {
 
 
     private void updateReadyToLoad() {
-        readyToLoad.setValue(src != null && target != null);
+        readyToLoad.setValue(getSrc() != null && getTarget() != null);
+    }
+
+    private Location getSrc() {
+        return this.srcData.getValue();
+    }
+
+    private Location getTarget() {
+        return this.targetData.getValue();
     }
 
     public LiveData<Location> getSrcData() {

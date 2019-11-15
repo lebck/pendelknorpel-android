@@ -14,7 +14,7 @@ public class Location {
     public static final String SRC_LOCATION = "start_location";
     public static final String DESTINATION_LOCATION = "destination_location";
     public static final String SERIALIZED_LOCATION = "serialized_location";
-    private static final String DEFAULT_LOGO_NAME = "plus";
+
     public static final int INDEX = 0;
 
     @PrimaryKey(autoGenerate = true)
@@ -45,7 +45,7 @@ public class Location {
     @Ignore // ignored by rooms
     public Location(String name) {
 
-        this.logo = DEFAULT_LOGO_NAME;
+        this.logo = "";
 
         this.name = name;
     }
@@ -94,6 +94,7 @@ public class Location {
     }
 
     public String getDisplayName() {
+
         return displayName;
     }
 

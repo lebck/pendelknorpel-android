@@ -6,11 +6,15 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,13 +22,14 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.hsrm.lback.myapplication.R;
+import de.hsrm.lback.myapplication.helpers.Callback;
 import de.hsrm.lback.myapplication.helpers.adapters.LocationSearchAdapter;
 import de.hsrm.lback.myapplication.domains.location.models.Location;
 import de.hsrm.lback.myapplication.services.LocationService;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class GpsListActivity extends AppCompatActivity {
+public class GpsListFragment extends Fragment {
     public static final int REQUEST_LOCATION_PERMISSION = 99;
     public static final int GPS_RESULT = 2;
     private GpsListViewModel viewModel;
@@ -35,24 +40,32 @@ public class GpsListActivity extends AppCompatActivity {
     private LocationSearchAdapter adapter;
     private LocationManager manager;
 
+    @Nullable Callback<Location> onFinishedCallback;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gps_list);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_gps_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(GpsListViewModel.class);
-        locationListView = findViewById(R.id.search_results);
-        progressBar = findViewById(R.id.progress_bar);
+        locationListView = view.findViewById(R.id.search_results);
+        progressBar = view.findViewById(R.id.progress_bar);
 
         adapter = new LocationSearchAdapter(this.getLayoutInflater(), this::onLocationClicked);
         locationListView.setAdapter(adapter);
 
-        manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         requestLocationPermission();
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) { // if gps turned off
             showGpsOffAlert();
         }
+
     }
 
     private void onLocationClicked(View view) {
@@ -62,7 +75,7 @@ public class GpsListActivity extends AppCompatActivity {
         Location result = new Location(name);
         result.setApiId(apiId);
 
-        finish(result);
+        if (onFinishedCallback != null) onFinishedCallback.handle(result);
     }
 
     @Override
@@ -76,7 +89,7 @@ public class GpsListActivity extends AppCompatActivity {
     @AfterPermissionGranted(REQUEST_LOCATION_PERMISSION)
     public void requestLocationPermission() {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
-        if(EasyPermissions.hasPermissions(this, perms)) {
+        if(EasyPermissions.hasPermissions(getContext(), perms)) {
             viewModel.receiveLocation(this::onLocationReceived);
         }
         else {
@@ -103,7 +116,7 @@ public class GpsListActivity extends AppCompatActivity {
     }
 
     private void showGpsOffAlert() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(getContext())
                 .setMessage(R.string.turn_on_gps)
                 .setPositiveButton(R.string.ok, null)
                 .create()
@@ -115,16 +128,11 @@ public class GpsListActivity extends AppCompatActivity {
         hideProgressBar();
     }
 
-    private void finish(Location result) {
-        Intent intent = new Intent();
-        intent.putExtra(Location.SERIALIZED_LOCATION, LocationService.serializeLocation(result));
-
-        setResult(GPS_RESULT, intent);
-
-        finish();
-    }
-
     private void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    public void setOnFinishedCallback(Callback<Location> onFinishedCallback) {
+        this.onFinishedCallback = onFinishedCallback;
     }
 }

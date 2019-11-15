@@ -7,32 +7,26 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
+import de.hsrm.lback.myapplication.R;
 import de.hsrm.lback.myapplication.domains.location.models.Location;
-import de.hsrm.lback.myapplication.services.LocationService;
+import de.hsrm.lback.myapplication.domains.location.views.overview.LocationOverviewActivity;
 import de.hsrm.lback.myapplication.domains.location.views.LocationViewModel;
-import de.hsrm.lback.myapplication.domains.location.views.overview.LocationOverview;
 import de.hsrm.lback.myapplication.domains.location.views.LocationView;
 
 public class LocationAdapter extends BaseAdapter {
 
-    private LocationOverview activity;
+    private LocationOverviewActivity activity;
     private List<Location> locations;
-    private LocationService locationService;
     private Application application;
-    private int layoutId;
 
     public LocationAdapter(
-            LocationOverview activity,
+            LocationOverviewActivity activity,
             List<Location> locations,
-            LocationService locationService,
-            Application application,
-            int layoutId) {
+            Application application) {
         super();
         this.activity = activity;
         this.locations = locations;
-        this.locationService = locationService;
         this.application = application;
-        this.layoutId = layoutId;
     }
 
 
@@ -54,9 +48,11 @@ public class LocationAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LocationViewModel viewModel = new LocationViewModel(application);
+        LocationViewModel viewModel = new LocationViewModel();
         viewModel.init(locations.get(position), this.activity);
-        convertView = activity.getLayoutInflater().inflate(layoutId, null);
+        convertView = activity
+                .getLayoutInflater()
+                .inflate(R.layout.component_location_layout, null);
 
         if (convertView instanceof LocationView)
             ((LocationView)convertView).init(viewModel);

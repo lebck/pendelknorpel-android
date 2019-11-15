@@ -11,15 +11,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import de.hsrm.lback.myapplication.R;
+import de.hsrm.lback.myapplication.domains.location.models.Location;
 import de.hsrm.lback.myapplication.helpers.LocationDragShadowBuilder;
 import de.hsrm.lback.myapplication.helpers.ResourcesHelper;
-import de.hsrm.lback.myapplication.domains.location.models.Location;
 
 
 /**
- * Represents a single location on the LocationOverview
+ * Represents a single location on the LocationOverviewActivity
  */
 public class LocationView extends LinearLayout {
+    private static final String DEFAULT_LOGO = "plus";
+    private static final String GPS_LOGO = "gps";
+    private static final String ANONYMOUS_LOGO = "plus";
 
     private LocationViewModel viewModel;
     private TextView locationNameView;
@@ -51,16 +54,7 @@ public class LocationView extends LinearLayout {
         this.setOnTouchListener((v, e) -> {
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    ClipData.Item item = new ClipData.Item("");
-
-                    ClipData dragData = new ClipData(
-                            v.getTag().toString(),
-                            new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN},
-                            item
-                    );
-
-                    v.startDragAndDrop(dragData, new LocationDragShadowBuilder(v), v, 0);
-
+                    v.startDragAndDrop(null, new LocationDragShadowBuilder(v), v, 0);
                     return true;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -78,7 +72,19 @@ public class LocationView extends LinearLayout {
     }
 
     private void onLocationUpdate(@Nullable Location location) {
-        if (location == null) return;
+        // set edit style for empty locations unless this is anonymous or gps location view
+        if (location == null) {
+            if (this.viewModel.isAnonymous()) {
+                setAnonymousStyle();
+            } else if (this.viewModel.isGps()) {
+                setGpsStyle();
+            } else {
+                setCreateNewStyle();
+            }
+
+            return;
+        }
+
 
         // set logo and name
         if (location.getDisplayName() == null || location.getDisplayName().equals(""))
@@ -87,6 +93,21 @@ public class LocationView extends LinearLayout {
             this.setName(location.getDisplayName());
 
         this.setLogo(location.getLogo());
+    }
+
+    private void setCreateNewStyle() {
+        setLogo(DEFAULT_LOGO);
+        setName("");
+    }
+
+    private void setGpsStyle() {
+        setLogo(GPS_LOGO);
+        setName(getResources().getString(R.string.gps));
+    }
+
+    private void setAnonymousStyle() {
+        setLogo(ANONYMOUS_LOGO);
+        setName(getResources().getString(R.string.anonymous));
     }
 
     private void setLogo(String s) {

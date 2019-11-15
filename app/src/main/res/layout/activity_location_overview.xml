@@ -7,9 +7,7 @@
         android:layout_height="match_parent"
         android:elevation="0dp"
         android:orientation="vertical"
-        android:translationZ="5dp"
-        tools:context=".domains.location.views.overview.LocationOverview">
-
+        tools:context=".domains.location.views.overview.LocationOverviewActivity">
 
     <fragment
             android:id="@+id/fragment_journey_detail"
