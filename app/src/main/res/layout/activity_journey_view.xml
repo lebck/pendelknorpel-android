@@ -8,7 +8,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
         <fragment
-            class="de.hsrm.lback.myapplication.domains.journey.views.detail.components.JourneyDetailFragment"
+            class="de.hsrm.lback.pendelknorpel.domains.journey.views.detail.components.JourneyDetailFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 </LinearLayout>

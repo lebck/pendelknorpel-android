@@ -11,7 +11,7 @@
 
     <fragment
             android:id="@+id/fragment_journey_detail"
-            class="de.hsrm.lback.myapplication.domains.journey.views.overview.components.JourneyViewSmall"
+            class="de.hsrm.lback.pendelknorpel.domains.journey.views.overview.components.JourneyViewSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

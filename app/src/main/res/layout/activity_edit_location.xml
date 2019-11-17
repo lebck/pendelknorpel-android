@@ -64,7 +64,7 @@
 
         <fragment
                 android:id="@+id/fragment_search_location"
-                class="de.hsrm.lback.myapplication.domains.location.views.edit.components.search.SearchLocationFragment"
+                class="de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search.SearchLocationFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
