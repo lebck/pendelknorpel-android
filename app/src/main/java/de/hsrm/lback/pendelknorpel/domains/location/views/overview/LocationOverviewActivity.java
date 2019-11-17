@@ -36,11 +36,6 @@ import static de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocati
  * new Locations
  */
 public class LocationOverviewActivity extends AppCompatActivity implements LocationOverviewStateMachine.OnChangeCallback {
-    private static final String AN_SRC = "an_src";
-    private static final String AN_TARGET = "an_target";
-    private static final int GPS_SRC = 2;
-    private static final int GPS_TARGET = 3;
-
     private int locationBubbleAmount;
 
     private GridView locationsGrid;

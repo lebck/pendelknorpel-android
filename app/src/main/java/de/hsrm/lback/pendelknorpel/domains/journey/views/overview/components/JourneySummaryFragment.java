@@ -19,10 +19,10 @@ import de.hsrm.lback.pendelknorpel.services.JourneyService;
 /**
  * Displays a small overview over the current journey
  */
-public class JourneyViewSmall extends Fragment {
+public class JourneySummaryFragment extends Fragment {
 
 
-    public JourneyViewSmall() {
+    public JourneySummaryFragment() {
         // Required empty public constructor
     }
 
@@ -89,12 +89,11 @@ public class JourneyViewSmall extends Fragment {
                 BackgroundManager.getBlurryBackground(getActivity().findViewById(R.id.location_overview_root))
         );
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+        getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.location_overview_root, journeyDetailFragment)
-                .addToBackStack(null);
-
-        transaction.commit();
+                .setCustomAnimations(R.anim.slide_in_top, R.anim.slide_out_top, R.anim.slide_in_top, R.anim.slide_out_top)
+                .add(R.id.location_overview_root, journeyDetailFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
