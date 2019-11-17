@@ -47,6 +47,7 @@ public class SearchLocationFragment extends Fragment {
         this.searchResults = view.findViewById(R.id.search_results);
         this.searchResults.setAdapter(searchResultsAdapter);
         this.locationText.requestFocus();
+        this.showKeyboard();
 
         if (this.viewModel != null) {
             this.locationText.addTextChangedListener(viewModel);
@@ -91,6 +92,16 @@ public class SearchLocationFragment extends Fragment {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    private void showKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        if (!locationText.hasFocus()) {
+            return;
+        }
+        imm.showSoftInput(locationText, 0);
+    }
+
 
     public void setViewModel(SearchLocationViewModel viewModel) {
         this.viewModel = viewModel;

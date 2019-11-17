@@ -170,6 +170,7 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
     }
 
     private void onLocationChosen(Location location, boolean isSourceLocation, Fragment removeFragment) {
+        searchViewModel.cleanUp();
         if (isSourceLocation) {
             stateMachine.setSrc(location);
         } else {
