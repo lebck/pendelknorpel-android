@@ -52,7 +52,7 @@ public class LocationView extends LinearLayout {
         this.setOnTouchListener((v, e) -> {
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    v.startDragAndDrop(null, new LocationDragShadowBuilder(v), v, 0);
+                    v.startDragAndDrop(null, new LocationDragShadowBuilder(v, getResources()), v, 0);
                     return true;
                 case MotionEvent.ACTION_UP:
                     v.performClick();

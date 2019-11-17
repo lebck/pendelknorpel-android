@@ -80,7 +80,7 @@ public class BackgroundManager {
         return bitmap;
     }
 
-    private static Bitmap getBitmapFromView(View view) {
+    public static Bitmap getBitmapFromView(View view) {
         Bitmap bitmap = Bitmap.createBitmap(
                 view.getWidth(),
                 view.getHeight(),
