@@ -29,9 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
 
-            <include layout="@layout/component_location_logo"
-                    android:paddingVertical="20dp"
-                    />
+            <include
+                    layout="@layout/component_location_logo"
+                    android:paddingVertical="20dp" />
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/logo_chooser"

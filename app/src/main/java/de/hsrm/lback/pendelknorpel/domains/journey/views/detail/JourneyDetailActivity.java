@@ -1,7 +1,7 @@
 package de.hsrm.lback.pendelknorpel.domains.journey.views.detail;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import de.hsrm.lback.pendelknorpel.R;
 

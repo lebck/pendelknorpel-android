@@ -19,7 +19,9 @@ import de.hsrm.lback.pendelknorpel.helpers.tasks.SearchLocationsTask;
 import de.hsrm.lback.pendelknorpel.persistence.AppDatabase;
 import de.hsrm.lback.pendelknorpel.persistence.LocationDao;
 
-/** Used to retrieve Location objects */
+/**
+ * Used to retrieve Location objects
+ */
 public class LocationService {
     private LocationDao locationDao;
     private LiveData<List<Location>> allLocations;

@@ -6,8 +6,8 @@ import android.os.AsyncTask;
 import java.time.LocalDateTime;
 
 import de.hsrm.lback.pendelknorpel.domains.journey.models.JourneyList;
-import de.hsrm.lback.pendelknorpel.network.ApiConnector;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
+import de.hsrm.lback.pendelknorpel.network.ApiConnector;
 
 /**
  * Task that fetches journeys from given start and end location

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/journey_detail_view"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".domains.journey.views.detail.components.JourneyDetailFragment"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout android:id="@+id/journey_detail_view"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".domains.journey.views.detail.components.JourneyDetailFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <fragment
+    <fragment
             class="de.hsrm.lback.pendelknorpel.domains.journey.views.detail.components.JourneyDetailFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 </LinearLayout>

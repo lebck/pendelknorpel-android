@@ -2,8 +2,6 @@ package de.hsrm.lback.pendelknorpel.domains.location.views;
 
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.Nullable;
-import android.view.DragEvent;
-import android.view.View;
 
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
 import de.hsrm.lback.pendelknorpel.domains.location.views.overview.LocationOverviewStateMachine;
@@ -62,42 +60,42 @@ public class LocationViewModel extends ViewModel {
     }
 
     public void onSrcAndTargetChosen(LocationViewModel srcViewModel, LocationViewModel targetViewModel) {
-            boolean srcIsAnonymous = srcViewModel.isAnonymous();
-            boolean same = srcViewModel.equals(targetViewModel);
-            Location targetLocation = targetViewModel.getLocation();
-            Location srcLocation = srcViewModel.getLocation();
+        boolean srcIsAnonymous = srcViewModel.isAnonymous();
+        boolean same = srcViewModel.equals(targetViewModel);
+        Location targetLocation = targetViewModel.getLocation();
+        Location srcLocation = srcViewModel.getLocation();
 
-            stateMachine.reset();
+        stateMachine.reset();
 
-            if (same && !srcIsAnonymous && !srcViewModel.isGps()) {   // if view is dropped on itself
-                int uid = 0;
+        if (same && !srcIsAnonymous && !srcViewModel.isGps()) {   // if view is dropped on itself
+            int uid = 0;
 
-                if (srcLocation != null) {
-                    uid = srcLocation.getUid();
-                }
-
-                stateMachine.setEditState(uid);
-                return;
-
+            if (srcLocation != null) {
+                uid = srcLocation.getUid();
             }
 
-            if (srcViewModel.isEmpty() || targetViewModel.isEmpty()) { // one of the view is empty
-                return;
-            }
+            stateMachine.setEditState(uid);
+            return;
+
+        }
+
+        if (srcViewModel.isEmpty() || targetViewModel.isEmpty()) { // one of the view is empty
+            return;
+        }
 
 
-            stateMachine.setSrcGps(srcViewModel.isGps());
-            stateMachine.setTargetGps(targetViewModel.isGps());
+        stateMachine.setSrcGps(srcViewModel.isGps());
+        stateMachine.setTargetGps(targetViewModel.isGps());
 
-            if (targetLocation != null && srcLocation != null) {
-                stateMachine.setBoth(srcLocation, targetLocation);
-            } else if (srcLocation == null && targetLocation == null) {
-                stateMachine.setBothState();
-            } else if (targetLocation != null) {
-                stateMachine.setTarget(targetLocation);
-            } else if (srcLocation != null) { // srcLocation != null
-                stateMachine.setSrc(srcLocation);
-            }
+        if (targetLocation != null && srcLocation != null) {
+            stateMachine.setBoth(srcLocation, targetLocation);
+        } else if (srcLocation == null && targetLocation == null) {
+            stateMachine.setBothState();
+        } else if (targetLocation != null) {
+            stateMachine.setTarget(targetLocation);
+        } else if (srcLocation != null) { // srcLocation != null
+            stateMachine.setSrc(srcLocation);
+        }
     }
 
     public boolean isEmpty() {

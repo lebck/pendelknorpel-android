@@ -22,7 +22,8 @@ public class Journey {
         setConnections(connections);
     }
 
-    public Journey(){}
+    public Journey() {
+    }
 
     public Location getSrcLocation() {
         return srcLocation;
@@ -53,8 +54,8 @@ public class Journey {
 
     @JsonIgnore
     public String getVehicleString() {
-        List <String> vehicles = new ArrayList<>();
-        for(Connection c : connections) {
+        List<String> vehicles = new ArrayList<>();
+        for (Connection c : connections) {
             vehicles.add(c.getVehicle().toString());
         }
 

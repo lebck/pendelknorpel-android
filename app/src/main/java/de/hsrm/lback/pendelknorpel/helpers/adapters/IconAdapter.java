@@ -11,7 +11,7 @@ import java.util.List;
 import de.hsrm.lback.pendelknorpel.R;
 import de.hsrm.lback.pendelknorpel.helpers.ResourcesHelper;
 
-public class IconAdapter extends BaseAdapter{
+public class IconAdapter extends BaseAdapter {
 
     private List<String> iconNames;
     private View.OnClickListener listener;

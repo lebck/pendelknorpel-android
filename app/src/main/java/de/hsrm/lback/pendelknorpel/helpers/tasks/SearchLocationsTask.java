@@ -24,7 +24,7 @@ public class SearchLocationsTask extends AsyncTask<String, Void, List<Location>>
 
         ApiConnector connector = new ApiConnector();
 
-        List <Location> locations = connector.getLocationsBySearchTerm(searchTerm);
+        List<Location> locations = connector.getLocationsBySearchTerm(searchTerm);
 
 
         resultsData.postValue(locations);

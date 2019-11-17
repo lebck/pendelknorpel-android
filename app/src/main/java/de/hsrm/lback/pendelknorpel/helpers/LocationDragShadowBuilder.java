@@ -2,10 +2,8 @@ package de.hsrm.lback.pendelknorpel.helpers;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -27,7 +25,7 @@ public class LocationDragShadowBuilder extends View.DragShadowBuilder {
     // Defines a callback that sends the drag shadow dimensions and touch point back to the
     // system.
     @Override
-    public void onProvideShadowMetrics (Point size, Point touch) {
+    public void onProvideShadowMetrics(Point size, Point touch) {
         // Defines local variables
         int width, height;
 

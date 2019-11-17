@@ -32,7 +32,9 @@ public class Location {
     @ColumnInfo(name = "displayName")
     private String displayName;
 
-    /** constructor used by rooms */
+    /**
+     * constructor used by rooms
+     */
     public Location(String name, String logo, String displayName) {
         this.logo = logo;
         this.name = name;
@@ -40,7 +42,8 @@ public class Location {
     }
 
     @Ignore // ignored by rooms
-    public Location() {}
+    public Location() {
+    }
 
     @Ignore // ignored by rooms
     public Location(String name) {

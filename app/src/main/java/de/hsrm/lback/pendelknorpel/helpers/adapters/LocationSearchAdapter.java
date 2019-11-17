@@ -49,7 +49,7 @@ public class LocationSearchAdapter extends BaseAdapter {
         Location location = locations.get(position);
         convertView = this.inflater.inflate(R.layout.component_location_list_layout, null);
 
-        ((TextView)convertView).setText(location.getName());
+        ((TextView) convertView).setText(location.getName());
 
         convertView.setTag(location.getApiId());
         convertView.setTag(R.id.location_index, position);

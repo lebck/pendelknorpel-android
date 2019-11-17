@@ -53,12 +53,16 @@ public class JourneyOverviewViewModel extends AndroidViewModel {
         targetData.postValue(LocationService.getLocationByJson(json));
     }
 
-    /** set target */
+    /**
+     * set target
+     */
     public void onTargetChange(Location location) {
         updateReadyToLoad();
     }
 
-    /** set src */
+    /**
+     * set src
+     */
     public void onSrcChange(Location location) {
         updateReadyToLoad();
     }

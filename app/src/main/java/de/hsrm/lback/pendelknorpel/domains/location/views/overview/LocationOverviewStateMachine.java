@@ -11,7 +11,8 @@ public class LocationOverviewStateMachine {
     private boolean targetGps;
     private Integer uid;
     private Step currentStep;
-    @Nullable private OnChangeCallback onChange;
+    @Nullable
+    private OnChangeCallback onChange;
 
     public LocationOverviewStateMachine() {
         currentStep = Step.SOURCE;
@@ -93,7 +94,7 @@ public class LocationOverviewStateMachine {
         }
     }
 
-    public void reset () {
+    public void reset() {
         this.src = null;
         this.target = null;
         this.srcGps = false;
@@ -120,8 +121,11 @@ public class LocationOverviewStateMachine {
 
     interface OnChangeCallback {
         void handleSourceState(boolean gps);
+
         void handleTargetState(boolean gps);
+
         void handleDoneState(Location src, Location target);
+
         void handleEditState(int uid);
     }
 

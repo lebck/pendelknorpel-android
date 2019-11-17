@@ -47,8 +47,9 @@ public class LocationLogoAdapter extends RecyclerView.Adapter<LocationLogoAdapte
         return logoList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView itemView;
+
         public ViewHolder(@NonNull ImageView itemView) {
             super(itemView);
             this.itemView = itemView;

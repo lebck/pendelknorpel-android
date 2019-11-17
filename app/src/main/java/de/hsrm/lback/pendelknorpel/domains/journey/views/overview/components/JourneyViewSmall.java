@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import de.hsrm.lback.pendelknorpel.R;
-import de.hsrm.lback.pendelknorpel.helpers.BackgroundManager;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.Journey;
-import de.hsrm.lback.pendelknorpel.services.JourneyService;
 import de.hsrm.lback.pendelknorpel.domains.journey.views.detail.components.JourneyDetailFragment;
+import de.hsrm.lback.pendelknorpel.helpers.BackgroundManager;
+import de.hsrm.lback.pendelknorpel.services.JourneyService;
 
 /**
  * Displays a small overview over the current journey
@@ -39,7 +39,9 @@ public class JourneyViewSmall extends Fragment {
         return inflater.inflate(R.layout.fragment_journey_view_small, container, false);
     }
 
-    /** show journey information after view was created */
+    /**
+     * show journey information after view was created
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -77,6 +79,7 @@ public class JourneyViewSmall extends Fragment {
 
     /**
      * open Journey DetailView on click with animation
+     *
      * @param view
      */
     private void onClick(View view) {

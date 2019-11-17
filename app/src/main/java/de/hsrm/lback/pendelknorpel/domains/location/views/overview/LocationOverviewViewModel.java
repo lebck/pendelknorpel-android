@@ -19,10 +19,12 @@ public class LocationOverviewViewModel extends AndroidViewModel {
         public Location anonymousSrcLocation;
         public Location anonymousTargetLocation;
     }
+
     private LocationService locationService;
     private LiveData<List<Location>> locationsData;
 
     private MutableLiveData<AnonymousLocations> anonymousLocationsData;
+
     public LocationOverviewViewModel(Application application) {
         super(application);
 
@@ -31,6 +33,7 @@ public class LocationOverviewViewModel extends AndroidViewModel {
 
         this.locationsData = locationService.getAllLocations();
     }
+
     public LiveData<List<Location>> getLocationsData() {
         return locationsData;
     }

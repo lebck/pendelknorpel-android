@@ -1,8 +1,5 @@
 package de.hsrm.lback.pendelknorpel.domains.gpslist;
 
-import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.services.LocationService;
-
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
@@ -16,6 +13,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.List;
+
+import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
+import de.hsrm.lback.pendelknorpel.services.LocationService;
 
 public class GpsListViewModel extends AndroidViewModel {
     private LocationService locationService;
@@ -48,8 +48,9 @@ public class GpsListViewModel extends AndroidViewModel {
         }
 
     }
+
     public LiveData<List<Location>>
-        getLocationsForGpsCoord(double lat, double lon) {
+    getLocationsForGpsCoord(double lat, double lon) {
 
         return locationService.getLocationsForGpsCoords(lat, lon);
     }

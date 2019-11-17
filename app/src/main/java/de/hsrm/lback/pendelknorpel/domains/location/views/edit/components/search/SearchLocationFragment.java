@@ -26,8 +26,10 @@ public class SearchLocationFragment extends Fragment {
     private LocationSearchAdapter searchResultsAdapter;
     private ListView searchResults;
     private boolean viewCreated = false;
-    @Nullable private SearchLocationViewModel viewModel;
-    @Nullable private Callback<Location> onClickCallback;
+    @Nullable
+    private SearchLocationViewModel viewModel;
+    @Nullable
+    private Callback<Location> onClickCallback;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -76,7 +78,7 @@ public class SearchLocationFragment extends Fragment {
         hideKeyboard();
     }
 
-    public void onLocationChange (@Nullable Location location) {
+    public void onLocationChange(@Nullable Location location) {
         if (location != null) {
             locationText.setText(location.getName());
         }

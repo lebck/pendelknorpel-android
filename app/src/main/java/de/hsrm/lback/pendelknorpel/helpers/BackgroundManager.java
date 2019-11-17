@@ -64,7 +64,7 @@ public class BackgroundManager {
         blurScript.forEach(allocation);
 
         // Repeat the blur for extra effect
-        for (int i=0; i<repeat; i++) {
+        for (int i = 0; i < repeat; i++) {
             blurScript.forEach(allocation);
         }
 
