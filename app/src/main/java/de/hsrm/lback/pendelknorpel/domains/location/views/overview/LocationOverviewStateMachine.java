@@ -20,23 +20,39 @@ public class LocationOverviewStateMachine {
     }
 
     public void setSrc(Location src) {
-        this.src = src;
+        if (src != null) {
 
-        if (target == null) {
-            this.currentStep = Step.TARGET;
-        } else {
-            this.currentStep = Step.DONE;
+            this.src = src;
+
+            if (target == null) {
+                this.currentStep = Step.TARGET;
+            } else {
+                this.currentStep = Step.DONE;
+            }
+
+            update();
         }
-
-        update();
     }
 
     public void setTarget(Location target) {
-        this.target = target;
+        if (target != null) {
+            this.target = target;
 
-        if (src == null) {
-            this.currentStep = Step.SOURCE;
-        } else {
+            if (src == null) {
+                this.currentStep = Step.SOURCE;
+            } else {
+                this.currentStep = Step.DONE;
+            }
+
+            update();
+        }
+    }
+
+    public void setBoth(Location src, Location target) {
+        if (src != null && target != null) {
+            this.src = src;
+            this.target = target;
+
             this.currentStep = Step.DONE;
         }
 
