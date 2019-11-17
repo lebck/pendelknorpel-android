@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.hsrm.lback.pendelknorpel">
+        package="de.hsrm.lback.pendelknorpel">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/PendelKnorpel">
-        <activity
-            android:name="de.hsrm.lback.pendelknorpel.domains.location.views.overview.LocationOverviewActivity"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
             android:theme="@style/PendelKnorpel">
+        <activity
+                android:name="de.hsrm.lback.pendelknorpel.domains.location.views.overview.LocationOverviewActivity"
+                android:theme="@style/PendelKnorpel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,7 +23,7 @@
         <activity android:name="de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocationActivity" />
         <activity android:name="de.hsrm.lback.pendelknorpel.domains.journey.views.overview.JourneyOverviewActivity" />
         <activity android:name="de.hsrm.lback.pendelknorpel.domains.journey.views.detail.JourneyDetailActivity" />
-        <activity android:name="de.hsrm.lback.pendelknorpel.domains.gpslist.GpsListFragment"/>
+        <activity android:name="de.hsrm.lback.pendelknorpel.domains.gpslist.GpsListFragment" />
 
     </application>
 

@@ -1,6 +1,7 @@
 package de.hsrm.lback.pendelknorpel.helpers.adapters;
 
-import android.app.Application;
+import android.annotation.SuppressLint;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,24 +10,22 @@ import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.R;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.domains.location.views.overview.LocationOverviewActivity;
 import de.hsrm.lback.pendelknorpel.domains.location.views.LocationViewModel;
 import de.hsrm.lback.pendelknorpel.domains.location.views.LocationView;
+import de.hsrm.lback.pendelknorpel.domains.location.views.overview.LocationOverviewStateMachine;
 
 public class LocationAdapter extends BaseAdapter {
 
-    private LocationOverviewActivity activity;
     private List<Location> locations;
-    private Application application;
+    private LocationOverviewStateMachine stateMachine;
+    private LayoutInflater inflater;
 
     public LocationAdapter(
-            LocationOverviewActivity activity,
-            List<Location> locations,
-            Application application) {
+            List<Location> locations, LocationOverviewStateMachine stateMachine, LayoutInflater inflater) {
         super();
-        this.activity = activity;
         this.locations = locations;
-        this.application = application;
+        this.stateMachine = stateMachine;
+        this.inflater = inflater;
     }
 
 
@@ -45,14 +44,13 @@ public class LocationAdapter extends BaseAdapter {
         return locations.get(position).hashCode();
     }
 
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LocationViewModel viewModel = new LocationViewModel();
-        viewModel.init(locations.get(position), this.activity);
-        convertView = activity
-                .getLayoutInflater()
-                .inflate(R.layout.component_location_layout, null);
+        LocationViewModel viewModel = new LocationViewModel(stateMachine);
+        viewModel.init(locations.get(position));
+        convertView = inflater.inflate(R.layout.component_location_layout, null);
 
         if (convertView instanceof LocationView)
             ((LocationView)convertView).init(viewModel);

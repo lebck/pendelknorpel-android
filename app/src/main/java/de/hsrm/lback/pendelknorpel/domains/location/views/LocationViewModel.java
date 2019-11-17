@@ -6,6 +6,7 @@ import android.view.DragEvent;
 import android.view.View;
 
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
+import de.hsrm.lback.pendelknorpel.domains.location.views.overview.LocationOverviewStateMachine;
 
 /**
  * VM of a location
@@ -14,17 +15,17 @@ public class LocationViewModel extends ViewModel {
     private Location location;
     private boolean anonymous;
     private boolean gps;
-    private ViewHandler viewHandler;
-    @Nullable
-    private LocationUpdateCallback locationUpdateCallback;
-    public LocationViewModel() {
+    private LocationOverviewStateMachine stateMachine;
+    @Nullable private LocationUpdateCallback locationUpdateCallback;
+
+    public LocationViewModel(LocationOverviewStateMachine stateMachine) {
+        this.stateMachine = stateMachine;
         this.anonymous = false;
         this.gps = false;
     }
 
-    public void init(Location location, ViewHandler viewHandler) {
+    public void init(Location location) {
         this.location = location;
-        this.viewHandler = viewHandler;
     }
 
     public Location getLocation() {
@@ -73,14 +74,8 @@ public class LocationViewModel extends ViewModel {
             Location targetLocation = targetViewModel.getLocation();
 
             boolean srcIsAnonymous = srcViewModel.isAnonymous();
-            boolean targetIsAnonymous = targetViewModel.isAnonymous();
 
-            boolean srcIsGps = srcViewModel.isGps();
-            boolean targetIsGps = targetViewModel.isGps();
-
-            boolean srcAndTargetAreSet = srcLocation != null && targetLocation != null;
-
-            if (target == src && !srcIsAnonymous && !srcIsGps) {   // if view is dropped on itself
+            if (target == src && !srcIsAnonymous && !srcViewModel.isGps()) {   // if view is dropped on itself
                 Location location = target.getViewModel().getLocation();
                 int uid = 0;
 
@@ -88,32 +83,20 @@ public class LocationViewModel extends ViewModel {
                     uid = location.getUid();
                 }
 
-                viewHandler.openEditView(uid);
+                stateMachine.setEditState(uid);
+                return true;
 
-            } else if (targetIsAnonymous && srcIsAnonymous) {
+            }
 
-                viewHandler.openAnonymousEditView(0, 0);
+            stateMachine.setSrcGps(srcViewModel.isGps());
+            stateMachine.setTargetGps(targetViewModel.isGps());
 
-            } else if (srcIsGps && !targetIsGps) {
-
-                viewHandler.openGpsEditView(null, targetLocation);
-
-            } else if (targetIsGps && !srcIsGps) {
-
-                viewHandler.openGpsEditView(srcLocation, null);
-
-            } else if (targetIsAnonymous) {
-
-                viewHandler.openAnonymousEditView(srcLocation.getUid(), 0);
-
-            } else if (srcIsAnonymous) {
-
-                viewHandler.openAnonymousEditView(0, targetLocation.getUid());
-
-            } else if (srcAndTargetAreSet) {
-
-                // if view is dropped on other LocationView
-                viewHandler.openJourneyOverview(srcLocation, targetLocation);
+            if (srcLocation == null && targetLocation == null) {
+                stateMachine.setBothState();
+            } else if (targetLocation != null) {
+                stateMachine.setTarget(targetLocation);
+            } else { // srcLocation != null
+                stateMachine.setSrc(srcLocation);
             }
         }
 
@@ -122,15 +105,5 @@ public class LocationViewModel extends ViewModel {
 
     public interface LocationUpdateCallback {
         void onLocationUpdate(@Nullable Location newLocation);
-    }
-
-    public interface ViewHandler {
-        void openEditView(int id);
-
-        void openAnonymousEditView(int srcId, int targetId);
-
-        void openJourneyOverview(Location srcLocation, Location targetLocation);
-
-        void openGpsEditView(@Nullable Location srcLocation, @Nullable Location targetLocation);
     }
 }

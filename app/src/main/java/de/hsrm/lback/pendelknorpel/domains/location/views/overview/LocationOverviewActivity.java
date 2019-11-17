@@ -23,6 +23,7 @@ import de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocationActiv
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocationViewModel;
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search.SearchLocationFragment;
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search.SearchLocationViewModel;
+import de.hsrm.lback.pendelknorpel.helpers.Callback;
 import de.hsrm.lback.pendelknorpel.helpers.adapters.LocationAdapter;
 import de.hsrm.lback.pendelknorpel.services.LocationService;
 import de.hsrm.lback.pendelknorpel.services.WindowService;
@@ -35,7 +36,7 @@ import static de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocati
  * Displays a list of Locations and provides inputs to add
  * new Locations
  */
-public class LocationOverviewActivity extends AppCompatActivity implements LocationViewModel.ViewHandler {
+public class LocationOverviewActivity extends AppCompatActivity implements LocationOverviewStateMachine.OnChangeCallback {
     private static final String AN_SRC = "an_src";
     private static final String AN_TARGET = "an_target";
     private static final int GPS_SRC = 2;
@@ -54,6 +55,8 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
     private LocationOverviewViewModel viewModel;
     private SearchLocationViewModel searchViewModel;
 
+    private LocationOverviewStateMachine stateMachine;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +74,10 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
         this.viewModel = ViewModelProviders.of(this).get(LocationOverviewViewModel.class);
         this.searchViewModel = new EditLocationViewModel(getApplication(), ANONYMOUS_UID);
 
-        this.gridArrayAdapter = new LocationAdapter(this, Collections.emptyList(), getApplication());
+        stateMachine = new LocationOverviewStateMachine();
+        stateMachine.setStateChangeCallback(this);
+
+        this.gridArrayAdapter = new LocationAdapter(Collections.emptyList(), stateMachine, getLayoutInflater());
         this.locationsGrid.setAdapter(gridArrayAdapter);
         this.locationsGrid.setColumnWidth(this.windowService.calculateMeasures(300));
 
@@ -94,18 +100,18 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
      * setup anonymous location view and gps location view
      */
     private void initializeStaticLocations() {
-        LocationViewModel anonymousLocationViewModel = new LocationViewModel();
+        LocationViewModel anonymousLocationViewModel = new LocationViewModel(stateMachine);
         anonymousLocationViewModel.setAnonymous(true);
-        anonymousLocationViewModel.init(null, this);
+        anonymousLocationViewModel.init(null);
         anonymousLocationView.init(anonymousLocationViewModel);
 
         LayoutParams params = anonymousLocationView.getLayoutParams();
         params.width = this.windowService.calculateMeasures(300);
         anonymousLocationView.setLayoutParams(params);
 
-        LocationViewModel gpsLocationViewModel = new LocationViewModel();
+        LocationViewModel gpsLocationViewModel = new LocationViewModel(stateMachine);
         gpsLocationViewModel.setGps(true);
-        gpsLocationViewModel.init(null, this);
+        gpsLocationViewModel.init(null);
         gpsLocationView.init(gpsLocationViewModel);
 
         gpsLocationView.setLayoutParams(params);
@@ -115,8 +121,6 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
      * Update all locations in grid
      */
     private void onLocationsChange(List<Location> locations) {
-
-
         // fill up locations with empty locations until there are enough
         int len = locations.size();
         for (int i = 0; i < this.locationBubbleAmount - len; i++) {
@@ -126,7 +130,6 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
         this.gridArrayAdapter.notifyDataSetChanged();
 
     }
-
 
     /**
      * open view to edit the location
@@ -139,52 +142,28 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
         startActivity(intent);
     }
 
-    public void openGpsEditView(@Nullable Location srcLocation, @Nullable Location targetLocation) {
-        boolean isSrc;
-
-        if (srcLocation == null) {
-            isSrc = true;
-            viewModel.setAnonymousTargetLocation(targetLocation, true);
-        } else { // target is null
-            isSrc = false;
-            viewModel.setAnonymousSrcLocation(srcLocation, true);
-        }
-
+    public void openGpsEditView(boolean isSrc) {
         GpsListFragment fragment = new GpsListFragment();
-        fragment.setOnFinishedCallback(location -> onLocationChosen(location, isSrc, fragment));
 
+        Callback<Location> callback = location -> onLocationChosen(location, isSrc, fragment);
+
+        fragment.setOnFinishedCallback(callback);
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .add(R.id.location_overview_root, fragment)
-                .addToBackStack(null)
                 .commit();
-    }
-
-    /**
-     * open view(s) to edit anonymous location(s)
-     */
-    public void openAnonymousEditView(int srcUid, int targetUid) {
-        if (srcUid != 0) {
-            viewModel.setAnonymousTargetLocationByUid(srcUid);
-        }
-
-        if (targetUid != 0) {
-            viewModel.setAnonymousTargetLocationByUid(targetUid);
-        }
     }
 
     private void openAnonymousEditView(boolean isSourceLocation) {
         SearchLocationFragment fragment = new SearchLocationFragment();
 
-        FragmentTransaction openTransaction = getSupportFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .add(R.id.fragment_journey_detail, fragment)
-                .addToBackStack(null);
-
-        openTransaction.commit();
+                .commit();
 
         fragment.setOnClickCallback(location -> this.onLocationChosen(location, isSourceLocation, fragment));
         fragment.setViewModel(searchViewModel);
@@ -192,12 +171,13 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
 
     private void onLocationChosen(Location location, boolean isSourceLocation, Fragment removeFragment) {
         if (isSourceLocation) {
-            viewModel.setAnonymousSrcLocation(location, false);
+            stateMachine.setSrc(location);
         } else {
-            viewModel.setAnonymousTargetLocation(location, false);
+            stateMachine.setTarget(location);
         }
 
-        getSupportFragmentManager().beginTransaction()
+        getSupportFragmentManager()
+                .beginTransaction()
                 .remove(removeFragment)
                 .commit();
 
@@ -256,4 +236,31 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
         startActivity(intent);
     }
 
+    @Override
+    public void handleSourceState(boolean gps) {
+        if (gps) {
+            openGpsEditView(true);
+        } else {
+            openAnonymousEditView(true);
+        }
+    }
+
+    @Override
+    public void handleTargetState(boolean gps) {
+        if (gps) {
+            openGpsEditView(false);
+        } else {
+            openAnonymousEditView(false);
+        }
+    }
+
+    @Override
+    public void handleDoneState(Location src, Location target) {
+        openJourneyOverview(src, target);
+    }
+
+    @Override
+    public void handleEditState(int uid) {
+        openEditView(uid);
+    }
 }
