@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.GridView;
@@ -25,6 +24,7 @@ import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search.SearchLocationViewModel;
 import de.hsrm.lback.pendelknorpel.helpers.Callback;
 import de.hsrm.lback.pendelknorpel.helpers.adapters.LocationAdapter;
+import de.hsrm.lback.pendelknorpel.network.ApiConnector;
 import de.hsrm.lback.pendelknorpel.services.LocationService;
 import de.hsrm.lback.pendelknorpel.services.WindowService;
 
@@ -37,11 +37,6 @@ import static de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocati
  * new Locations
  */
 public class LocationOverviewActivity extends AppCompatActivity implements LocationOverviewStateMachine.OnChangeCallback {
-    private static final String AN_SRC = "an_src";
-    private static final String AN_TARGET = "an_target";
-    private static final int GPS_SRC = 2;
-    private static final int GPS_TARGET = 3;
-
     private int locationBubbleAmount;
 
     private GridView locationsGrid;
@@ -86,6 +81,8 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
         this.viewModel.getAnonymousLocationsData().observe(this, this::onAnonymousLocationsChange);
 
         initializeStaticLocations();
+
+        ApiConnector.initializeInstance(getResources());
     }
 
     public void initializeRows() {

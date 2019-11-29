@@ -15,6 +15,7 @@ public class DatePickerFragment extends DialogFragment {
 
         void onDateReceived(int year, int month, int dayOfMonth);
     }
+
     private DateReceiver receiver;
 
     @NonNull
@@ -31,7 +32,7 @@ public class DatePickerFragment extends DialogFragment {
     }
 
     private void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        receiver.onDateReceived(year, month+1, dayOfMonth);
+        receiver.onDateReceived(year, month + 1, dayOfMonth);
     }
 
 

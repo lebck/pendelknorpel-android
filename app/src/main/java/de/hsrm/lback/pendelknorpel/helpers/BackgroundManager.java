@@ -64,7 +64,7 @@ public class BackgroundManager {
         blurScript.forEach(allocation);
 
         // Repeat the blur for extra effect
-        for (int i=0; i<repeat; i++) {
+        for (int i = 0; i < repeat; i++) {
             blurScript.forEach(allocation);
         }
 
@@ -80,7 +80,7 @@ public class BackgroundManager {
         return bitmap;
     }
 
-    private static Bitmap getBitmapFromView(View view) {
+    public static Bitmap getBitmapFromView(View view) {
         Bitmap bitmap = Bitmap.createBitmap(
                 view.getWidth(),
                 view.getHeight(),

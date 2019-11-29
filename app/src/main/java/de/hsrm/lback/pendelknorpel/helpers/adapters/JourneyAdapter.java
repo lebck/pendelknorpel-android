@@ -28,6 +28,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View itemView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;

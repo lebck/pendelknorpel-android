@@ -29,7 +29,7 @@ public class FetchMoreJourneysTask extends AsyncTask<Location, Void, JourneyList
 
     @Override
     protected JourneyList doInBackground(Location... locations) {
-        ApiConnector connector = new ApiConnector();
+        ApiConnector connector = ApiConnector.getInstance();
 
         Location src = locations[0];
         Location target = locations[1];

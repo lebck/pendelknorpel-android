@@ -3,7 +3,9 @@ package de.hsrm.lback.pendelknorpel.domains.location.views;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.DragEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,24 +51,90 @@ public class LocationView extends LinearLayout {
         this.setTag("component_connection_view");
 
         // start drag and drop instantly when view is touched
-        this.setOnTouchListener((v, e) -> {
-            switch (e.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    v.startDragAndDrop(null, new LocationDragShadowBuilder(v), v, 0);
-                    return true;
-                case MotionEvent.ACTION_UP:
-                    v.performClick();
-                    return true;
-                default:
-                    return false;
-            }
-        });
+
+        this.setOnTouchListener(this::onTouch);
 
         // set viewmodel to process the drop
-        this.setOnDragListener(viewModel::onDrag);
+        this.setOnDragListener(this::onDrag);
 
         // subscribe to location changes in viewModel
         viewModel.setLocationUpdateCallback(this::onLocationUpdate);
+    }
+
+    private boolean onTouch(View v, MotionEvent e) {
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                v.animate()
+                        .scaleX(1.2f)
+                        .scaleY(1.2f)
+                        .setDuration(200)
+                        .start();
+
+                v.startDragAndDrop(null, new LocationDragShadowBuilder(v, getResources()), v, 0);
+                return true;
+            case MotionEvent.ACTION_UP:
+                v.animate()
+                        .scaleX(1.2f)
+                        .scaleY(1.2f)
+                        .setDuration(200)
+                        .start();
+                v.performClick();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private boolean onDrag(View v, DragEvent event) {
+        switch (event.getAction()) {
+            case (DragEvent.ACTION_DROP):
+                LocationView src = (LocationView) event.getLocalState();
+                LocationView target = (LocationView) v;
+
+                src.animate()
+                        .scaleX(1)
+                        .scaleY(1)
+                        .setDuration(200)
+                        .start();
+
+                target.animate()
+                        .scaleX(1)
+                        .scaleY(1)
+                        .setDuration(200)
+                        .start();
+
+                LocationViewModel srcViewModel = src.getViewModel();
+                LocationViewModel targetViewModel = target.getViewModel();
+
+                viewModel.onSrcAndTargetChosen(srcViewModel, targetViewModel);
+                break;
+            case DragEvent.ACTION_DRAG_ENTERED:
+                if (!viewModel.isEmpty())
+                    v.animate()
+                            .scaleX(1.2f)
+                            .scaleY(1.2f)
+                            .setDuration(200)
+                            .start();
+                break;
+            case DragEvent.ACTION_DRAG_EXITED:
+                if (!event.getLocalState().equals(this))
+                    v.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(200)
+                            .start();
+                break;
+            case DragEvent.ACTION_DRAG_ENDED:
+                v.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(200)
+                        .start();
+                break;
+
+        }
+
+        return true;  // consume event
     }
 
     private void onLocationUpdate(@Nullable Location location) {

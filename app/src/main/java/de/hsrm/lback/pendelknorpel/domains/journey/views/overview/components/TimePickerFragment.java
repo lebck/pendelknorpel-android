@@ -17,6 +17,7 @@ public class TimePickerFragment extends DialogFragment
 
         void onTimeReceived(int hours, int minutes);
     }
+
     private TimeReceiver receiver;
 
     @NonNull

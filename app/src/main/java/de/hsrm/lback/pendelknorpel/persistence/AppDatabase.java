@@ -11,18 +11,19 @@ import android.support.annotation.NonNull;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
 
 @Database(entities = {Location.class}, version = 2)
-public abstract class AppDatabase extends RoomDatabase{
+public abstract class AppDatabase extends RoomDatabase {
     public abstract LocationDao locationDao();
+
     private static volatile AppDatabase INSTANCE;
 
     public static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-                database.execSQL(
-                        "CREATE TABLE location_backup AS SELECT uid, name, logo, apiId, displayName FROM location;" +
-                                "DROP TABLE location;" +
-                                "ALTER TABLE location_backup RENAME TO location;"
-                );
+            database.execSQL(
+                    "CREATE TABLE location_backup AS SELECT uid, name, logo, apiId, displayName FROM location;" +
+                            "DROP TABLE location;" +
+                            "ALTER TABLE location_backup RENAME TO location;"
+            );
 
 
         }

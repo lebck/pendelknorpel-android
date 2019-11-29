@@ -10,8 +10,8 @@ import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.R;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.domains.location.views.LocationViewModel;
 import de.hsrm.lback.pendelknorpel.domains.location.views.LocationView;
+import de.hsrm.lback.pendelknorpel.domains.location.views.LocationViewModel;
 import de.hsrm.lback.pendelknorpel.domains.location.views.overview.LocationOverviewStateMachine;
 
 public class LocationAdapter extends BaseAdapter {
@@ -41,7 +41,8 @@ public class LocationAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return locations.get(position).hashCode();
+        Location location = locations.get(position);
+        return location != null ? location.hashCode() : 0;
     }
 
     @SuppressLint("ViewHolder")
@@ -53,7 +54,7 @@ public class LocationAdapter extends BaseAdapter {
         convertView = inflater.inflate(R.layout.component_location_layout, null);
 
         if (convertView instanceof LocationView)
-            ((LocationView)convertView).init(viewModel);
+            ((LocationView) convertView).init(viewModel);
 
 
         return convertView;

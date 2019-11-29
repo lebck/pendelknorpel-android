@@ -2,8 +2,6 @@ package de.hsrm.lback.pendelknorpel.domains.location.views;
 
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.Nullable;
-import android.view.DragEvent;
-import android.view.View;
 
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
 import de.hsrm.lback.pendelknorpel.domains.location.views.overview.LocationOverviewStateMachine;
@@ -16,7 +14,8 @@ public class LocationViewModel extends ViewModel {
     private boolean anonymous;
     private boolean gps;
     private LocationOverviewStateMachine stateMachine;
-    @Nullable private LocationUpdateCallback locationUpdateCallback;
+    @Nullable
+    private LocationUpdateCallback locationUpdateCallback;
 
     public LocationViewModel(LocationOverviewStateMachine stateMachine) {
         this.stateMachine = stateMachine;
@@ -60,47 +59,47 @@ public class LocationViewModel extends ViewModel {
         this.locationUpdateCallback.onLocationUpdate(this.getLocation());
     }
 
-    public boolean onDrag(View v, DragEvent event) {
+    public void onSrcAndTargetChosen(LocationViewModel srcViewModel, LocationViewModel targetViewModel) {
+        boolean srcIsAnonymous = srcViewModel.isAnonymous();
+        boolean same = srcViewModel.equals(targetViewModel);
+        Location targetLocation = targetViewModel.getLocation();
+        Location srcLocation = srcViewModel.getLocation();
 
-        if (event.getAction() == DragEvent.ACTION_DROP) {  // when view is dropped
+        stateMachine.reset();
 
-            LocationView src = (LocationView) event.getLocalState();
-            LocationView target = (LocationView) v;
+        if (same && !srcIsAnonymous && !srcViewModel.isGps()) {   // if view is dropped on itself
+            int uid = 0;
 
-            LocationViewModel srcViewModel = src.getViewModel();
-            LocationViewModel targetViewModel = target.getViewModel();
-
-            Location srcLocation = srcViewModel.getLocation();
-            Location targetLocation = targetViewModel.getLocation();
-
-            boolean srcIsAnonymous = srcViewModel.isAnonymous();
-
-            if (target == src && !srcIsAnonymous && !srcViewModel.isGps()) {   // if view is dropped on itself
-                Location location = target.getViewModel().getLocation();
-                int uid = 0;
-
-                if (location != null) {
-                    uid = location.getUid();
-                }
-
-                stateMachine.setEditState(uid);
-                return true;
-
+            if (srcLocation != null) {
+                uid = srcLocation.getUid();
             }
 
-            stateMachine.setSrcGps(srcViewModel.isGps());
-            stateMachine.setTargetGps(targetViewModel.isGps());
+            stateMachine.setEditState(uid);
+            return;
 
-            if (srcLocation == null && targetLocation == null) {
-                stateMachine.setBothState();
-            } else if (targetLocation != null) {
-                stateMachine.setTarget(targetLocation);
-            } else { // srcLocation != null
-                stateMachine.setSrc(srcLocation);
-            }
         }
 
-        return true;  // consume event
+        if (srcViewModel.isEmpty() || targetViewModel.isEmpty()) { // one of the view is empty
+            return;
+        }
+
+
+        stateMachine.setSrcGps(srcViewModel.isGps());
+        stateMachine.setTargetGps(targetViewModel.isGps());
+
+        if (targetLocation != null && srcLocation != null) {
+            stateMachine.setBoth(srcLocation, targetLocation);
+        } else if (srcLocation == null && targetLocation == null) {
+            stateMachine.setBothState();
+        } else if (targetLocation != null) {
+            stateMachine.setTarget(targetLocation);
+        } else if (srcLocation != null) { // srcLocation != null
+            stateMachine.setSrc(srcLocation);
+        }
+    }
+
+    public boolean isEmpty() {
+        return !(this.isGps() || this.isAnonymous() || this.getLocation() != null);
     }
 
     public interface LocationUpdateCallback {

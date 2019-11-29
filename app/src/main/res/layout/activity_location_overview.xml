@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/location_overview_root"
         android:layout_width="match_parent"
@@ -8,10 +7,14 @@
         android:elevation="0dp"
         android:orientation="vertical"
         tools:context=".domains.location.views.overview.LocationOverviewActivity">
-
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/before_journey_detail"/>
     <fragment
             android:id="@+id/fragment_journey_detail"
-            class="de.hsrm.lback.pendelknorpel.domains.journey.views.overview.components.JourneyViewSmall"
+            class="de.hsrm.lback.pendelknorpel.domains.journey.views.overview.components.JourneySummaryFragment"
+            android:layout_alignBottom="@id/fragment_journey_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -19,7 +22,7 @@
             android:id="@+id/anonymous_anchor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:paddingTop="120dp"
             android:paddingHorizontal="10dp"
             android:clipToPadding="false"
             android:clipChildren="false"
@@ -37,8 +40,7 @@
                 android:clipToPadding="false"
                 android:clipChildren="false"
                 android:paddingTop="5dp"
-                android:paddingBottom="30dp"
-                />
+                android:paddingBottom="30dp" />
 
         <LinearLayout
                 android:layout_width="match_parent"

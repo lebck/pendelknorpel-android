@@ -57,11 +57,10 @@ public class EditLocationActivity extends AppCompatActivity {
         this.logoChooser = findViewById(R.id.logo_chooser);
         this.logoContainer = findViewById(R.id.logo_container);
         this.searchLocationFragment = (SearchLocationFragment) this.getSupportFragmentManager()
-                        .findFragmentById(R.id.fragment_search_location);
+                .findFragmentById(R.id.fragment_search_location);
 
 
         this.locationService = new LocationService(this);
-
 
 
         // retrieve location and set into viewModel

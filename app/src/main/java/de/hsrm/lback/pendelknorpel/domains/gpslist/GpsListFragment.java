@@ -5,11 +5,11 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +20,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.R;
+import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
 import de.hsrm.lback.pendelknorpel.helpers.Callback;
 import de.hsrm.lback.pendelknorpel.helpers.adapters.LocationSearchAdapter;
-import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -37,7 +37,8 @@ public class GpsListFragment extends Fragment {
     private LocationSearchAdapter adapter;
     private LocationManager manager;
 
-    @Nullable Callback<Location> onFinishedCallback;
+    @Nullable
+    Callback<Location> onFinishedCallback;
 
     @Nullable
     @Override
@@ -86,10 +87,9 @@ public class GpsListFragment extends Fragment {
     @AfterPermissionGranted(REQUEST_LOCATION_PERMISSION)
     public void requestLocationPermission() {
         String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
-        if(EasyPermissions.hasPermissions(getContext(), perms)) {
+        if (EasyPermissions.hasPermissions(getContext(), perms)) {
             viewModel.receiveLocation(this::onLocationReceived);
-        }
-        else {
+        } else {
             EasyPermissions.requestPermissions(
                     this,
                     getString(R.string.grant_location_access),
@@ -99,7 +99,7 @@ public class GpsListFragment extends Fragment {
         }
     }
 
-    private void onLocationReceived(@Nullable  android.location.Location location) {
+    private void onLocationReceived(@Nullable android.location.Location location) {
         if (location != null) {
             double lat = location.getLatitude();
             double lon = location.getLongitude();

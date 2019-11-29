@@ -19,7 +19,7 @@ public class GpsTask extends AsyncTask<Double, Void, Void> {
     protected Void doInBackground(Double... floats) {
         double lat = floats[0];
         double lon = floats[1];
-        ApiConnector connector = new ApiConnector();
+        ApiConnector connector = ApiConnector.getInstance();
         List<Location> locationList = connector.getLocationsByLatLon(lat, lon);
         targetList.postValue(locationList);
 

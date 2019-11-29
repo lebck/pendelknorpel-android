@@ -15,9 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import de.hsrm.lback.pendelknorpel.R;
-import de.hsrm.lback.pendelknorpel.helpers.adapters.ConnectionsAdapter;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.Journey;
 import de.hsrm.lback.pendelknorpel.domains.journey.views.detail.JourneyDetailViewModel;
+import de.hsrm.lback.pendelknorpel.helpers.adapters.ConnectionsAdapter;
 
 /**
  * Display all information about a journey
@@ -46,7 +46,9 @@ public class JourneyDetailFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_journey_detail_view, container, false);
     }
 
-    /** show journey information after view was created */
+    /**
+     * show journey information after view was created
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -82,7 +84,6 @@ public class JourneyDetailFragment extends Fragment {
     private void handleRefresh() {
         this.viewModel.refreshJourney();
     }
-
 
 
     public void setBackground(Bitmap bitmap) {

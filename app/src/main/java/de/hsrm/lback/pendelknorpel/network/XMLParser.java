@@ -88,6 +88,7 @@ public class XMLParser {
 
     /**
      * Parse NodeList of StopLocation Elements
+     *
      * @param stopLocationNodeList
      * @return
      */
@@ -103,7 +104,9 @@ public class XMLParser {
 
     }
 
-    /** create TimeList containing planned and real times for a connection */
+    /**
+     * create TimeList containing planned and real times for a connection
+     */
     private TimeList getTimesByLegElement(Element originElement, Element destinationElement) {
         TimeList list = new TimeList();
 

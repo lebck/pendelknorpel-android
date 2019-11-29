@@ -2,8 +2,8 @@ package de.hsrm.lback.pendelknorpel.domains.journey.views.overview;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,14 +16,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
 import de.hsrm.lback.pendelknorpel.R;
-import de.hsrm.lback.pendelknorpel.helpers.adapters.JourneyAdapter;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.Journey;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.JourneyList;
-import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.services.JourneyService;
 import de.hsrm.lback.pendelknorpel.domains.journey.views.detail.JourneyDetailActivity;
 import de.hsrm.lback.pendelknorpel.domains.journey.views.overview.components.DatePickerFragment;
 import de.hsrm.lback.pendelknorpel.domains.journey.views.overview.components.TimePickerFragment;
+import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
+import de.hsrm.lback.pendelknorpel.helpers.adapters.JourneyAdapter;
+import de.hsrm.lback.pendelknorpel.services.JourneyService;
 
 /**
  * Display a list of journeys from a location to another location
@@ -114,7 +114,7 @@ public class JourneyOverviewActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         journeyListView.setLayoutManager(layoutManager);
 
-        adapter = new JourneyAdapter(new JourneyList(Collections.emptyList(),"",""),
+        adapter = new JourneyAdapter(new JourneyList(Collections.emptyList(), "", ""),
                 this::onJourneyClick,
                 this::onShowMoreClicked,
                 this::onShowEarlierClicked);

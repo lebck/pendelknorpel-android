@@ -31,7 +31,8 @@ public class Connection {
         this.endLocation = endLocation;
     }
 
-    public Connection() {}
+    public Connection() {
+    }
 
     @JsonIgnore
     public LocalDateTime getStartTimeObject() {
@@ -57,7 +58,7 @@ public class Connection {
         String delay = "";
 
         if (!startTime.equals(realStartTime))
-             delay = realStartTime.format(FORMATTER);
+            delay = realStartTime.format(FORMATTER);
 
         return new String[]{startTimeString, delay};
     }

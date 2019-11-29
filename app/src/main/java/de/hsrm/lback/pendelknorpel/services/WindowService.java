@@ -17,6 +17,7 @@ public class WindowService {
         this.display = wm.getDefaultDisplay();
         this.init();
     }
+
     public WindowService(Activity activity) {
         this.display = activity.getWindowManager().getDefaultDisplay();
         this.init();
@@ -46,7 +47,7 @@ public class WindowService {
         return dp * displayMetrics.density;
     }
 
-    public int calculateMeasures (int value) {
+    public int calculateMeasures(int value) {
         int width = getWidth();
 
         return (int) value * width / 1080;
