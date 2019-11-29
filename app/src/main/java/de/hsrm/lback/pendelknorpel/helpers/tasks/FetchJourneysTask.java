@@ -26,7 +26,7 @@ public class FetchJourneysTask extends AsyncTask<Location, Void, JourneyList> {
         Location src = locations[0];
         Location target = locations[1];
 
-        ApiConnector connector = new ApiConnector();
+        ApiConnector connector = ApiConnector.getInstance();
 
         JourneyList journeys;
 

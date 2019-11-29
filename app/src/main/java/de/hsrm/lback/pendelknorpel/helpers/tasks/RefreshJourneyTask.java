@@ -16,7 +16,7 @@ public class RefreshJourneyTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        Journey refreshedJourney = new ApiConnector().refreshJourney(journeyData.getValue());
+        Journey refreshedJourney = ApiConnector.getInstance().refreshJourney(journeyData.getValue());
         journeyData.postValue(refreshedJourney);
 
         return null;

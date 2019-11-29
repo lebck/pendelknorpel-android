@@ -1,5 +1,6 @@
 package de.hsrm.lback.pendelknorpel.network;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -15,31 +16,34 @@ import java.util.List;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.Journey;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.JourneyList;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
+import de.hsrm.lback.pendelknorpel.helpers.Config;
 
 /**
  * Controls connection to apis (currently only RMV API)
  */
 public class ApiConnector {
-    private static final String API_KEY = "824c7332-4e5c-4f3e-84f7-5f925c2e3dd7";
     private static final String BASE_URL = "/hapi";
     private static final String DOMAIN = "https://www.rmv.de";
-    private static final String AUTH_PATH = String.format("?accessId=%s", API_KEY);
-    private static final String URL_PATTERN =
-            DOMAIN + BASE_URL + "%s" + AUTH_PATH;
-    private static final String LOCATION_PATH =
-            String.format(URL_PATTERN, "/location.name");
-    private static final String JOURNEY_PATH =
-            String.format(URL_PATTERN, "/trip");
-    public static final String GPS_PATH =
-            String.format(URL_PATTERN, "/location.nearbystops");
+
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:MM");
 
     private XMLParser parser;
+    private String journeyPath;
+    private String locationPath;
+    private String gpsPath;
 
-    public ApiConnector() {
+
+    public ApiConnector(Resources resources) {
         parser = new XMLParser();
+        String apiKey = new Config(resources).getValue("api_key");
+        String authPath = String.format("?accessId=%s", apiKey);
+        String urlPattern = DOMAIN + BASE_URL + "%s" + authPath;
+
+        locationPath = String.format(urlPattern, "/location.name");
+        journeyPath = String.format(urlPattern, "/trip");
+        gpsPath = String.format(urlPattern, "/location.nearbystops");
     }
 
     /**
@@ -51,7 +55,7 @@ public class ApiConnector {
         String xml = "";
         try {
             URL url = new URL(
-                    JOURNEY_PATH +
+                    journeyPath +
                             "&originExtId=" + fromId +
                             "&destExtId=" + toId +
                             "&date=" + time.format(DATE_FORMAT) +
@@ -74,10 +78,9 @@ public class ApiConnector {
     public List<Location> getLocationsBySearchTerm(String searchTerm) {
         String xml = "";
         try {
-            xml = get(new URL(LOCATION_PATH + "&input=" + searchTerm));
+            xml = get(new URL(locationPath + "&input=" + searchTerm));
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
+            Log.e("ApiConnector::getLocationsBySearchTerm", String.format("Route received 404: %s"));
         }
 
         return parser.parseLocationSearchXml(xml);
@@ -108,7 +111,7 @@ public class ApiConnector {
     public List<Location> getLocationsByLatLon(double lat, double lon) {
         try {
             URL url = new URL(
-                    GPS_PATH +
+                    gpsPath +
                             "&originCoordLat=" + lat +
                             "&originCoordLong=" + lon
             );
@@ -129,7 +132,7 @@ public class ApiConnector {
 
         try {
             URL url = new URL(
-                    JOURNEY_PATH +
+                    journeyPath +
                             "&originExtId=" + fromId +
                             "&destExtId=" + toId +
                             "&date=" + time.format(DATE_FORMAT) +
@@ -161,5 +164,17 @@ public class ApiConnector {
                 .filter(journey -> journey.getChecksum().equals(checksum))
                 .findAny()
                 .orElse(null);
+    }
+
+    private static ApiConnector apiConnector;
+
+    public static void initializeInstance(Resources resources) {
+        apiConnector = new ApiConnector(resources);
+    }
+
+    public static ApiConnector getInstance() {
+        if (apiConnector == null) throw new RuntimeException("ApiConnector instance must be initialized first!");
+
+        return apiConnector;
     }
 }

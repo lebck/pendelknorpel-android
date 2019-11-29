@@ -22,7 +22,7 @@ public class SearchLocationsTask extends AsyncTask<String, Void, List<Location>>
     protected List<Location> doInBackground(String... searchTerms) {
         String searchTerm = searchTerms[0];
 
-        ApiConnector connector = new ApiConnector();
+        ApiConnector connector = ApiConnector.getInstance();
 
         List<Location> locations = connector.getLocationsBySearchTerm(searchTerm);
 

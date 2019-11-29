@@ -24,6 +24,7 @@ import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search.SearchLocationViewModel;
 import de.hsrm.lback.pendelknorpel.helpers.Callback;
 import de.hsrm.lback.pendelknorpel.helpers.adapters.LocationAdapter;
+import de.hsrm.lback.pendelknorpel.network.ApiConnector;
 import de.hsrm.lback.pendelknorpel.services.LocationService;
 import de.hsrm.lback.pendelknorpel.services.WindowService;
 
@@ -80,6 +81,8 @@ public class LocationOverviewActivity extends AppCompatActivity implements Locat
         this.viewModel.getAnonymousLocationsData().observe(this, this::onAnonymousLocationsChange);
 
         initializeStaticLocations();
+
+        ApiConnector.initializeInstance(getResources());
     }
 
     public void initializeRows() {

@@ -41,7 +41,8 @@ public class LocationAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return locations.get(position).hashCode();
+        Location location = locations.get(position);
+        return location != null ? location.hashCode() : 0;
     }
 
     @SuppressLint("ViewHolder")
