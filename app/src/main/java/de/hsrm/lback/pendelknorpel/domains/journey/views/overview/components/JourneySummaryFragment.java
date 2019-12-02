@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,8 @@ import android.widget.TextView;
 import de.hsrm.lback.pendelknorpel.R;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.Journey;
 import de.hsrm.lback.pendelknorpel.domains.journey.views.detail.components.JourneyDetailFragment;
-import de.hsrm.lback.pendelknorpel.helpers.BackgroundManager;
-import de.hsrm.lback.pendelknorpel.services.JourneyService;
+import de.hsrm.lback.pendelknorpel.util.BackgroundManager;
+import de.hsrm.lback.pendelknorpel.domains.journey.services.JourneyService;
 
 /**
  * Displays a small overview over the current journey

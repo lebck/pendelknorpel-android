@@ -11,8 +11,8 @@ import java.time.LocalTime;
 
 import de.hsrm.lback.pendelknorpel.domains.journey.models.JourneyList;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.services.JourneyService;
-import de.hsrm.lback.pendelknorpel.services.LocationService;
+import de.hsrm.lback.pendelknorpel.domains.journey.services.JourneyService;
+import de.hsrm.lback.pendelknorpel.domains.location.services.LocationService;
 
 /**
  * controls a list of journeysData

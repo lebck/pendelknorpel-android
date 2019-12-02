@@ -1,4 +1,4 @@
-package de.hsrm.lback.pendelknorpel.helpers;
+package de.hsrm.lback.pendelknorpel.util;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;

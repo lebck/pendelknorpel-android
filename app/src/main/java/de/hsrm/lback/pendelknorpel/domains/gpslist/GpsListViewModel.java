@@ -15,7 +15,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.services.LocationService;
+import de.hsrm.lback.pendelknorpel.domains.location.services.LocationService;
 
 public class GpsListViewModel extends AndroidViewModel {
     private LocationService locationService;

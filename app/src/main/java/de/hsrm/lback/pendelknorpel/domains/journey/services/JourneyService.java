@@ -1,4 +1,4 @@
-package de.hsrm.lback.pendelknorpel.services;
+package de.hsrm.lback.pendelknorpel.domains.journey.services;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
@@ -14,9 +14,9 @@ import de.hsrm.lback.pendelknorpel.R;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.Journey;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.JourneyList;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.helpers.tasks.FetchJourneysTask;
-import de.hsrm.lback.pendelknorpel.helpers.tasks.FetchMoreJourneysTask;
-import de.hsrm.lback.pendelknorpel.helpers.tasks.RefreshJourneyTask;
+import de.hsrm.lback.pendelknorpel.domains.journey.tasks.FetchJourneysTask;
+import de.hsrm.lback.pendelknorpel.domains.journey.tasks.FetchMoreJourneysTask;
+import de.hsrm.lback.pendelknorpel.domains.journey.tasks.RefreshJourneyTask;
 
 public class JourneyService {
     public static void getAllJourneys(

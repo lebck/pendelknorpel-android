@@ -1,4 +1,4 @@
-package de.hsrm.lback.pendelknorpel.helpers.adapters;
+package de.hsrm.lback.pendelknorpel.util.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

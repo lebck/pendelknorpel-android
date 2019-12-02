@@ -1,4 +1,4 @@
-package de.hsrm.lback.pendelknorpel.helpers.tasks;
+package de.hsrm.lback.pendelknorpel.domains.location.tasks;
 
 import android.os.AsyncTask;
 

@@ -13,8 +13,8 @@ import android.widget.GridView;
 import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.R;
-import de.hsrm.lback.pendelknorpel.helpers.ResourcesHelper;
-import de.hsrm.lback.pendelknorpel.helpers.adapters.IconAdapter;
+import de.hsrm.lback.pendelknorpel.util.ResourcesHelper;
+import de.hsrm.lback.pendelknorpel.util.adapters.IconAdapter;
 
 
 /**

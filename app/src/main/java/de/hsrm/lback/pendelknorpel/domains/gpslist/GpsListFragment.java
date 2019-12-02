@@ -21,8 +21,8 @@ import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.R;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.helpers.Callback;
-import de.hsrm.lback.pendelknorpel.helpers.adapters.LocationSearchAdapter;
+import de.hsrm.lback.pendelknorpel.util.Callback;
+import de.hsrm.lback.pendelknorpel.util.adapters.LocationSearchAdapter;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 

@@ -1,4 +1,4 @@
-package de.hsrm.lback.pendelknorpel.helpers.adapters;
+package de.hsrm.lback.pendelknorpel.util.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.R;
-import de.hsrm.lback.pendelknorpel.helpers.ResourcesHelper;
+import de.hsrm.lback.pendelknorpel.util.ResourcesHelper;
 
 public class LocationLogoAdapter extends RecyclerView.Adapter<LocationLogoAdapter.ViewHolder> {
     private List<String> logoList;

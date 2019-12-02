@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import de.hsrm.lback.pendelknorpel.R;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.helpers.LocationDragShadowBuilder;
-import de.hsrm.lback.pendelknorpel.helpers.ResourcesHelper;
+import de.hsrm.lback.pendelknorpel.util.LocationDragShadowBuilder;
+import de.hsrm.lback.pendelknorpel.util.ResourcesHelper;
 
 
 /**

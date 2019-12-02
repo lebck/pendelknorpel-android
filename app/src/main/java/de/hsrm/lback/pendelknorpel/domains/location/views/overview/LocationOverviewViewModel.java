@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.services.LocationService;
+import de.hsrm.lback.pendelknorpel.domains.location.services.LocationService;
 
 public class LocationOverviewViewModel extends AndroidViewModel {
     public static class AnonymousLocations {

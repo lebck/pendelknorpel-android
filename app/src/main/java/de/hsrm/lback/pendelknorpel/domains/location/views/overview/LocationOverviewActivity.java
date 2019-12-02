@@ -22,11 +22,11 @@ import de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocationActiv
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocationViewModel;
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search.SearchLocationFragment;
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search.SearchLocationViewModel;
-import de.hsrm.lback.pendelknorpel.helpers.Callback;
-import de.hsrm.lback.pendelknorpel.helpers.adapters.LocationAdapter;
+import de.hsrm.lback.pendelknorpel.util.Callback;
+import de.hsrm.lback.pendelknorpel.util.adapters.LocationAdapter;
 import de.hsrm.lback.pendelknorpel.network.ApiConnector;
-import de.hsrm.lback.pendelknorpel.services.LocationService;
-import de.hsrm.lback.pendelknorpel.services.WindowService;
+import de.hsrm.lback.pendelknorpel.domains.location.services.LocationService;
+import de.hsrm.lback.pendelknorpel.util.WindowService;
 
 import static de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocationViewModel.ANONYMOUS_UID;
 

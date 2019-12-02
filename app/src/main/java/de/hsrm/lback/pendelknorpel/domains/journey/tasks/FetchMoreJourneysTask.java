@@ -1,4 +1,4 @@
-package de.hsrm.lback.pendelknorpel.helpers.tasks;
+package de.hsrm.lback.pendelknorpel.domains.journey.tasks;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;

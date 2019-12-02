@@ -1,11 +1,10 @@
-package de.hsrm.lback.pendelknorpel.services;
+package de.hsrm.lback.pendelknorpel.util;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.WindowManager;
 
 public class WindowService {
     private Display display;
@@ -13,7 +12,7 @@ public class WindowService {
     private DisplayMetrics displayMetrics;
 
     public WindowService(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        android.view.WindowManager wm = (android.view.WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         this.display = wm.getDefaultDisplay();
         this.init();
     }

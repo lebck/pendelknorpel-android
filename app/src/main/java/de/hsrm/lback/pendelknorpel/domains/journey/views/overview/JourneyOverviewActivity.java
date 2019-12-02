@@ -22,8 +22,8 @@ import de.hsrm.lback.pendelknorpel.domains.journey.views.detail.JourneyDetailAct
 import de.hsrm.lback.pendelknorpel.domains.journey.views.overview.components.DatePickerFragment;
 import de.hsrm.lback.pendelknorpel.domains.journey.views.overview.components.TimePickerFragment;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.helpers.adapters.JourneyAdapter;
-import de.hsrm.lback.pendelknorpel.services.JourneyService;
+import de.hsrm.lback.pendelknorpel.util.adapters.JourneyAdapter;
+import de.hsrm.lback.pendelknorpel.domains.journey.services.JourneyService;
 
 /**
  * Display a list of journeys from a location to another location

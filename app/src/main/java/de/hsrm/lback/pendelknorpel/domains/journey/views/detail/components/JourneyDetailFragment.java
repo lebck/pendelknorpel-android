@@ -17,7 +17,7 @@ import android.widget.TextView;
 import de.hsrm.lback.pendelknorpel.R;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.Journey;
 import de.hsrm.lback.pendelknorpel.domains.journey.views.detail.JourneyDetailViewModel;
-import de.hsrm.lback.pendelknorpel.helpers.adapters.ConnectionsAdapter;
+import de.hsrm.lback.pendelknorpel.util.adapters.ConnectionsAdapter;
 
 /**
  * Display all information about a journey

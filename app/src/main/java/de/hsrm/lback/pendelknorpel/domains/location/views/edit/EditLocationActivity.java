@@ -22,10 +22,10 @@ import android.widget.RelativeLayout;
 import de.hsrm.lback.pendelknorpel.R;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search.SearchLocationFragment;
-import de.hsrm.lback.pendelknorpel.helpers.BackgroundManager;
-import de.hsrm.lback.pendelknorpel.helpers.ResourcesHelper;
-import de.hsrm.lback.pendelknorpel.helpers.adapters.LocationLogoAdapter;
-import de.hsrm.lback.pendelknorpel.services.LocationService;
+import de.hsrm.lback.pendelknorpel.util.BackgroundManager;
+import de.hsrm.lback.pendelknorpel.util.ResourcesHelper;
+import de.hsrm.lback.pendelknorpel.util.adapters.LocationLogoAdapter;
+import de.hsrm.lback.pendelknorpel.domains.location.services.LocationService;
 
 import static de.hsrm.lback.pendelknorpel.domains.location.views.edit.EditLocationViewModel.ANONYMOUS_UID;
 

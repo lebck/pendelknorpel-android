@@ -1,4 +1,4 @@
-package de.hsrm.lback.pendelknorpel.services;
+package de.hsrm.lback.pendelknorpel.domains.location.services;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -12,10 +12,10 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.helpers.tasks.GetLocationTask;
-import de.hsrm.lback.pendelknorpel.helpers.tasks.GpsTask;
-import de.hsrm.lback.pendelknorpel.helpers.tasks.LocationAsyncTask;
-import de.hsrm.lback.pendelknorpel.helpers.tasks.SearchLocationsTask;
+import de.hsrm.lback.pendelknorpel.domains.location.tasks.GetLocationTask;
+import de.hsrm.lback.pendelknorpel.domains.gpslist.tasks.GpsTask;
+import de.hsrm.lback.pendelknorpel.domains.location.tasks.LocationAsyncTask;
+import de.hsrm.lback.pendelknorpel.domains.location.tasks.SearchLocationsTask;
 import de.hsrm.lback.pendelknorpel.persistence.AppDatabase;
 import de.hsrm.lback.pendelknorpel.persistence.LocationDao;
 

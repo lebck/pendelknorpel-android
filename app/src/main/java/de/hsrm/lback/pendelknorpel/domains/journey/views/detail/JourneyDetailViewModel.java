@@ -5,7 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 
 import de.hsrm.lback.pendelknorpel.domains.journey.models.Journey;
-import de.hsrm.lback.pendelknorpel.services.JourneyService;
+import de.hsrm.lback.pendelknorpel.domains.journey.services.JourneyService;
 
 public class JourneyDetailViewModel extends AndroidViewModel {
     private MutableLiveData<Journey> journeyData;

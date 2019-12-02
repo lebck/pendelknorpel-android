@@ -16,7 +16,7 @@ import java.util.List;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.Journey;
 import de.hsrm.lback.pendelknorpel.domains.journey.models.JourneyList;
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
-import de.hsrm.lback.pendelknorpel.helpers.Config;
+import de.hsrm.lback.pendelknorpel.util.Config;
 
 /**
  * Controls connection to apis (currently only RMV API)

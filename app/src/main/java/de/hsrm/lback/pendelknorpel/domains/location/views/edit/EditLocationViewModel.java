@@ -14,7 +14,7 @@ import java.util.List;
 
 import de.hsrm.lback.pendelknorpel.domains.location.models.Location;
 import de.hsrm.lback.pendelknorpel.domains.location.views.edit.components.search.SearchLocationViewModel;
-import de.hsrm.lback.pendelknorpel.services.LocationService;
+import de.hsrm.lback.pendelknorpel.domains.location.services.LocationService;
 
 public class EditLocationViewModel extends AndroidViewModel implements SearchLocationViewModel {
     public static final int ANONYMOUS_UID = -1;
